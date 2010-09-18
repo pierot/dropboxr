@@ -1,2 +1,3 @@
-adapter: sqlite3
-database: photos.db
+production:
+    adapter: sqlite3
+    database: photos.db
