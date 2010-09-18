@@ -1,2 +1,2 @@
-adapter: sqlite
+adapter: sqlite3
 database: photos.db

@@ -13,7 +13,7 @@ end
 get '/gallery/:album' do
   album = Album.find_by_name(params[:album])
   
-  album.length
+  puts album.length
 end
 
 @dpc = DropboxConnector.new(  'http://www.wellconsidered.be/', 
@@ -43,18 +43,21 @@ def load_gallery(gallery)
                                       :path => "/#{item.path}",
                                       :link => path, 
                                       :thumb => @dpc.session.thumbnail(item.path), 
-                                      :revision => item.revision, :modified => item.modified)
+                                      :revision => item.revision, 
+                                      :modified => item.modified)
                                           
         puts "Photo :: Creating #{photo.path} ..."
       end
 
-      unless File.exist? photo.name
-        puts "Photo :: Saving photo: #{photo.path} modified on: #{photo.modified}"
-    
-        a = File.new(photo.name, "wb")
-        a.write(photo.thumb)
-        a.close
-      end
+      # Heroku is read-only. Saving thumnbail in database is enough.
+      #
+      #unless File.exist? photo.name
+      #  puts "Photo :: Saving photo: #{photo.path} modified on: #{photo.modified}"
+      #
+      #  a = File.new(photo.name, "wb")
+      #  a.write(photo.thumb)
+      #  a.close
+      #end
     end
     
     album.save
