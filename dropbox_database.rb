@@ -1,12 +1,12 @@
 require 'active_record'
 require 'yaml'
 
-ActiveRecord::Base.establish_connection(YAML::load(File.open('config/database.yml')))
+#ActiveRecord::Base.establish_connection(YAML::load(File.open('config/database.yml')))
 
-#ActiveRecord::Base.establish_connection(
-#  :adapter  => "sqlite3",
-#  :database => "photos.db"
-#)
+ActiveRecord::Base.establish_connection(
+  :adapter  => "sqlite3",
+  :database => "photos.db"
+)
 
 begin
   puts "Database :: Creating schema."
