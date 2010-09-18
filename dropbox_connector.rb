@@ -29,7 +29,7 @@ class DropboxConnector
   private
   
   def fetch_saved_session
-    @session_saver = File.new(@session_file, "r+")
+    @session_saver = File.new(@session_file, "r") #+")
     
     serialized = ""
 
