@@ -13,14 +13,9 @@ end
 get '/gallery/:album' do
   album = Album.find(params[:album])
   
-  puts album.photos.length
+  @photos = album.photos.each
   
-  album.photos.each do |photo|
-    p photo
-    puts photo.link
-  end
-  
-  "end"
+  erb :gallery
 end
 
 @dpc = DropboxConnector.new(  'http://www.wellconsidered.be/', 
