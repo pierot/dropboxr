@@ -19,6 +19,8 @@ get '/gallery/:album' do
     p photo
     puts photo.link
   end
+  
+  "end"
 end
 
 @dpc = DropboxConnector.new(  'http://www.wellconsidered.be/', 
