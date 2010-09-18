@@ -3,8 +3,8 @@
 require 'rubygems'
 require 'sinatra'
 
-require_relative 'dropbox_connector'
-require_relative 'dropbox_database'
+require './dropbox_connector.rb'
+require './dropbox_database.rb'
 
 get '/' do
   "Hello World!"
