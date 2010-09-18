@@ -1,0 +1,5 @@
+<ul>
+<% for album in @albums %>
+	<li><a href="/gallery/<%= album.id %>"><%= album.path %></a></li>
+<% end %>
+</ul>
