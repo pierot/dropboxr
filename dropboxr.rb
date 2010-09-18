@@ -11,9 +11,13 @@ get '/' do
 end
 
 get '/gallery/:album' do
-  album = Album.find_by_name(params[:album])
+  album = Album.find(params[:album])
   
   puts album.length
+  
+  album.photos.each do |photo|
+    puts photo.link
+  end
 end
 
 @dpc = DropboxConnector.new(  'http://www.wellconsidered.be/', 
