@@ -13,7 +13,7 @@ end
 get '/gallery/:album' do
   album = Album.find(params[:album])
   
-  puts album.length
+  puts album.photos.length
   
   album.photos.each do |photo|
     puts photo.link
