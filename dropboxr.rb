@@ -7,7 +7,7 @@ require './dropbox_connector.rb'
 require './dropbox_database.rb'
 
 get '/' do
-  @albums = Album.find()
+  @albums = Album.find(:all)
   
   erb :index
 end
