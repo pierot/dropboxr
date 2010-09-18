@@ -25,13 +25,16 @@ def load_gallery(gallery)
   puts "Gallery :: #{gallery.path} modified on: #{gallery.modified}" # -> (#{gallery.inspect})"
   
   photos = @dpc.session.list gallery.path #, {suppress_list: true}
-  photos_dir = "./thumbs/" + gallery.path
+  
+  # Heroku is read-only.
+  #photos_dir = "./thumbs/" + gallery.path
   
   album = Album.find_or_create_by_path(gallery.path)
   album.modified = gallery.modified
   album.save
   
-  FileUtils.mkdir_p photos_dir unless File.directory? photos_dir
+  # Heroku is read-only.
+  #FileUtils.mkdir_p photos_dir unless File.directory? photos_dir
   
   photos.each do |item|
     if defined? item.mime_type && item.mime_type == "image/jpeg"
@@ -50,7 +53,6 @@ def load_gallery(gallery)
       end
 
       # Heroku is read-only. Saving thumnbail in database is enough.
-      #
       #unless File.exist? photo.name
       #  puts "Photo :: Saving photo: #{photo.path} modified on: #{photo.modified}"
       #
