@@ -16,6 +16,7 @@ get '/gallery/:album' do
   puts album.photos.length
   
   album.photos.each do |photo|
+    p photo
     puts photo.link
   end
 end
