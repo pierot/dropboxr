@@ -25,9 +25,7 @@ def load_gallery(gallery)
   puts "Gallery :: #{gallery.path} modified on: #{gallery.modified}" # -> (#{gallery.inspect})"
   
   photos = @dpc.session.list gallery.path #, {suppress_list: true}
-  
-  # Heroku is read-only.
-  #photos_dir = "./thumbs/" + gallery.path
+  photos_dir = "./thumbs/" + gallery.path
   
   album = Album.find_or_create_by_path(gallery.path)
   album.modified = gallery.modified
