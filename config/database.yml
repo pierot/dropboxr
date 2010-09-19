@@ -1,3 +1,12 @@
-production:
+development:
   adapter: sqlite3
   database: db/photos.db
+  
+production: 
+  encoding: unicode
+  adapter: postgresql
+  username: damaxqgdif
+  port: 5432
+  host: @ec2-184-72-226-117.compute-1.amazonaws.com
+  database: damaxqgdif
+  password: f5lxx1zz5pnorynqglhzmsp34
