@@ -62,6 +62,14 @@ if @dpc.connect
   end
 end
 
+configure do
+  # do stuff
+end
+
+before do
+  # do stuff before each request
+end
+
 get '/' do
   @albums = Album.find(:all)
   
@@ -74,4 +82,14 @@ get '/gallery/:album' do
   @photos = album.photos.each
   
   erb :gallery
+end
+
+get '/thumb/:id' do
+  image_item = Photo.find(params[:id])
+  image = image_item.thumb
+  
+  #image = @dpc.session.thumbnail(image_item.path)
+                    
+  content_type 'image/jpg'
+  image
 end
