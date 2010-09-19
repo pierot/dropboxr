@@ -8,18 +8,18 @@ require './lib/dropbox_connector.rb'
 configure do
   puts "Sinatra :: Configure do"
   
-  DPC = @dpc = DropboxConnector.new(  'http://www.wellconsidered.be/', 
+  DPC = DropboxConnector.new(  'http://www.wellconsidered.be/', 
                                 'config/dropbox-key.txt', 
                                 'ysr84fd8hy49v9k', 
                                 'oxye3gyi03lqmd4')
                                 
-  puts "Sinatra :: #{@dpc}"
+  puts "Sinatra :: #{DPC}"
 end
 
 def load_gallery(gallery)
   puts "Gallery :: #{gallery.path} modified on: #{gallery.modified}" # -> (#{gallery.inspect})"
   
-  photos = @dpc.session.list gallery.path #, {suppress_list: true}
+  photos = DPC.session.list gallery.path #, {suppress_list: true}
   photos_dir = "./thumbs/" + gallery.path
   
   album = Album.find_or_create_by_path(gallery.path)
@@ -32,12 +32,12 @@ def load_gallery(gallery)
   photos.each do |item|
     if defined? item.mime_type && item.mime_type == "image/jpeg"
       unless photo = album.photos.find_by_path(item.path)
-        path = @dpc.session.link item.path
+        path = DPC.session.link item.path
         path.sub!(/\/dropbox/, "") # remove dropbox from path for direct linking
         
         photo = album.photos.create(  :name => "#{photos_dir}/#{path.scan(/\w+\.\w+$/)[0]}",
                                       :path => "/#{item.path}", :link => path, 
-                                      #:thumb => @dpc.session.thumbnail(item.path), # We do this later on
+                                      #:thumb => DPC.session.thumbnail(item.path), # We do this later on
                                       :revision => item.revision, :modified => item.modified)
                                           
         puts "Photo :: Creating #{photo.path} ..."
