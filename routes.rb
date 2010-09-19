@@ -8,8 +8,12 @@ before do
   end
 end
 
+error do
+  'Sorry there was a nasty error - ' + request.env['sinatra.error'].name
+end
+
 get '/' do
-  @albums = Album.find(:all)
+  @albums = Album.all()
   
   erb :index
 end

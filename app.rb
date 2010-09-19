@@ -8,6 +8,8 @@ require './lib/dropbox_connector.rb'
 configure do
   puts "Sinatra :: Configure do"
   
+  #set :dbname, 'devdb' # Variable set for all blocks
+  
   DPC = DropboxConnector.new(  'http://www.wellconsidered.be/', 
                                 'config/dropbox-key.txt', 
                                 'ysr84fd8hy49v9k', 
