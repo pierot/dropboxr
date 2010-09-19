@@ -1,3 +1,5 @@
+<h2><%= @album_name %></h2>
+
 <ul class="gallery">
 <% for photo in @photos %>
   <li><a href="<%= photo.link %>" rel="gallery"><img src="/thumb/<%= photo.id %>" ></a></li>

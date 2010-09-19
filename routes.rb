@@ -30,6 +30,7 @@ end
 get '/gallery/:album' do
   album = Album.find(params[:album])
   
+  @album_name = album.path
   @photos = album.photos.each
   
   erb :gallery
