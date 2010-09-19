@@ -11,15 +11,11 @@ require './dropbox_database.rb'
                               'ysr84fd8hy49v9k', 
                               'oxye3gyi03lqmd4')
 
-before do
-  if @dpc.connect
-    galleries = @dpc.session.list 'Photos'
+if @dpc.connect
+  galleries = @dpc.session.list 'Photos'
 
-    galleries.each do |gallery|
-      load_gallery gallery if gallery.directory?
-    end
-
-    puts "Done"
+  galleries.each do |gallery|
+    load_gallery gallery if gallery.directory?
   end
 end
 
