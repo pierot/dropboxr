@@ -1,6 +1,10 @@
 $(document).ready(function(){
 	
-	$("ul.gallery li a").fancybox({
+	$('a img').each(function(){
+		$(this).parent().css('border', 'none');
+	});
+	
+	$('ul.gallery li a').fancybox({
 		'transitionIn': 'elastic',
 		'transitionOut': 'elastic',
 		'speedIn': 600, 
