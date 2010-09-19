@@ -1,6 +1,6 @@
 before do
   p @dpc
-  puts testedsl
+  puts @testedsl
   if @dpc.connect
     galleries = @dpc.session.list 'Photos'
 
