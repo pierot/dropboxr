@@ -11,18 +11,22 @@ class DropboxConnector
   end
   
   def connect
-    @session_serialized = fetch_saved_session
-    
-    authorize
-    
-    if @session.authorized?
-      puts "DropboxConnector :: All ok"
-
-      @session.mode = :dropbox
-      
+    if @session && @session.authorized?
       true
     else
-      false
+      @session_serialized = fetch_saved_session
+    
+      authorize
+    
+      if @session.authorized?
+        puts "DropboxConnector :: All ok"
+
+        @session.mode = :dropbox
+      
+        true
+      else
+        false
+      end
     end
   end
   
