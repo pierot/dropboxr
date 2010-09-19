@@ -11,28 +11,6 @@ require './dropbox_database.rb'
                               'ysr84fd8hy49v9k', 
                               'oxye3gyi03lqmd4')
 
-if @dpc.connect
-  galleries = @dpc.session.list 'Photos'
-
-  galleries.each do |gallery|
-    load_gallery gallery if gallery.directory?
-  end
-end
-
-get '/' do
-  @albums = Album.find(:all)
-  
-  erb :index
-end
-
-get '/gallery/:album' do
-  album = Album.find(params[:album])
-  
-  @photos = album.photos.each
-  
-  erb :gallery
-end
-
 def load_gallery(gallery)
   puts "Gallery :: #{gallery.path} modified on: #{gallery.modified}" # -> (#{gallery.inspect})"
   
@@ -74,4 +52,26 @@ def load_gallery(gallery)
     
     album.save
   end
+end
+
+if @dpc.connect
+  galleries = @dpc.session.list 'Photos'
+
+  galleries.each do |gallery|
+    load_gallery gallery if gallery.directory?
+  end
+end
+
+get '/' do
+  @albums = Album.find(:all)
+  
+  erb :index
+end
+
+get '/gallery/:album' do
+  album = Album.find(params[:album])
+  
+  @photos = album.photos.each
+  
+  erb :gallery
 end
