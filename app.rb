@@ -5,13 +5,12 @@ require 'sinatra'
 
 require './lib/dropbox_connector.rb'
 
-@dpc
-PAGES = "tes"
+DPC
 
 configure do
   puts "Sinatra :: Configure do"
   
-  @dpc = DropboxConnector.new(  'http://www.wellconsidered.be/', 
+  DPC = @dpc = DropboxConnector.new(  'http://www.wellconsidered.be/', 
                                 'config/dropbox-key.txt', 
                                 'ysr84fd8hy49v9k', 
                                 'oxye3gyi03lqmd4')

@@ -1,8 +1,6 @@
 before do
-  p @dpc
-  puts PAGES
-  if @dpc.connect
-    galleries = @dpc.session.list 'Photos'
+  if DPC.connect
+    galleries = DPC.session.list 'Photos'
 
     galleries.each do |gallery|
       load_gallery gallery if gallery.directory?
@@ -31,8 +29,8 @@ get '/thumb/:id' do
   image_item = Photo.find(params[:id])
   image = image_item.thumb
   
-  if image.nil? && @dpc.connect
-    image = @dpc.session.thumbnail image_item.path
+  if image.nil? && DPC.connect
+    image = DPC.session.thumbnail image_item.path
   end
 
   image
