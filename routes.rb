@@ -43,6 +43,7 @@ get '/thumb/:id' do
   image = image_item.thumb
   p image
   p DPC
+  puts DPC.connect
   if image.nil? && DPC.connect
     puts "Thumnbail :: Was not present, is saved now"
     
