@@ -1,9 +1,23 @@
+@base_color: lightblue;
+
 body {
 	font-family: Arial;
 	font-size: 13px;
 }
 
 a {
+	border-bottom: 1px solid @base_color;
+	color: @base_color;
 	text-decoration: none;
-	border-bottom: 1px solid lightblue;
+}
+
+ul.gallery {
+	li {
+		float: left;
+		margin: 10px 10px 0px 0px;
+		
+		a {
+			border: none;
+		}
+	}
 }
