@@ -6,6 +6,11 @@
   box-shadow: @radius @radius @radius #ccc;
 }
 
+.square_size (@size) {
+	height: @size;
+	width: @size;
+}
+
 @font-face {
 	font-family: 'SpeakOffcRegular';
 	src: url('speakoffc-webfont.eot');
@@ -51,10 +56,13 @@ ul.gallery {
 		margin: 0px 20px 20px 0px;
 		
 		.shadow;
+		.square_size(72px);
 		
 		a {
 			border: none;
 			display: block;
+			
+			.square_size(72px);
 		}
 	}
 }
