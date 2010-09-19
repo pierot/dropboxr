@@ -6,6 +6,18 @@ require 'sinatra'
 require './dropbox_connector.rb'
 require './dropbox_database.rb'
 
+before do
+  if @dpc.connect
+    galleries = @dpc.session.list 'Photos'
+
+    galleries.each do |gallery|
+      load_gallery gallery if gallery.directory?
+    end
+
+    puts "Done"
+  end
+end
+
 get '/' do
   @albums = Album.find(:all)
   
@@ -66,14 +78,4 @@ def load_gallery(gallery)
     
     album.save
   end
-end
-
-if @dpc.connect
-  galleries = @dpc.session.list 'Photos'
-
-  galleries.each do |gallery|
-    load_gallery gallery if gallery.directory?
-  end
-  
-  puts "Done"
 end
