@@ -1,5 +1,11 @@
 @base_color: lightblue;
 
+.shadow (@radius: 5px){
+  -moz-box-shadow: @radius @radius @radius #ccc;
+  -webkit-box-shadow: @radius @radius @radius #ccc;
+  box-shadow: @radius @radius @radius #ccc;
+}
+
 @font-face {
 	font-family: 'SpeakOffcRegular';
 	src: url('speakoffc-webfont.eot');
@@ -27,8 +33,9 @@ a {
 
 h2 {
 	color: @base_color;
-	font-size: 24px;
+	font-size: 36px;
 	margin-bottom: 20px;
+	text-shadow: 2px 2px 2px #aaa;
 }
 
 ul.gallery {
@@ -38,6 +45,7 @@ ul.gallery {
 		
 		a {
 			border: none;
+			.shadow;
 		}
 	}
 }
