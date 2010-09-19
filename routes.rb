@@ -30,6 +30,8 @@ get '/thumb/:id' do
   image = image_item.thumb
   
   if image.nil? && DPC.connect
+    puts "Thumnbail :: Was not present, is saved now"
+    
     image = DPC.session.thumbnail image_item.path
 
     image_item.thumb = image
