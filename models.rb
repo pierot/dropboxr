@@ -2,8 +2,9 @@ require 'active_record'
 require 'yaml'
 
 dbconfig = YAML.load(File.read('config/database.yml'))
-
-ActiveRecord::Base.establish_connection dbconfig['production']
+puts dbconfig.development
+puts dbconfig[ENV['RACK_ENV']]
+ActiveRecord::Base.establish_connection dbconfig[ENV['RACK_ENV']] #['production']
 
 begin
   puts "Database :: Creating schema."
