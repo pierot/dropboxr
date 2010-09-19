@@ -1,6 +1,6 @@
 <h2>Galleries</h2>
 
-<ul>
+<ul class="albums">
 <% for album in @albums %>
 	<li><a href="/gallery/<%= album.id %>"><%= album.path %></a></li>
 <% end %>
