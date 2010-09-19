@@ -1,5 +1,5 @@
 <ul class="gallery">
 <% for photo in @photos %>
-  <li><a href="<%= photo.link %>"><img src="/thumb/<%= photo.id %>" ></a></li>
+  <li><a href="<%= photo.link %>" rel="gallery"><img src="/thumb/<%= photo.id %>" ></a></li>
 <% end %>
 </ul>

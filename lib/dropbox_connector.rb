@@ -24,10 +24,10 @@ class DropboxConnector
         @session.mode = :dropbox
       
         true
-      else
-        false
       end
     end
+    
+    false
   end
   
   private
