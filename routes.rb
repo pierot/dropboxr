@@ -31,6 +31,9 @@ get '/thumb/:id' do
   
   if image.nil? && DPC.connect
     image = DPC.session.thumbnail image_item.path
+
+    image_item.thumb = image
+    image_item.save
   end
 
   image
