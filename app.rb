@@ -17,14 +17,14 @@ configure do
 end
 
 def load_gallery(gallery)
-  puts "Gallery :: #{gallery.path} modified on: #{gallery.modified}" # -> (#{gallery.inspect})"
-  
   photos = DPC.session.list gallery.path #, {suppress_list: true}
   photos_dir = "./thumbs/" + gallery.path
   
   album = Album.find_or_create_by_path(gallery.path)
   
   if album.modified != album.modified
+    puts "Gallery :: Creating #{gallery.path} modified on: #{gallery.modified}" # -> (#{gallery.inspect})"
+    
     album.modified = gallery.modified
     album.save
   
