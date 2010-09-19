@@ -12,7 +12,7 @@ class DropboxConnector
   
   def connect
     if !@session.nil? && !@session.authorized?
-      puts "DropboxConnector :: Connect OK"
+      #puts "DropboxConnector :: Connect OK"
       
       true
     else
@@ -21,13 +21,13 @@ class DropboxConnector
       authorize
     
       if @session.authorized?
-        puts "DropboxConnector :: Connect OK 2"
+        #puts "DropboxConnector :: Connect OK 2"
 
         @session.mode = :dropbox
       
         true
       else
-        puts "DropboxConnector :: Connect NOK!!"
+        #puts "DropboxConnector :: Connect NOK!!"
         
         false
       end
@@ -37,7 +37,7 @@ class DropboxConnector
   private
   
   def fetch_saved_session
-    puts "DropboxConnector :: Fetch Saved Session"
+    #puts "DropboxConnector :: Fetch Saved Session"
     
     @session_saver = File.new(@session_file, "r") #+")
     
@@ -51,7 +51,7 @@ class DropboxConnector
   end
   
   def authorize
-    puts "DropboxConnector :: Authorize"
+    #puts "DropboxConnector :: Authorize"
     
     if @session_serialized.nil? || @session_serialized.empty?
       @session = Dropbox::Session.new(@secret, @key)
@@ -67,7 +67,7 @@ class DropboxConnector
         @session_saver.close
       end
     else
-      puts "DropboxConnector :: We still have your session. It is being loaded right now." # #{@session_serialized}"
+      #puts "DropboxConnector :: We still have your session. It is being loaded right now." # #{@session_serialized}"
 
       @session = Dropbox::Session.deserialize(@session_serialized)
     end
