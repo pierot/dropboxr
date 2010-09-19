@@ -11,7 +11,7 @@ class DropboxConnector
   end
   
   def connect
-    if !session.nil? && !@session.authorized?
+    if !@session.nil? && !@session.authorized?
       true
     else
       @session_serialized = fetch_saved_session
