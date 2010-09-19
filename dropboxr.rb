@@ -33,7 +33,7 @@ def load_gallery(gallery)
         photo = album.photos.create(  :name => "#{photos_dir}/#{path.scan(/\w+\.\w+$/)[0]}",
                                       :path => "/#{item.path}",
                                       :link => path, 
-                                      :thumb => @dpc.session.thumbnail(item.path), 
+                                      #:thumb => @dpc.session.thumbnail(item.path), 
                                       :revision => item.revision, 
                                       :modified => item.modified)
                                           
