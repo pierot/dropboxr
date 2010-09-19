@@ -1,3 +1,3 @@
-require "dropboxr"
+require "app"
 
 run Sinatra::Application
