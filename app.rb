@@ -6,6 +6,7 @@ require 'sinatra'
 require './lib/dropbox_connector.rb'
 
 @dpc
+test = "tes"
 
 configure do
   puts "Sinatra :: Configure do"
