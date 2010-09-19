@@ -87,9 +87,9 @@ end
 get '/thumb/:id' do
   image_item = Photo.find(params[:id])
   image = image_item.thumb
-  
+  p image
   #image = @dpc.session.thumbnail(image_item.path)
                     
-  content_type 'image/jpg'
+  content_type 'image/jpeg'
   image
 end
