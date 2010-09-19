@@ -12,6 +12,11 @@ error do
   'Sorry there was a nasty error - ' + request.env['sinatra.error'].name
 end
 
+get '/css/style.css' do
+    content_type 'text/css', :charset => 'utf-8'
+    less :stylesheet
+  end
+
 get '/' do
   @albums = Album.all()
   

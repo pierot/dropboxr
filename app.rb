@@ -2,6 +2,7 @@
 
 require 'rubygems'
 require 'sinatra'
+require 'less'
 
 require './lib/dropbox_connector.rb'
 
