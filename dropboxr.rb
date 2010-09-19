@@ -6,11 +6,6 @@ require 'sinatra'
 require './dropbox_connector.rb'
 require './dropbox_database.rb'
 
-@dpc = DropboxConnector.new(  'http://www.wellconsidered.be/', 
-                              'config/dropbox-key.txt', 
-                              'ysr84fd8hy49v9k', 
-                              'oxye3gyi03lqmd4')
-
 def load_gallery(gallery)
   puts "Gallery :: #{gallery.path} modified on: #{gallery.modified}" # -> (#{gallery.inspect})"
   
@@ -54,20 +49,21 @@ def load_gallery(gallery)
   end
 end
 
-if @dpc.connect
-  galleries = @dpc.session.list 'Photos'
-
-  galleries.each do |gallery|
-    load_gallery gallery if gallery.directory?
-  end
-end
-
 configure do
-  # do stuff
+  @dpc = DropboxConnector.new(  'http://www.wellconsidered.be/', 
+                                'config/dropbox-key.txt', 
+                                'ysr84fd8hy49v9k', 
+                                'oxye3gyi03lqmd4')
 end
 
 before do
-  # do stuff before each request
+  if @dpc.connect
+    galleries = @dpc.session.list 'Photos'
+
+    galleries.each do |gallery|
+      load_gallery gallery if gallery.directory?
+    end
+  end
 end
 
 get '/' do
