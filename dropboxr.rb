@@ -50,10 +50,14 @@ def load_gallery(gallery)
 end
 
 configure do
+  puts "Sinatra :: Configure do"
+  
   @dpc = DropboxConnector.new(  'http://www.wellconsidered.be/', 
                                 'config/dropbox-key.txt', 
                                 'ysr84fd8hy49v9k', 
                                 'oxye3gyi03lqmd4')
+                                
+  puts "Sinatra :: #{@dpc}"
 end
 
 before do
