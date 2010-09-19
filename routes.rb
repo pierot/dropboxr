@@ -23,7 +23,6 @@ get '/gallery/:album' do
 end
 
 get '/thumb/:id' do
-  p @dpc
   content_type 'image/jpeg'
   
   image_item = Photo.find(params[:id])
