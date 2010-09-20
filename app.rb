@@ -1,11 +1,9 @@
-##!/usr/bin/ruby
-
 require 'rubygems'
 require 'sinatra'
 require 'less'
 require 'memcached'
 
-require './lib/dropboxr.rb'    
+require 'dropboxr.rb'    
 
 #result = Sinatra::Cache.cache(cache_key) do
 #    this_is_an_expensive_method
@@ -18,10 +16,10 @@ configure do
   
   #set :dbname, 'devdb' # Variable set for all blocks
   
-  DPC = Dropboxr.new(  'http://www.wellconsidered.be/', 
-                                'config/dropbox-key.txt', 
-                                'ysr84fd8hy49v9k', 
-                                'oxye3gyi03lqmd4')
+  DPC = Dropboxr.new( 'http://www.wellconsidered.be/', # dummy url for redirect
+                      'config/dropbox-key.txt', # session key file 
+                      'ysr84fd8hy49v9k', # secret
+                      'oxye3gyi03lqmd4') # key
                                 
   puts "Sinatra :: #{DPC}"
 end
