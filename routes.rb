@@ -12,6 +12,10 @@ error do
   'Sorry there was a nasty error - ' + request.env['sinatra.error'].name
 end
 
+not_found do
+  'Sorry - Not Found'
+end
+
 helpers do
   
 end
@@ -22,12 +26,16 @@ get '/css/style.css' do
 end
 
 get '/' do
+  headers['Cache-Control'] = 'public, max-age=172800' # Two days
+  
   @albums = Album.all()
   
   erb :index
 end
 
 get '/gallery/:album' do
+  headers['Cache-Control'] = 'public, max-age=172800' # Two days
+  
   begin
     album = Album.find(params[:album])
     
@@ -41,6 +49,8 @@ get '/gallery/:album' do
 end
 
 get '/thumb/:id' do
+  headers['Cache-Control'] = 'public, max-age=172800' # Two days
+  
   content_type 'image/jpeg'
   
   image_item = Photo.find(params[:id])
@@ -54,6 +64,8 @@ get '/thumb/:id' do
     image_item.thumb = image
     image_item.save
   end
+  
+  raise Sinatra::NotFound if image == nil
 
   image
 end
