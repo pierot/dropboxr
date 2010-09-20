@@ -1,6 +1,6 @@
 require 'dropbox'
 
-class DropboxConnector
+class Dropboxr
   attr_reader :session
   
   def initialize(redirect_url, session_file, secret, key)
@@ -32,6 +32,18 @@ class DropboxConnector
         false
       end
     end
+  end
+  
+  def get_galleries(directory)
+    @session.list directory
+  end
+  
+  def get_photos(gallery)
+    @session.list gallery#, {suppress_list: true}
+  end
+  
+  def get_link(path)
+    @session.link path
   end
   
   private

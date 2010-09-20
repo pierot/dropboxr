@@ -1,9 +1,39 @@
 before do
   if DPC.connect
-    galleries = DPC.session.list 'Photos'
+    galleries = DPC.get_galleries 'Photos'
 
     galleries.each do |gallery|
       load_gallery gallery if gallery.directory?
+    end
+  end
+end
+
+def load_gallery(gallery)
+  photos = DPC.get_photos gallery.path
+  
+  album = Album.find_or_create_by_path(gallery.path)
+  
+  if album.modified != album.modified
+    puts "Gallery :: Creating #{gallery.path} modified on: #{gallery.modified}" # -> (#{gallery.inspect})"
+    
+    album.modified = gallery.modified
+  
+    photos.each do |item|
+      if defined? item.mime_type && item.mime_type == "image/jpeg"
+        unless photo = album.photos.find_by_path(item.path)
+          path = DPC.get_link item.path
+          path.sub!(/\/dropbox/, "") # remove dropbox from path for direct linking
+        
+          photo = album.photos.create(  :name => path.scan(/\w+\.\w+$/)[0],
+                                        :path => "/#{item.path}", 
+                                        :link => path, 
+                                        :revision => item.revision, :modified => item.modified)
+                                          
+          puts "Photo :: Creating #{photo.path} ..."
+        end
+      end
+    
+      album.save
     end
   end
 end
