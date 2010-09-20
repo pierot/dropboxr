@@ -26,7 +26,7 @@ module CacheableEvent
   def self.included(base)
     base.send :include, CacheableEvent::InstanceMethods
     base.class_eval do
-      alias_method :_invoke_without_caching, :invoke unless method_defined?(:_invoke_without_caching)
+      #alias_method :_invoke_without_caching, :invoke unless method_defined?(:_invoke_without_caching)
       alias_method :invoke, :_invoke_with_caching   
     end
   end
