@@ -4,7 +4,6 @@ require 'rubygems'
 require 'sinatra'
 require 'less'
 require 'memcached'
-require 'cache'
 
 require './lib/dropbox_connector.rb'    
 
@@ -13,10 +12,6 @@ CONFIG = {'memcached' => 'localhost:11211'}
 #result = Sinatra::Cache.cache(cache_key) do
 #    this_is_an_expensive_method
 #end
-
-class Sinatra::Event
-  include CacheableEvent
-end
 
 configure do
   puts "Sinatra :: Configure do"
