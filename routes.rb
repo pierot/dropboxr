@@ -53,9 +53,10 @@ get '/thumb/:id'
   
   content_type 'image/jpeg'
   
-  begin
-    image = CACHE.get('thumb_' + params[:id])
-  rescue Memcached::Error
+  #begin
+    image_cached = CACHE.get('thumb_' + params[:id])
+    return image_cached if image_cached
+  #rescue Memcached::Error
     image_item = Photo.find(params[:id])
     image = image_item.thumb
 
@@ -71,7 +72,7 @@ get '/thumb/:id'
     CACHE.set('thumb_' + params[:id], image)
 
     raise Sinatra::NotFound if image == nil
-  end
+  #end
 
   image
 end
