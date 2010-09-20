@@ -82,6 +82,7 @@ class Dropboxr
       #puts "DropboxConnector :: We still have your session. It is being loaded right now." # #{@session_serialized}"
 
       @session = Dropbox::Session.deserialize(@session_serialized)
+      @session.enable_memoization
     end
   end
 end
