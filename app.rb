@@ -8,7 +8,12 @@ require 'cache'
 
 require './lib/dropbox_connector.rb'    
 
+CONFIG = []
 CONFIG['memcached'] = 'localhost:11211'
+
+#result = Sinatra::Cache.cache(cache_key) do
+#    this_is_an_expensive_method
+#end
 
 class Sinatra::Event
   include CacheableEvent
