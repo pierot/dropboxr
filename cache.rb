@@ -1,4 +1,4 @@
-require 'memcache'
+require 'memcached'
 require 'digest/md5'
 
 module Sinatra
