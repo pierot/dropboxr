@@ -71,7 +71,7 @@ get '/' do
   rescue Memcached::Error
     @albums = Album.all()
     
-    CACHE.set('albums', @albums)
+    CACHE.set('albs', @albums)
   end
   
   erb :index
@@ -86,7 +86,7 @@ get '/gallery/:album' do
     begin
       album = Album.find(params[:album])
       
-      CACHE.set('album_' + params[:album], album)
+      CACHE.set('alb_' + params[:album], album)
     rescue ActiveRecord::RecordNotFound
       redirect '/'
     end
@@ -104,7 +104,7 @@ get '/thumb/:id' do
   content_type 'image/jpeg'
   
   begin
-    image = CACHE.get('thumb_' + params[:id])
+    image = CACHE.get('thb_' + params[:id])
   rescue Memcached::Error
     image_item = Photo.find(params[:id])
     image = image_item.thumb
