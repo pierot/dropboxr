@@ -53,19 +53,25 @@ get '/thumb/:id'
   
   content_type 'image/jpeg'
   
-  image_item = Photo.find(params[:id])
-  image = image_item.thumb
+  begin
+    image = CACHE.get('thumb_' + params[:id])
+  rescue Memcached::Error
+    image_item = Photo.find(params[:id])
+    image = image_item.thumb
 
-  if image.nil? && DPC.connect
-    puts "Thumnbail :: Was not present, is saved now"
+    if image.nil? && DPC.connect
+      puts "Thumnbail :: Was not present, is saved now"
+
+      image = DPC.session.thumbnail image_item.path
+
+      image_item.thumb = image
+      image_item.save
+    end
     
-    image = DPC.session.thumbnail image_item.path
+    CACHE.set('thumb_' + params[:id], image)
 
-    image_item.thumb = image
-    image_item.save
+    raise Sinatra::NotFound if image == nil
   end
-  
-  raise Sinatra::NotFound if image == nil
 
   image
 end
