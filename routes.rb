@@ -48,7 +48,7 @@ get '/gallery/:album' do
   end
 end
 
-get '/thumb/:id' do
+get '/thumb/:id' do :cache_key => Name.cache_key do
   headers['Cache-Control'] = 'public, max-age=172800' # Two days
   
   content_type 'image/jpeg'
