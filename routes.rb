@@ -1,18 +1,11 @@
 before do
-  puts "before do"
-  if DPC.connect
-    galleries = DPC.get_galleries # directory where you save your photos can be argument, 'Photos' is default
-
-    galleries.each do |gallery|
-      load_gallery gallery if gallery.directory?
-    end
-  end
+  
 end
 
 def load_gallery(gallery)
   album = Album.find_or_create_by_path(gallery.path)
   
-  if album.modified != album.modified
+  if album.modified != gallery.modified
     puts "Gallery :: Creating #{gallery.path} modified on: #{gallery.modified}" # -> (#{gallery.inspect})"
     
     album.modified = gallery.modified
@@ -53,6 +46,16 @@ end
 
 helpers do
   
+end
+
+get '/rebuild' do
+  if DPC.connect
+    galleries = DPC.get_galleries # directory where you save your photos can be argument, 'Photos' is default
+
+    galleries.each do |gallery|
+      load_gallery gallery if gallery.directory?
+    end
+  end
 end
 
 get '/css/style.css' do
