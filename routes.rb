@@ -28,7 +28,13 @@ end
 get '/' do
   headers['Cache-Control'] = 'public, max-age=172800' # Two days
   
-  @albums = Album.all()
+  begin
+    @albums = CACHE.get('albums')
+  rescue Memcached::Error
+    @albums = Album.all()
+    
+    CACHE.set('albums', @albums)
+  end
   
   erb :index
 end
@@ -37,15 +43,21 @@ get '/gallery/:album' do
   headers['Cache-Control'] = 'public, max-age=172800' # Two days
   
   begin
-    album = Album.find(params[:album])
-    
-    @album_name = album.path
-    @photos = album.photos.each
-
-    erb :gallery
-  rescue ActiveRecord::RecordNotFound
-    redirect '/'
+    album = CACHE.get('album_' + params[:album])
+  rescue Memcached::Error
+    begin
+      album = Album.find(params[:album])
+      
+      CACHE.set('album_' + params[:album], album)
+    rescue ActiveRecord::RecordNotFound
+      redirect '/'
+    end
   end
+  
+  @album_name = album.path
+  @photos = album.photos.each
+
+  erb :gallery
 end
 
 get '/thumb/:id' do 
