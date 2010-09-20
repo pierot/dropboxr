@@ -48,15 +48,14 @@ get '/gallery/:album' do
   end
 end
 
-get '/thumb/:id'
+get '/thumb/:id' do 
   headers['Cache-Control'] = 'public, max-age=172800' # Two days
   
   content_type 'image/jpeg'
   
-  #begin
-    image_cached = CACHE.get('thumb_' + params[:id])
-    return image_cached if image_cached
-  #rescue Memcached::Error
+  begin
+    image = CACHE.get('thumb_' + params[:id])
+  rescue Memcached::Error
     image_item = Photo.find(params[:id])
     image = image_item.thumb
 
@@ -72,7 +71,7 @@ get '/thumb/:id'
     CACHE.set('thumb_' + params[:id], image)
 
     raise Sinatra::NotFound if image == nil
-  #end
+  end
 
   image
 end
