@@ -46,6 +46,12 @@ class Dropboxr
     @session.link path
   end
   
+  def get_image(path, size)
+    return nil unless ['s', 'm', 'l'].include? size
+    
+    @session.thumbnail path, size
+  end
+  
   private
   
   def fetch_saved_session
