@@ -34,7 +34,7 @@ class Dropboxr
     end
   end
   
-  def get_galleries(directory)
+  def get_galleries(directory = 'Photos')
     @session.list directory
   end
   

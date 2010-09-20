@@ -1,6 +1,6 @@
 before do
   if DPC.connect
-    galleries = DPC.get_galleries 'Photos'
+    galleries = DPC.get_galleries # directory where you save your photos can be argument, 'Photos' is default
 
     galleries.each do |gallery|
       load_gallery gallery if gallery.directory?
@@ -9,8 +9,6 @@ before do
 end
 
 def load_gallery(gallery)
-  photos = DPC.get_photos gallery.path
-  
   album = Album.find_or_create_by_path(gallery.path)
   
   if album.modified != album.modified
@@ -18,24 +16,30 @@ def load_gallery(gallery)
     
     album.modified = gallery.modified
   
+    photos = DPC.get_photos gallery.path
+    
     photos.each do |item|
       if defined? item.mime_type && item.mime_type == "image/jpeg"
         unless photo = album.photos.find_by_path(item.path)
-          path = DPC.get_link item.path
-          path.sub!(/\/dropbox/, "") # remove dropbox from path for direct linking
-        
-          photo = album.photos.create(  :name => path.scan(/\w+\.\w+$/)[0],
-                                        :path => "/#{item.path}", 
-                                        :link => path, 
-                                        :revision => item.revision, :modified => item.modified)
-                                          
-          puts "Photo :: Creating #{photo.path} ..."
+          load_photo(album, item)
         end
       end
     
       album.save
     end
   end
+end
+
+def load_photo(album, item)
+  path = DPC.get_link item.path
+  path.sub!(/\/dropbox/, "") # remove dropbox from path for direct linking
+
+  photo = album.photos.create(  :name => path.scan(/\w+\.\w+$/)[0],
+                                :path => "/#{item.path}", 
+                                :link => path, 
+                                :revision => item.revision, :modified => item.modified)
+                                  
+  puts "Photo :: Creating #{photo.path} ..."
 end
 
 error do
