@@ -56,6 +56,8 @@ get '/rebuild' do
       load_gallery gallery if gallery.directory?
     end
   end
+  
+  redirect '/'
 end
 
 get '/css/style.css' do
