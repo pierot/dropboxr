@@ -14,8 +14,8 @@ configure do
   
   CACHE = Memcached.new
   
-  set :mc_imgs_s => 'img_small_', 
-      :mc_imgs_l => 'img_large_', 
+  set :mc_img_s => 'img_smll_', 
+      :mc_img_l => 'img_lrge_', 
       :mc_album => 'alb_', 
       :mc_albums => 'albs_'
   
