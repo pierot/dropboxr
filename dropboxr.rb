@@ -35,19 +35,19 @@ class Dropboxr
   end
   
   def get_galleries(directory = 'Photos')
-    unless connect return nil
+    connect
     
     @session.list directory
   end
   
   def get_photos(gallery)
-    unless connect return nil
+    connect
     
     @session.list gallery #, {suppress_list: true}
   end
   
   def get_link(path)
-    unless connect return nil
+    connect
     
     @session.link path
   end
@@ -55,7 +55,7 @@ class Dropboxr
   def get_image(path, size = '')
     return nil unless ['s', 'm', 'l', ''].include? size
     
-    unless connect return nil
+    connect
     
     @session.thumbnail path, size
   end
