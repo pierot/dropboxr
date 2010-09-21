@@ -114,7 +114,7 @@ get '/thumb/:id' do
     if image.nil? && DPC.connect
       puts "Thumnbail :: Was not present, is saved now"
 
-      image = DPC.get_image image_item.path, 'm'
+      image = DPC.get_image image_item.path #, 'm'
 
       image_item.img_small = image
       image_item.save
