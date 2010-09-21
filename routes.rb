@@ -67,11 +67,11 @@ get '/' do
   headers['Cache-Control'] = 'public, max-age=172800' # Two days
   
   begin
-    @albums = CACHE.get('albums')
+    @albums = CACHE.get(options.mc_albs)
   rescue Memcached::Error
     @albums = Album.all()
     
-    CACHE.set('albs', @albums)
+    CACHE.set(options.mc_albs, @albums)
   end
   
   erb :index
@@ -81,12 +81,12 @@ get '/gallery/:album' do
   headers['Cache-Control'] = 'public, max-age=172800' # Two days
   
   begin
-    album = CACHE.get('album_' + params[:album])
+    album = CACHE.get(options.mc_alb + params[:album])
   rescue Memcached::Error
     begin
       album = Album.find(params[:album])
       
-      CACHE.set('alb_' + params[:album], album)
+      CACHE.set(options.mc_alb + params[:album], album)
     rescue ActiveRecord::RecordNotFound
       redirect '/'
     end
@@ -104,24 +104,58 @@ get '/thumb/:id' do
   content_type 'image/jpeg'
   
   begin
-    image = CACHE.get('thb_' + params[:id])
+    image = CACHE.get(options.mc_img_s + params[:id])
   rescue Memcached::Error
     image_item = Photo.find(params[:id])
-    image = image_item.thumb
+    image = image_item.img_small
 
     if image.nil? && DPC.connect
       puts "Thumnbail :: Was not present, is saved now"
 
-      image = DPC.get_image image_item.path, 'l'
+      image = DPC.get_image image_item.path, 's'
 
-      image_item.thumb = image
+      image_item.img_small = image
       image_item.save
     end
     
-    CACHE.set('thumb_' + params[:id], image)
+    CACHE.set(options.mc_img_s + params[:id], image)
 
     raise Sinatra::NotFound if image == nil
   end
 
   image
+end
+
+get '/image/:id' do 
+  headers['Cache-Control'] = 'public, max-age=172800' # Two days
+  
+  content_type 'image/jpeg'
+  
+  begin
+    image = CACHE.get(options.mc_img_l + params[:id])
+  rescue Memcached::Error
+    image_item = Photo.find(params[:id])
+    image = DPC.get_image image_item.path, 'l'
+
+    CACHE.set(options.mc_img_l + params[:id], image)
+
+    raise Sinatra::NotFound if image == nil
+  end
+
+  image
+end
+
+get '/gallery/:album/image/:id' do 
+    headers['Cache-Control'] = 'public, max-age=172800' # Two days
+    
+    begin
+      @album = Album.find(params[:album])
+      
+      @photo = album.photos.find(params[:id])
+      
+    rescue ActiveRecord::RecordNotFound
+      redirect back
+    end
+
+    erb :image
 end
