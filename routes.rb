@@ -1,5 +1,5 @@
 before do
-  
+  headers['Cache-Control'] = 'public, max-age=172800' # Two days
 end
 
 def load_gallery(gallery)
@@ -62,12 +62,11 @@ end
 
 get '/css/style.css' do
   content_type 'text/css', :charset => 'utf-8'
+  
   less :'css/style'
 end
 
 get '/' do
-  headers['Cache-Control'] = 'public, max-age=172800' # Two days
-  
   begin
     @albums = CACHE.get(options.mc_albums)
   rescue Memcached::Error
@@ -80,13 +79,11 @@ get '/' do
 end
 
 get '/gallery/:album' do
-  headers['Cache-Control'] = 'public, max-age=172800' # Two days
-  
   begin
-    album = CACHE.get(options.mc_album + params[:album])
+    @album = CACHE.get(options.mc_album + params[:album])
   rescue Memcached::Error
     begin
-      album = Album.find(params[:album])
+      @album = Album.find(params[:album])
       
       CACHE.set(options.mc_album + params[:album], album)
     rescue ActiveRecord::RecordNotFound
@@ -94,15 +91,12 @@ get '/gallery/:album' do
     end
   end
   
-  @album = album
   @photos = album.photos.each
 
   erb :gallery
 end
 
 get '/thumb/:id' do 
-  headers['Cache-Control'] = 'public, max-age=172800' # Two days
-  
   content_type 'image/jpeg'
   
   begin
@@ -112,9 +106,7 @@ get '/thumb/:id' do
     image = image_item.img_small
 
     if image.nil? && DPC.connect
-      puts "Thumnbail :: Was not present, is saved now"
-
-      image = DPC.get_image image_item.path #, 'm'
+      image = DPC.get_image image_item.path
 
       image_item.img_small = image
       image_item.save
@@ -129,8 +121,6 @@ get '/thumb/:id' do
 end
 
 get '/image/:id' do 
-  headers['Cache-Control'] = 'public, max-age=172800' # Two days
-  
   content_type 'image/jpeg'
   
   begin
@@ -148,11 +138,8 @@ get '/image/:id' do
 end
 
 get '/gallery/:album/image/:id' do 
-    headers['Cache-Control'] = 'public, max-age=172800' # Two days
-    
     begin
       @album = Album.find(params[:album])
-      
       @photo = @album.photos.find(params[:id])
       
     rescue ActiveRecord::RecordNotFound

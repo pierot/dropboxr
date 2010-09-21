@@ -39,7 +39,7 @@ class Dropboxr
   end
   
   def get_photos(gallery)
-    @session.list gallery#, {suppress_list: true}
+    @session.list gallery #, {suppress_list: true}
   end
   
   def get_link(path)
