@@ -14,10 +14,10 @@ configure do
   
   CACHE = Memcached.new
   
-  set :mc_img_s, 'img_small_'
-  set :mc_img_l, 'img_large_'
-  set :mc_album, 'alb_'
-  set :mc_albums, 'albs_'
+  set :mc_img_s => 'img_small_', 
+      :mc_img_l => 'img_large_', 
+      :mc_album => 'alb_', 
+      :mc_albums => 'albs_'
   
   DPC = Dropboxr.new( 'http://www.wellconsidered.be/', # dummy url for redirect
                       'config/dropbox-key.txt', # session key file 

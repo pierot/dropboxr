@@ -69,11 +69,11 @@ get '/' do
   headers['Cache-Control'] = 'public, max-age=172800' # Two days
   
   begin
-    @albums = CACHE.get(options.mc_albs)
+    @albums = CACHE.get(options.mc_albums)
   rescue Memcached::Error
     @albums = Album.all()
     
-    CACHE.set(options.mc_albs, @albums)
+    CACHE.set(options.mc_albums, @albums)
   end
   
   erb :index
@@ -83,12 +83,12 @@ get '/gallery/:album' do
   headers['Cache-Control'] = 'public, max-age=172800' # Two days
   
   begin
-    album = CACHE.get(options.mc_alb + params[:album])
+    album = CACHE.get(options.mc_album + params[:album])
   rescue Memcached::Error
     begin
       album = Album.find(params[:album])
       
-      CACHE.set(options.mc_alb + params[:album], album)
+      CACHE.set(options.mc_album + params[:album], album)
     rescue ActiveRecord::RecordNotFound
       redirect '/'
     end
