@@ -153,7 +153,7 @@ get '/gallery/:album/image/:id' do
     begin
       @album = Album.find(params[:album])
       
-      @photo = album.photos.find(params[:id])
+      @photo = @album.photos.find(params[:id])
       
     rescue ActiveRecord::RecordNotFound
       redirect back
