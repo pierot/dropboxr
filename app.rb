@@ -3,11 +3,7 @@ require 'sinatra'
 require 'less'
 require 'memcached'
 
-require 'dropboxr.rb'    
-
-#result = Sinatra::Cache.cache(cache_key) do
-#    this_is_an_expensive_method
-#end
+require 'dropboxr.rb'
 
 configure do
   puts "Sinatra :: Configure do"
@@ -29,3 +25,7 @@ end
 
 load 'models.rb'
 load 'routes.rb'
+
+#result = Sinatra::Cache.cache(cache_key) do
+#    this_is_an_expensive_method
+#end

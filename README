@@ -1,2 +1,6 @@
-This project is still under heavy pre-alpha development.
-Please do ignore :)
+Dropboxr uses your 'Photos' directory from your Dropbox account as a gallery.
+Purpose is to beuatify the build-in gallery of Dropbox and for me to use Ruby, Sinatra, Memcached, Heroku, ActiveRecord and more for the first time in a useable project.
+
+If you like to install it yourself, contact me, or wait for instructions/how to.
+
+Pieter Michels
