@@ -1,9 +1,9 @@
 <a href="/">all galleries</a><br><br>
 
-<h2><%= @album_name %></h2>
+<h2><%= @album.path %></h2>
 
 <ul class="gallery">
 <% for photo in @photos %>
-  <li><a href="<%= photo.link %>" rel="gallery"><img src="/thumb/<%= photo.id %>" alt="<%= photo.name %> | <%= photo.path %>" ></a></li>
+  <li><a href="/gallery/<%= album.id %>/image/<%= photo.id %>" rel="gallery"><img src="/thumb/<%= photo.id %>" alt="<%= photo.name %> | <%= photo.path %>" ></a></li>
 <% end %>
 </ul>
