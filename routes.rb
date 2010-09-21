@@ -128,8 +128,6 @@ get '/image/:id' do
   rescue Memcached::Error
     image_item = Photo.find(params[:id])
     
-    DPC.connect
-    
     image = DPC.get_image image_item.path, 'l'
 
     CACHE.set(options.mc_img_l + params[:id], image)
