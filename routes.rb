@@ -91,7 +91,7 @@ get '/gallery/:album' do
     end
   end
   
-  @photos = album.photos.each
+  @photos = @album.photos.each
 
   erb :gallery
 end
