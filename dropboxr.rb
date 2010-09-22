@@ -5,10 +5,10 @@ class Dropboxr
   
   def initialize(redirect_url, session_key, secret, key)
     puts "**********"
-    session_key.each {|line| @session_serialized += "- " + line + "\n"}
+    session_key.each {|line| @session_serialized += "- #{line}\n"}
     puts "**********"
     @redirect_url = redirect_url
-    @session_serialized = "--- \n" + @session_serialized
+    @session_serialized = "--- \n#{@session_serialized}"
     puts @session_serialized
     @secret = secret
     @key = key
