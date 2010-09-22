@@ -1,12 +1,5 @@
 before do
   headers['Cache-Control'] = 'public, max-age=172800' # Two days
-  puts request.path_info
-  unless session[:authed]
-    if request.path_info != '/login'
-      puts "redirect"
-      #redirect '/login'
-    end
-  end
 end
 
 def load_gallery(gallery)
