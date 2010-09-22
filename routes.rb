@@ -2,7 +2,8 @@ before do
   headers['Cache-Control'] = 'public, max-age=172800' # Two days
   
   unless session[:authed] && request.path_info != '/login'
-    redirect '/login'
+    #redirect '/login'
+    puts request.path_info
   end
 end
 
