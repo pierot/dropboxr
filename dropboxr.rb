@@ -4,11 +4,14 @@ class Dropboxr
   attr_reader :session
   
   def initialize(redirect_url, session_key, secret, key)
+    @redirect_url = redirect_url
+    
+    # session key from yml file
     @session_serialized = ""
     session_key.each {|line| @session_serialized << "- #{line}\n"}
-    @redirect_url = redirect_url
     @session_serialized = "--- \n#{@session_serialized}"
     puts @session_serialized
+    
     @secret = secret
     @key = key
   end

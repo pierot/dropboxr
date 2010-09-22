@@ -4,7 +4,7 @@ require 'less'
 require 'memcached'
 require 'timeout'
 
-require 'dropboxr.rb'
+require File.dirname(__FILE__) + '/dropboxr.rb'
 
 enable :sessions
 
