@@ -59,7 +59,7 @@ get '/rebuild/*' do
         galleries.each { |gallery| load_gallery gallery if gallery.directory? }
       end
     rescue Timeout::Error
-      redirect "/rebuild/#{Random.new.rand(1..999)}"
+      redirect "/rebuild/#{rand(999)}"
     end
   end
   
