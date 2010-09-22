@@ -50,7 +50,7 @@ helpers do
   end
 end
 
-get '/rebuild/?' do
+get '/rebuild/*' do
   if DPC.connect
     galleries = DPC.get_galleries # directory where you save your photos can be argument, 'Photos' is default
 
