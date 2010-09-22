@@ -70,8 +70,12 @@ get '/' do
   begin
     @albums = CACHE.get(options.mc_albums)
   rescue Memcached::Error
-    @albums = Album.all(:conditions => {:path_not_in => options.album_excludes})
+    @albums = Album.all() # Should male sure the 'not in' is in the query or so .... :conditions => {:path => })
     
+    options.album_excludes.each do |not_in|
+      @albums.delete(not_in)
+    end
+  
     CACHE.set(options.mc_albums, @albums)
   end
   
