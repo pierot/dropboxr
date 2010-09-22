@@ -56,7 +56,7 @@ get '/rebuild/*' do
 
     begin
       Timeout::timeout(20) do
-        galleries.each { |gallery| load_gallery gallery if gallery.directory? && !options.album_excludes.include? gallery.path }
+        galleries.each { |gallery| load_gallery gallery if gallery.directory? && !(options.album_excludes.include? gallery.path) }
       end
     rescue Timeout::Error
       redirect "/rebuild/#{rand(99999999)}"
