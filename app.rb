@@ -13,10 +13,10 @@ configure do
   
   CACHE = Memcached.new
   
-  set :mc_img_s => 'imgs_s_', 
-      :mc_img_l => 'imgs_l_', 
-      :mc_album => 'albu_', 
-      :mc_albums => 'albs_'
+  set :mc_img_s => 'imgss_s_', 
+      :mc_img_l => 'imgss_l_', 
+      :mc_album => 'albuu_', 
+      :mc_albums => 'albss_'
       
   set :album_excludes => YAML.load(File.read('config/excludes.yml'))
   
@@ -29,6 +29,7 @@ configure do
 end
 
 load 'models.rb'
+load 'helpers.rb'
 load 'routes.rb'
 
 #result = Sinatra::Cache.cache(cache_key) do

@@ -2,52 +2,12 @@ before do
   headers['Cache-Control'] = 'public, max-age=172800' # Two days
 end
 
-def load_gallery(gallery)
-  album = Album.find_or_create_by_path(gallery.path)
-  
-  if album.modified != gallery.modified
-    puts "Gallery :: Creating #{gallery.path} modified on: #{gallery.modified}" # -> (#{gallery.inspect})"
-    
-    album.modified = gallery.modified
-  
-    photos = DPC.get_photos gallery.path
-    
-    photos.each do |item|
-      if defined? item.mime_type && item.mime_type == "image/jpeg"
-        unless photo = album.photos.find_by_path(item.path)
-          load_photo(album, item)
-        end
-      end
-    
-      album.save
-    end
-  end
-end
-
-def load_photo(album, item)
-  path = DPC.get_link item.path
-  path.sub!(/\/dropbox/, "") # remove dropbox from path for direct linking
-
-  photo = album.photos.create(  :name => path.scan(/\w+\.\w+$/)[0],
-                                :path => "/#{item.path}", 
-                                :link => path, 
-                                :revision => item.revision, :modified => item.modified)
-                                  
-  puts "Photo :: Creating #{photo.path} ..."
-end
-
 error do
   'Sorry there was a nasty error - ' + request.env['sinatra.error'].name
 end
 
 not_found do
   'Sorry - Not Found'
-end
-
-helpers do
-  def base_url
-    @base_url ||= "#{request.env['rack.url_scheme']}://#{request.env['HTTP_HOST']}"
-  end
 end
 
 get '/login' do
@@ -82,7 +42,7 @@ get '/' do
   begin
     @albums = CACHE.get(options.mc_albums)
   rescue Memcached::Error
-    @albums = Album.all() # Should male sure the 'not in' is in the query or so .... :conditions => {:path => })
+    @albums = Album.all() # Should make sure the 'not in' is in the query or so .... :conditions => {:path => })
   
     CACHE.set(options.mc_albums, @albums)
   end
