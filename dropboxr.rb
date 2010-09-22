@@ -76,7 +76,6 @@ class Dropboxr
 
       puts "DropboxConnector :: Copy the session key below, paste it in the config/key.yml."
       puts @session.serialize
-      end
     else
       #puts "DropboxConnector :: We still have your session. It is being loaded right now." # #{@session_serialized}"
 
