@@ -1,6 +1,6 @@
 @base_color: #3366ee;
 @gray: #888;
-@light_color: #5588ff;
+@light_color: #88aaff;
 
 .shadow (@radius: 5px){
   -moz-box-shadow: @radius @radius @radius #f3f3f3;
@@ -36,9 +36,9 @@ a {
 }
 
 #wrapper {
-	margin: 20px 0px 0px 20px;
 	width: 980px;
 	min-height: 100%;
+	margin: 20px 0px 0px 20px;
 	
 	#header {
 		margin-bottom: 40px;
@@ -47,7 +47,7 @@ a {
 
 	#main {
 		overflow: auto;
-		padding-bottom: 40px;  /* must be same height as the footer */
+		padding-bottom: 50px;  /* must be same height as the footer */
 	
 		h2 {
 			color: @base_color;
@@ -86,8 +86,9 @@ footer {
 	background: #fbfbfb;
 	color: @gray;
 	font-size: 12px;
+	padding: 3px 0px 3px 20px;
 	position: relative;
-	margin-top: -40px; /* negative value of footer height */
-	height: 40px;
+	margin-top: -50px; /* negative value of footer height */
+	height: 50px;
 	clear: both;
 }
