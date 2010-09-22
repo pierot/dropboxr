@@ -2,6 +2,8 @@
 @gray: #888;
 @light_color: #88aaff;
 
+@footer_height: 30px;
+
 .shadow (@radius: 5px){
   -moz-box-shadow: @radius @radius @radius #f3f3f3;
   -webkit-box-shadow: @radius @radius @radius #f3f3f3;
@@ -47,7 +49,7 @@ a {
 
 	#main {
 		overflow: auto;
-		padding-bottom: 40px;  /* must be same height as the footer */
+		padding-bottom: @footer_height;
 	
 		h2 {
 			color: @base_color;
@@ -87,9 +89,9 @@ footer {
 	color: @gray;
 	font-size: 12px;
 	padding-left: 20px;
-	line-height: 40px;
+	line-height: @footer_height;
 	position: relative;
-	margin-top: -40px; /* negative value of footer height */
-	height: 40px;
+	margin-top: -@footer_height; /* negative value of footer height */
+	height: @footer_height;
 	clear: both;
 }
