@@ -1,5 +1,5 @@
 @base_color: #3366ee;
-@gray: #666;
+@gray: #888;
 @light_color: #5588ff;
 
 .shadow (@radius: 5px){
@@ -25,6 +25,7 @@ html, body {
 	font-family: 'SpeakOffcRegular', sans-serif;
 	font-size-adjust: 0.45;
 	font-size: 15px;
+	color: @gray;
 	height: 100%;
 }
 
@@ -38,6 +39,11 @@ a {
 	margin: 20px 0px 0px 20px;
 	width: 980px;
 	min-height: 100%;
+	
+	#header {
+		margin-bottom: 40px;
+		font-size: 24px;
+	}
 
 	#main {
 		overflow: auto;
