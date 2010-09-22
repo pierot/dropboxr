@@ -45,14 +45,22 @@ not_found do
 end
 
 helpers do
-  
+  def base_url
+    @base_url ||= "#{request.env['rack.url_scheme']}://#{request.env['HTTP_HOST']}"
+  end
 end
 
 get '/rebuild' do
   if DPC.connect
     galleries = DPC.get_galleries # directory where you save your photos can be argument, 'Photos' is default
 
-    galleries.each { |gallery| load_gallery gallery if gallery.directory?}
+    begin
+      Timeout::timeout(20) do
+        galleries.each { |gallery| load_gallery gallery if gallery.directory? }
+      end
+    rescue Timeout::Error
+      redirect '/rebuild'
+    end
   end
   
   redirect '/'
