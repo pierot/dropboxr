@@ -75,11 +75,10 @@ get '/' do
     CACHE.set(options.mc_albums, @albums)
   end
   
-  p options.album_excludes
-  
-  options.album_excludes.each do |not_in|
-    puts not_in
-    @albums.delete(not_in)
+  @albums.each do |alb|
+    if options.album_excludes.include? alb.path
+      @albums.delete(alb)
+    end
   end
   
   erb :index
