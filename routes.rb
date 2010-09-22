@@ -50,7 +50,7 @@ helpers do
   end
 end
 
-get '/rebuild' do
+get '/rebuild/?' do
   if DPC.connect
     galleries = DPC.get_galleries # directory where you save your photos can be argument, 'Photos' is default
 
@@ -59,7 +59,7 @@ get '/rebuild' do
         galleries.each { |gallery| load_gallery gallery if gallery.directory? }
       end
     rescue Timeout::Error
-      redirect '/rebuild'
+      redirect "/rebuild/#{Random.new.rand(1..999)}"
     end
   end
   
