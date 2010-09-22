@@ -6,6 +6,8 @@ require 'timeout'
 
 require 'dropboxr.rb'
 
+enable :sessions
+
 configure do
   puts "Sinatra :: Configure do"
   

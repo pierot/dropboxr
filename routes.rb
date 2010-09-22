@@ -1,5 +1,9 @@
 before do
   headers['Cache-Control'] = 'public, max-age=172800' # Two days
+  
+  unless session[:authed] && request.path_info != '/login'
+    redirect '/login'
+  end
 end
 
 def load_gallery(gallery)
@@ -50,20 +54,26 @@ helpers do
   end
 end
 
-get '/rebuild/*' do
-  if DPC.connect
-    galleries = DPC.get_galleries # directory where you save your photos can be argument, 'Photos' is default
-
-    begin
-      Timeout::timeout(20) do
-        galleries.each { |gallery| load_gallery gallery if gallery.directory? && !(options.album_excludes.include? gallery.path) }
-      end
-    rescue Timeout::Error
-      redirect "/rebuild/#{rand(99999999)}"
-    end
-  end
+get '/login' do
   
-  redirect '/'
+end
+
+['/rebuild/?', '/rebuild/*'].each do |path|
+  get path do
+    if DPC.connect
+      galleries = DPC.get_galleries # directory where you save your photos can be argument, 'Photos' is default
+
+      begin
+        Timeout::timeout(20) do
+          galleries.each { |gallery| load_gallery gallery if gallery.directory? && !(options.album_excludes.include? gallery.path) }
+        end
+      rescue Timeout::Error
+        redirect "/rebuild/#{rand(99999999)}"
+      end
+    end
+
+    redirect '/' 
+  end
 end
 
 get '/css/style.css' do
