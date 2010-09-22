@@ -70,7 +70,7 @@ get '/' do
   begin
     @albums = CACHE.get(options.mc_albums)
   rescue Memcached::Error
-    @albums = Album.all()
+    @albums = Album.all(:conditions => {:path_not_in => options.album_excludes})
     
     CACHE.set(options.mc_albums, @albums)
   end

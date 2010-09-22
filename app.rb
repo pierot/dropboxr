@@ -13,7 +13,9 @@ configure do
   set :mc_img_s => 'img_s_', 
       :mc_img_l => 'img_l_', 
       :mc_album => 'alb_', 
-      :mc_albums => 'albs_'
+      :mc_albums => 'albus_'
+      
+  set :album_excludes => YAML.load(File.read('config/excludes.yml'))
   
   DPC = Dropboxr.new( 'http://www.wellconsidered.be/', # dummy url for redirect
                       'config/dropbox-key.txt', # session key file 
