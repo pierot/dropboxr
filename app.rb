@@ -18,7 +18,7 @@ configure do
   set :album_excludes => YAML.load(File.read('config/excludes.yml'))
   
   DPC = Dropboxr.new( 'http://www.wellconsidered.be/', # dummy url for redirect
-                      'config/dropbox-key.txt', # session key file 
+                      YAML.load(File.read('config/key.yml')), # session key file 
                       'ysr84fd8hy49v9k', # secret
                       'oxye3gyi03lqmd4') # key
                                 

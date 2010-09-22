@@ -3,9 +3,12 @@ require 'dropbox'
 class Dropboxr
   attr_reader :session
   
-  def initialize(redirect_url, session_file, secret, key)
+  def initialize(redirect_url, session_key, secret, key)
+    p session_key
+    puts "---------"
+    puts session_key
     @redirect_url = redirect_url
-    @session_file = session_file
+    @session_serialized = session_key
     @secret = secret
     @key = key
   end
@@ -16,8 +19,6 @@ class Dropboxr
       
       true
     else
-      @session_serialized = fetch_saved_session
-    
       authorize
     
       if @session.authorized?
@@ -62,41 +63,25 @@ class Dropboxr
   
   private
   
-  def fetch_saved_session
-    #puts "DropboxConnector :: Fetch Saved Session"
-    
-    @session_saver = File.new(@session_file, "r") #+")
-    
-    serialized = ""
-
-    while key_line = @session_saver.gets
-      serialized += key_line
-    end
-
-    serialized
-  end
-  
   def authorize
     #puts "DropboxConnector :: Authorize"
     
     if @session_serialized.nil? || @session_serialized.empty?
       @session = Dropbox::Session.new(@secret, @key)
-
+      @session.enable_memoization
+      
       puts "DropboxConnector :: Visit #{session.authorize_url(:oauth_callback => @redirect_url)} to log in to Dropbox."
       puts "DropboxConnector :: Hit enter when you have done this."
       gets
 
-      if @session.authorize
-        @session_serialized = @session.serialize
-
-        @session_saver.write(@session_serialized)
-        @session_saver.close
+      puts "DropboxConnector :: Copy the session key below, paste it in the config/key.yml."
+      puts @session.serialize
       end
     else
       #puts "DropboxConnector :: We still have your session. It is being loaded right now." # #{@session_serialized}"
 
       @session = Dropbox::Session.deserialize(@session_serialized)
-      #@session.enable_memoization
+      @session.enable_memoization
     end
   end
 end
