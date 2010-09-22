@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
-	<title>Dropboxr</title>
+	<title>Dropboxr - A DropBox Gallery</title>
 	
 	<link rel="stylesheet" href="http://yui.yahooapis.com/2.8.1/build/reset/reset-min.css">
 	<link rel="stylesheet" href="/css/style.css">
@@ -15,7 +15,13 @@
 </head>
 <body>
 	<div id="wrapper">
-		<%= yield %>
+		<header>Dropboxr - A DropBox Gallery</header>
+		
+		<div id="main">
+			<%= yield %>
+		</div>
 	</div>
+	
+	<footer>2010 - Build on Heroku with Sinatra, ActiveRecord, DropBox API, Memcached</footer>
 </body>
 </html>
