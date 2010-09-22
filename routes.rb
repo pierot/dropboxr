@@ -21,7 +21,9 @@ end
 
       begin
         Timeout::timeout(20) do
-          galleries.each { |gallery| load_gallery gallery if gallery.directory? && !(options.album_excludes.include? gallery.path) }
+          galleries.each do |gallery| 
+            load_gallery gallery if gallery.directory? && !(options.album_excludes.include? gallery.path)
+          end
         end
       rescue Timeout::Error
         redirect "/rebuild/#{rand(99999999)}"
@@ -70,6 +72,18 @@ get '/gallery/:album' do
   erb :gallery
 end
 
+get '/gallery/:album/image/:id' do 
+    begin
+      @album = Album.find(params[:album])
+      @photo = @album.photos.find(params[:id])
+      
+    rescue ActiveRecord::RecordNotFound
+      redirect back
+    end
+
+    erb :image
+end
+
 get '/thumb/:id' do 
   content_type 'image/jpeg'
   
@@ -86,10 +100,10 @@ get '/thumb/:id' do
       image_item.save
     end
     
-    CACHE.set(options.mc_img_s + params[:id], image)
-
-    raise Sinatra::NotFound if image == nil
+     CACHE.set(options.mc_img_s + params[:id], image)
   end
+  
+  raise Sinatra::NotFound if image == nil
 
   image
 end
@@ -101,25 +115,12 @@ get '/image/:id' do
     image = CACHE.get(options.mc_img_l + params[:id])
   rescue Memcached::Error
     image_item = Photo.find(params[:id])
-    
     image = DPC.get_image image_item.path, 'l'
 
     CACHE.set(options.mc_img_l + params[:id], image)
-
-    raise Sinatra::NotFound if image == nil
   end
+  
+  raise Sinatra::NotFound if image == nil
 
   image
-end
-
-get '/gallery/:album/image/:id' do 
-    begin
-      @album = Album.find(params[:album])
-      @photo = @album.photos.find(params[:id])
-      
-    rescue ActiveRecord::RecordNotFound
-      redirect back
-    end
-
-    erb :image
 end
