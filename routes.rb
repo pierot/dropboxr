@@ -85,7 +85,7 @@ get '/gallery/:album' do
     begin
       @album = Album.find(params[:album])
       
-      CACHE.set(options.mc_album + params[:album], album)
+      CACHE.set(options.mc_album + params[:album], @album)
     rescue ActiveRecord::RecordNotFound
       redirect '/'
     end
