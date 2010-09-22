@@ -10,10 +10,10 @@ configure do
   
   CACHE = Memcached.new
   
-  set :mc_img_s => 'img_s_', 
-      :mc_img_l => 'img_l_', 
-      :mc_album => 'alb_', 
-      :mc_albums => 'albus_'
+  set :mc_img_s => 'imgs_s_', 
+      :mc_img_l => 'imgs_l_', 
+      :mc_album => 'albu_', 
+      :mc_albums => 'albs_'
       
   set :album_excludes => YAML.load(File.read('config/excludes.yml'))
   
