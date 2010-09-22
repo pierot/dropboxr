@@ -52,9 +52,7 @@ get '/rebuild' do
   if DPC.connect
     galleries = DPC.get_galleries # directory where you save your photos can be argument, 'Photos' is default
 
-    galleries.each do |gallery|
-      load_gallery gallery if gallery.directory?
-    end
+    galleries.each { |gallery| load_gallery gallery if gallery.directory?}
   end
   
   redirect '/'
