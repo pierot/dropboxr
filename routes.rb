@@ -1,5 +1,9 @@
 before do
   headers['Cache-Control'] = 'public, max-age=172800' # Two days
+  
+  #if !DPC.connect && request.path_info != '/setup' # try to connect
+  #  redirect '/setup'
+  #end
 end
 
 error do
@@ -10,7 +14,7 @@ not_found do
   'Sorry - Not Found'
 end
 
-get '/login' do
+get '/setup' do
   
 end
 
@@ -48,7 +52,7 @@ get '/' do
   
     CACHE.set(options.mc_albums, @albums)
   end
-  p @albums
+
   @albums.each { |alb| @albums.delete(alb) if options.album_excludes.include? alb.path }
   
   erb :index

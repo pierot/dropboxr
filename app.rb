@@ -8,8 +8,7 @@ require File.dirname(__FILE__) + '/dropboxr.rb'
 
 enable :sessions
 
-# Needed to do this for local dev
-configure :development do
+configure :development do # Needed to do this for local dev
   disable :run
   
   set :views, File.dirname(__FILE__) + '/views'
@@ -18,29 +17,26 @@ configure :development do
 end
 
 configure do
-  puts "Sinatra :: Configure do"
-  
+  # Global constants
   CACHE = Memcached.new
   
+  # Config files
+  albums_excludes = YAML.load(File.read('config/excludes.yml'))
+  session_keys = YAML.load(File.read('config/key.yml'))
+  app_keys = YAML.load(File.read('config/dropbox-app-keys.yml'))
+  
+  # Sinatra config variables
+  set :album_excludes => albums_excludes
   set :mc_img_s => 'imgss_s_', 
       :mc_img_l => 'imgss_l_', 
       :mc_album => 'albuu_', 
       :mc_albums => 'albss_'
-      
-  set :album_excludes => YAML.load(File.read('config/excludes.yml'))
   
-  DPC = Dropboxr.new( 'http://www.wellconsidered.be/', # dummy url for redirect
-                      YAML.load(File.read('config/key.yml')), # session key file 
-                      'ysr84fd8hy49v9k', # secret
-                      'oxye3gyi03lqmd4') # key
-                                
-  puts "Sinatra :: #{DPC}"
+  DPC = Dropboxr.new(@base_url, session_keys, app_keys['secret'], app_keys['key'])
+                          
+  puts "Sinatra :: Configure do #{DPC}"
 end
 
 load 'models.rb'
 load 'helpers.rb'
 load 'routes.rb'
-
-#result = Sinatra::Cache.cache(cache_key) do
-#    this_is_an_expensive_method
-#end
