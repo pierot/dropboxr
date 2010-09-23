@@ -29,7 +29,7 @@ end
         redirect "/rebuild/#{rand(99999999)}"
       end
     end
-
+    
     redirect '/' 
   end
 end
@@ -48,7 +48,7 @@ get '/' do
   
     CACHE.set(options.mc_albums, @albums)
   end
-  
+  p @albums
   @albums.each { |alb| @albums.delete(alb) if options.album_excludes.include? alb.path }
   
   erb :index

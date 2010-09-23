@@ -8,6 +8,15 @@ require File.dirname(__FILE__) + '/dropboxr.rb'
 
 enable :sessions
 
+# Needed to do this for local dev
+configure :development do
+  disable :run
+  
+  set :views, File.dirname(__FILE__) + '/views'
+  set :public, File.dirname(__FILE__) + '/public'
+  set :app_file, __FILE__
+end
+
 configure do
   puts "Sinatra :: Configure do"
   
