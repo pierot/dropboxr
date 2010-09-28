@@ -57,6 +57,8 @@ class Dropboxr
   private
   
   def authorize
+    puts "DropboxConnector :: Authorizing!"
+    
     if @session_serialized.nil? || @session_serialized.empty?
       @session = Dropbox::Session.new(@secret, @key)
       

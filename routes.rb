@@ -15,21 +15,32 @@ not_found do
 end
 
 get '/setup' do
+  session[:time] = Time.new if session[:time].nil?
   
+  "Current Time : " + session[:time].inspect
 end
 
 ['/rebuild/?', '/rebuild/*'].each do |path|
   get path do
     if DPC.connect
-      galleries = DPC.get_galleries # directory where you save your photos can be argument, 'Photos' is default
+      session[:galleries] = DPC.get_galleries unless session[:galleries].nill?
+      galleries = session[:galleries]
 
       begin
         Timeout::timeout(20) do
-          galleries.each do |gallery| 
-            load_gallery gallery if gallery.directory? && !(options.album_excludes.include? gallery.path)
+          thread_list = []
+          
+          galleries.each do |gallery|
+            thread_list << Thread.new {
+              load_gallery gallery if gallery.directory? && !(options.album_excludes.include? gallery.path)
+            }
           end
+          
+          thread_list.each { |x| x.join }
         end
       rescue Timeout::Error
+        puts "Rebuilding took too long. We'll continue after the break."
+        
         redirect "/rebuild/#{rand(99999999)}"
       end
     end
@@ -45,14 +56,8 @@ get '/css/style.css' do
 end
 
 get '/' do
-  begin
-    @albums = CACHE.get(options.mc_albums)
-  rescue Memcached::Error
-    @albums = Album.all() # Should make sure the 'not in' is in the query or so .... :conditions => {:path => })
+  @albums = Album.all() # Should make sure the 'not in' is in the query or so .... :conditions => {:path => })
   
-    CACHE.set(options.mc_albums, @albums)
-  end
-
   @albums.each { |alb| @albums.delete(alb) if options.album_excludes.include? alb.path }
   
   erb :index
@@ -60,15 +65,10 @@ end
 
 get '/gallery/:album' do
   begin
-    @album = CACHE.get(options.mc_album + params[:album])
-  rescue Memcached::Error
-    begin
-      @album = Album.find(params[:album])
-      
-      CACHE.set(options.mc_album + params[:album], @album)
-    rescue ActiveRecord::RecordNotFound
-      redirect '/'
-    end
+    @album = Album.find(params[:album])
+    
+  rescue ActiveRecord::RecordNotFound
+    redirect '/'
   end
   
   @photos = @album.photos.each

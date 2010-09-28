@@ -1,12 +1,12 @@
 require 'rubygems'
 require 'sinatra'
 require 'less'
-require 'memcached'
+require 'dalli'
 require 'timeout'
 
 require File.dirname(__FILE__) + '/dropboxr.rb'
 
-enable :sessions
+use Rack::Session::Pool
 
 configure :development do # Needed to do this for local dev
   disable :run
@@ -18,7 +18,7 @@ end
 
 configure do
   # Global constants
-  CACHE = Memcached.new
+  CACHE = Dalli::Client.new 
   
   # Config files
   albums_excludes = YAML.load(File.read('config/excludes.yml'))
@@ -28,9 +28,7 @@ configure do
   # Sinatra config variables
   set :album_excludes => albums_excludes
   set :mc_img_s => 'imgss_s_', 
-      :mc_img_l => 'imgss_l_', 
-      :mc_album => 'albuu_', 
-      :mc_albums => 'albss_'
+      :mc_img_l => 'imgss_l_'
   
   DPC = Dropboxr.new(@base_url, session_keys, app_keys['secret'], app_keys['key'])
                           
