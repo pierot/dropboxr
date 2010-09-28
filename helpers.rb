@@ -7,9 +7,7 @@ helpers do
     album = Album.find_or_create_by_path(gallery.path)
 
     if album.modified != gallery.modified
-      puts "Gallery :: Creating #{gallery.path} modified on: #{gallery.modified}" # -> (#{gallery.inspect})"
-
-      album.modified = gallery.modified
+      puts "Gallery :: Creating #{gallery.path} modified on: #{gallery.modified} <> #{album.modified}" # -> (#{gallery.inspect})"
 
       photos = DPC.get_photos gallery.path
 
@@ -17,11 +15,14 @@ helpers do
         if defined? item.mime_type && item.mime_type == "image/jpeg"
           unless photo = album.photos.find_by_path(item.path)
             load_photo(album, item)
+            
+            album.save
           end
         end
-
-        album.save
       end
+      
+      album.modified = gallery.modified
+      album.save
     end
   end
 

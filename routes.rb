@@ -23,9 +23,12 @@ end
 ['/rebuild/?', '/rebuild/*'].each do |path|
   get path do
     if DPC.connect
-      session[:galleries] = DPC.get_galleries unless session[:galleries].nill?
+      # Fetch from session, reduce Dropbox calls
+      session[:galleries] = DPC.get_galleries if session[:galleries].nil?
       galleries = session[:galleries]
-
+      
+      p galleries
+      
       begin
         Timeout::timeout(20) do
           thread_list = []

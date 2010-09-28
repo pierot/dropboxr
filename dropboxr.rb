@@ -15,7 +15,7 @@ class Dropboxr
   end
   
   def connect
-    if !@session.nil? && !@session.authorized?
+    if !@session.nil? && @session.authorized?
       true
     else
       authorize
@@ -72,6 +72,6 @@ class Dropboxr
       @session = Dropbox::Session.deserialize(@session_serialized)
     end
     
-    @session.enable_memoization
+    #@session.enable_memoization
   end
 end
