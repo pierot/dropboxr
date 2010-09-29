@@ -22,7 +22,7 @@ configure do
   
   # Config files
   albums_excludes = YAML.load(File.read('config/excludes.yml'))
-  session_keys = YAML.load(File.read('config/key.yml'))
+  session_keys = YAML.load(File.read('config/dropbox-session-keys.yml'))
   app_keys = YAML.load(File.read('config/dropbox-app-keys.yml'))
   
   # Sinatra config variables

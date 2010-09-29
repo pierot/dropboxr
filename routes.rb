@@ -1,9 +1,5 @@
 before do
   headers['Cache-Control'] = 'public, max-age=172800' # Two days
-  
-  #if !DPC.connect && request.path_info != '/setup' # try to connect
-  #  redirect '/setup'
-  #end
 end
 
 error do
@@ -22,33 +18,37 @@ end
 
 ['/rebuild/?', '/rebuild/*'].each do |path|
   get path do
-    if DPC.connect
-      # Fetch from session, reduce Dropbox calls
-      session[:galleries] = DPC.get_galleries if session[:galleries].nil?
-      galleries = session[:galleries]
+    redirect '/' unless DPC.connect
+    
+    # Fetch from session, reduce Dropbox calls
+    session[:galleries] = DPC.get_galleries if session[:galleries].nil?
+    galleries = session[:galleries]
+    
+    session[:galleries_photos] = {} if session[:galleries_photos].nil?
+    
+    begin
+      puts "Rebuilding #{galleries.length} galleries."
       
-      p galleries
-      
-      begin
-        Timeout::timeout(20) do
-          thread_list = []
-          
-          galleries.each do |gallery|
-            thread_list << Thread.new {
-              load_gallery gallery if gallery.directory? && !(options.album_excludes.include? gallery.path)
-            }
-          end
-          
-          thread_list.each { |x| x.join }
-        end
-      rescue Timeout::Error
-        puts "Rebuilding took too long. We'll continue after the break."
+      Timeout::timeout(25) do
+        thread_list = []
         
-        redirect "/rebuild/#{rand(99999999)}"
+        galleries.each do |gallery|
+          thread_list << Thread.new {
+            puts "Creating new Thread for #{gallery.path}"
+            
+            load_gallery gallery if gallery.directory? && !(options.album_excludes.include? gallery.path)
+          }
+        end
+        
+        thread_list.each { |x| x.join }
       end
+    rescue Timeout::Error
+      puts "Rebuilding took too long. We'll continue after the break."
+      
+      redirect "/rebuild/#{rand(99999999)}"
     end
     
-    redirect '/' 
+    redirect '/'
   end
 end
 
