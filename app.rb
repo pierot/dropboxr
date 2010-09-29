@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'sinatra'
 require 'less'
-require 'dalli'
+require 'memcached'
 require 'timeout'
 
 require File.dirname(__FILE__) + '/dropboxr.rb'
@@ -18,7 +18,7 @@ end
 
 configure do
   # Global constants
-  CACHE = Dalli::Client.new 
+  CACHE = Memcached.new
   
   # Config files
   albums_excludes = YAML.load(File.read('config/excludes.yml'))

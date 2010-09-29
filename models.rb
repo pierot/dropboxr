@@ -10,6 +10,7 @@ begin
   
   ActiveRecord::Schema.define do
     create_table :albums do |table|
+      table.column :name, :string
       table.column :path, :string
       table.column :modified, :string
     end

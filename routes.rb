@@ -29,15 +29,15 @@ end
     begin
       puts "Rebuilding #{galleries.length} galleries."
       
-      Timeout::timeout(25) do
+      Timeout::timeout(20) do
         thread_list = []
         
         galleries.each do |gallery|
-          thread_list << Thread.new {
-            puts "Creating new Thread for #{gallery.path}"
+          #thread_list << Thread.new {
+          #  puts "Creating new Thread for #{gallery.path}"
             
             load_gallery gallery if gallery.directory? && !(options.album_excludes.include? gallery.path)
-          }
+          #}
         end
         
         thread_list.each { |x| x.join }
@@ -60,7 +60,6 @@ end
 
 get '/' do
   @albums = Album.all() # Should make sure the 'not in' is in the query or so .... :conditions => {:path => })
-  
   @albums.each { |alb| @albums.delete(alb) if options.album_excludes.include? alb.path }
   
   erb :index
@@ -69,7 +68,6 @@ end
 get '/gallery/:album' do
   begin
     @album = Album.find(params[:album])
-    
   rescue ActiveRecord::RecordNotFound
     redirect '/'
   end
@@ -83,7 +81,6 @@ get '/gallery/:album/image/:id' do
     begin
       @album = Album.find(params[:album])
       @photo = @album.photos.find(params[:id])
-      
     rescue ActiveRecord::RecordNotFound
       redirect back
     end
@@ -106,8 +103,8 @@ get '/thumb/:id' do
       image_item.img_small = image
       image_item.save
     end
-    
-     CACHE.set(options.mc_img_s + params[:id], image)
+   
+    CACHE.set(options.mc_img_s + params[:id], image)
   end
   
   raise Sinatra::NotFound if image == nil

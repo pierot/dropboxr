@@ -4,12 +4,10 @@ helpers do
   end
   
   def load_gallery(gallery)
-    puts "Gallery :: Finding #{gallery.path} in db"
-    
-    album = Album.find_or_create_by_path(gallery.path)
+    album = Album.find_or_create_by_name gallery.path.split(/\//)[gallery.path.split(/\//).length - 1].to_s
 
-    if album.modified != gallery.modified
-      puts "Gallery :: Creating or Updating #{gallery.path} modified on: #{gallery.modified} <> #{album.modified}" # -> (#{gallery.inspect})"
+    if album.modified != gallery.modified.to_s
+      puts "Gallery :: Creating or Updating #{album.name} modified on: #{gallery.modified.to_s} <> #{album.modified}" # -> (#{gallery.inspect})"
 
       # saving in session
       session[:galleries_photos][album.id] = DPC.get_photos gallery.path if session[:galleries_photos][album.id].nil?
@@ -21,13 +19,13 @@ helpers do
           
           if photo.name.nil? || photo.modified != item.modified
             if photo.name.nil? # new
-              photo.name = item.path.scan(/(\w|[-.])+$/)[0]
+              photo.name = item.path.scan(/([^\/]+)(?=\.\w+$)/)[0][0].to_s
               photo.path = item.path
               photo.link = "" # DPC.get_link item.path
               
-              puts "Photo :: Creating #{photo.path} ..."
+              #puts "Photo :: Creating #{photo.path} ..."
             else # resetting images
-              puts "Photo :: Updating #{photo.path} ..."
+              #puts "Photo :: Updating #{photo.path} ..."
             end
             
             photo.img_small = nil
@@ -36,14 +34,15 @@ helpers do
             photo.revision = item.revision
             photo.modified = item.modified
             
-            #photo.save
-            #album.save
+            photo.save
+            album.save
           end
         end
       end
       
-      album.modified = gallery.modified
-      #album.save
+      album.path = gallery.path
+      album.modified = gallery.modified.to_s
+      album.save
     end
   end
 end
