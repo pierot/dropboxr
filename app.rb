@@ -3,7 +3,6 @@ require 'sinatra'
 require 'less'
 require 'memcached'
 require 'timeout'
-#require "failtale-reporter"
 
 require File.dirname(__FILE__) + '/dropboxr.rb'
 
@@ -20,16 +19,6 @@ end
 configure do
   # Global constants
   CACHE = Memcached.new
-  
-  #FailtaleReporter.configure do |config|
-  #  config.base_uri  '0.0.0.0'
-  #  config.api_token '405b0f2ceff8d8c3ff35df178b1c67a3fee77f8c'
-  #  config.application_root File.dirname(File.dirname(__FILE__))
-  #end
-  #
-  #FailtaleReporter.report do
-  #  raise 'Hello 2'
-  #end
   
   # Config files
   albums_excludes = YAML.load(File.read('config/excludes.yml'))
