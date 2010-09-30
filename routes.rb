@@ -1,5 +1,12 @@
+#########################################################################################################
+# VARIOUS
+#########################################################################################################
 before do
-  #headers['Cache-Control'] = 'public, max-age=172800' # Two days
+  headers['Cache-Control'] = 'public, max-age=172800' # Two days
+  
+  if :agent.to_s =~ /(Slurp|msnbot|Googlebot)/ # bots not allowed
+    redirect 'http://wellconsidered.be'
+  end
 end
 
 error do
@@ -22,6 +29,9 @@ get '/timecheck' do
   "Current Time : " + session[:time].inspect
 end
 
+#########################################################################################################
+# BUILDING / SETUP
+#########################################################################################################
 ['/build/building/?', '/build/building/*'].each do |path|
   get path do
     redirect '/build/error' unless DPC.connect
@@ -74,9 +84,11 @@ get '/build/:state' do
   end
 end
 
+#########################################################################################################
+# BASE PAGES
+#########################################################################################################
 get '/' do
   @albums = Album.all() # Should make sure the 'not in' is in the query or so .... :conditions => {:path => })
-  
   @albums.each { |alb| @albums.delete(alb) if options.album_excludes.include? alb.path }
   
   redirect '/empty' if @albums.length == 0
@@ -105,12 +117,15 @@ get '/gallery/:album/image/:id' do
       @album = Album.find(params[:album])
       @photo = @album.photos.find(params[:id])
     rescue ActiveRecord::RecordNotFound
-      redirect back
+      redirect '/' # back
     end
 
     erb :image
 end
 
+#########################################################################################################
+# IMAGES
+#########################################################################################################
 get '/thumb/:id' do 
   content_type 'image/jpeg'
   
