@@ -60,8 +60,12 @@ end
 get '/build/:state' do
   case params[:state]
   when 'done'
+    @redirect_url = '/'
+    
     erb :'build/done'
   when 'start'
+    @redirect_url = '/build/building/'
+    
     erb :'build/start'
   when 'error'
     erb :'build/error'
