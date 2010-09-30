@@ -8,7 +8,7 @@ require File.dirname(__FILE__) + '/dropboxr.rb'
 
 use Rack::Session::Pool
 
-configure :development do # Needed to do this for local dev
+configure :development do
   disable :run
   
   set :views, File.dirname(__FILE__) + '/views'
