@@ -18,7 +18,11 @@ end
 
 configure do
   # Global constants
-  CACHE = Memcached.new
+  begin
+    CACHE = Memcached.new
+  rescue Memcached::Error
+    puts "Sinatra :: !! Memcache not available"
+  end
   
   # Config files
   albums_excludes = YAML.load(File.read('config/excludes.yml'))

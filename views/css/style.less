@@ -15,6 +15,11 @@
 	width: @size;
 }
 
+.clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+.clearfix { display: inline-block; }
+* html .clearfix { height: 1%; } /* Hides from IE-mac \*/
+.clearfix { display: block; }
+
 @font-face {
 	font-family: 'SpeakOffcRegular';
 	src: url('speakoffc-webfont.eot');
@@ -28,7 +33,6 @@ html, body {
 	font-size-adjust: 0.45;
 	font-size: 15px;
 	color: @gray;
-	height: 100%;
 }
 
 a {
@@ -38,35 +42,57 @@ a {
 }
 
 #wrapper {
-	/*min-height: 100%;*/
-	margin-left: 20px;
+	margin: 20px 0px 0px 20px;
 	
 	header {
-		padding: 20px 0px 20px 0px;
+		padding: 0px 0px 20px 0px;
 		font-size: 24px;
 	}
 
 	#main {
-		/*overflow: auto;*/
-		/*padding-bottom: @footer_height;*/
-	
 		h2 {
 			color: @base_color;
 			font-size: 32px;
 			font-weight: bold;
 			margin-bottom: 20px;
 		}
+		
+		ul.gallery, ul.albums {
+			max-width: 980px;
+			.clearfix;
+			
+			li {
+				float: left;
+			}
+		}
 
 		ul.albums {
 			li {
-				font-size: 16px;
-				margin-bottom: 10px;
+				font-size: 14px;
+				text-align: center;
+				padding: 10px;
+				overflow: hidden;
+				width: 120px;
+				height: 130px;
+				
+				:hover {
+					background: #fbfbfb;
+				}
+				
+				p {
+					margin: 0 auto;
+					width: 100px;
+					overflow: hidden;
+				}
+				
+				img {
+					margin-bottom: 5px;
+				}
 			}
 		}
 
 		ul.gallery {
 			li {
-				float: left;
 				margin: 0px 20px 20px 0px;
 
 				.shadow;
@@ -75,6 +101,12 @@ a {
 				a {
 					border: none;
 					display: block;
+					background: #fbfbfb;
+					overflow: hidden;
+					
+					img {
+						font-size: 12px;
+					}
 
 					.square_size(72px);
 				}
@@ -92,7 +124,6 @@ footer {
 	position: fixed;
 	bottom: 0px;
 	width: 100%;
-	/*margin-top: @footer_height * -1;*/ /* negative value of footer height */
 	height: @footer_height;
 	clear: both;
 }

@@ -3,6 +3,12 @@ helpers do
     @base_url ||= "#{request.env['rack.url_scheme']}://#{request.env['HTTP_HOST']}"
   end
   
+  def album_photo(album_id)
+    album = Album.find(album_id)
+    photo = album.photos.find(:first)
+    photo.id
+  end
+  
   def load_gallery(gallery)
     album = Album.find_or_create_by_name gallery.path.split(/\//)[gallery.path.split(/\//).length - 1].to_s
 

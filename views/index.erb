@@ -1,7 +1,13 @@
-<h2>Galleries</h2>
+<h2>Photo albums</h2>
 
 <ul class="albums">
 <% for album in @albums %>
-	<li><a href="/gallery/<%= album.id %>"><%= album.name %></a></li>
+	<li>
+		<a href="/gallery/<%= album.id %>">
+			<img src="/thumb/<%= album_photo album.id %>">
+			<br>
+			<p><%= album.name %></p>
+		</a>
+	</li>
 <% end %>
 </ul>

@@ -76,11 +76,10 @@ end
 
 get '/' do
   @albums = Album.all() # Should make sure the 'not in' is in the query or so .... :conditions => {:path => })
-  puts "dslkjdslksd"
-  p @albums
-  redirect '/empty' if @albums.length == 0
   
   @albums.each { |alb| @albums.delete(alb) if options.album_excludes.include? alb.path }
+  
+  redirect '/empty' if @albums.length == 0
   
   erb :index
 end
@@ -128,7 +127,11 @@ get '/thumb/:id' do
       image_item.save
     end
    
-    CACHE.set(options.mc_img_s + params[:id], image)
+    begin
+      CACHE.set(options.mc_img_s + params[:id], image)
+    rescue Memcached::Error
+      
+    end
   end
   
   raise Sinatra::NotFound if image == nil
@@ -145,7 +148,11 @@ get '/image/:id' do
     image_item = Photo.find(params[:id])
     image = DPC.get_image image_item.path, 'l'
 
-    CACHE.set(options.mc_img_l + params[:id], image)
+    begin
+      CACHE.set(options.mc_img_l + params[:id], image)
+    rescue Memcached::Error
+      
+    end
   end
   
   raise Sinatra::NotFound if image == nil
