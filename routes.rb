@@ -1,5 +1,5 @@
 before do
-  headers['Cache-Control'] = 'public, max-age=172800' # Two days
+  #headers['Cache-Control'] = 'public, max-age=172800' # Two days
 end
 
 error do
@@ -76,6 +76,7 @@ end
 
 get '/' do
   @albums = Album.all() # Should make sure the 'not in' is in the query or so .... :conditions => {:path => })
+  puts "dslkjdslksd"
   p @albums
   redirect '/empty' if @albums.length == 0
   
