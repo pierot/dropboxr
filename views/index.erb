@@ -1,15 +1,7 @@
 <h2>Galleries</h2>
 
-<% if @albums.length == 0 %>
-	<p>
-		You haven't got any albums loaded into Dropboxr.
-		<br>
-		Have you <a href="/rebuild/">build</a> your albums yet?
-	</p>
-<% else %>
-	<ul class="albums">
-	<% for album in @albums %>
-		<li><a href="/gallery/<%= album.id %>"><%= album.name %></a></li>
-	<% end %>
-	</ul>
+<ul class="albums">
+<% for album in @albums %>
+	<li><a href="/gallery/<%= album.id %>"><%= album.name %></a></li>
 <% end %>
+</ul>

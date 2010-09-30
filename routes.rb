@@ -10,7 +10,13 @@ not_found do
   'Sorry - Not Found'
 end
 
-get '/setup' do
+get '/css/style.css' do
+  content_type 'text/css', :charset => 'utf-8'
+  
+  less :'css/style'
+end
+
+get '/timecheck' do
   session[:time] = Time.new if session[:time].nil?
   
   "Current Time : " + session[:time].inspect
@@ -20,8 +26,7 @@ end
   get path do
     redirect '/' unless DPC.connect
     
-    # Fetch from session, reduce Dropbox calls
-    session[:galleries] = DPC.get_galleries if session[:galleries].nil?
+    session[:galleries] = DPC.get_galleries if session[:galleries].nil? # Fetch from session, reduce Dropbox calls
     galleries = session[:galleries]
     
     session[:galleries_photos] = {} if session[:galleries_photos].nil?
@@ -48,21 +53,33 @@ end
       redirect "/rebuild/#{rand(99999999)}"
     end
     
+    redirect '/build/done'
+  end
+end
+
+get '/build/:state' do
+  case param[:state]
+  when 'done'
+    erb :'build/done'
+  when 'start'
+    erb :'build/start'
+  else
     redirect '/'
   end
 end
 
-get '/css/style.css' do
-  content_type 'text/css', :charset => 'utf-8'
-  
-  less :'css/style'
-end
-
 get '/' do
   @albums = Album.all() # Should make sure the 'not in' is in the query or so .... :conditions => {:path => })
+  
+  redirect '/empty' if @albums.length == 0
+  
   @albums.each { |alb| @albums.delete(alb) if options.album_excludes.include? alb.path }
   
   erb :index
+end
+
+get '/empty' do
+  erb :empty
 end
 
 get '/gallery/:album' do

@@ -27,8 +27,8 @@ configure do
   
   # Sinatra config variables
   set :album_excludes => albums_excludes
-  set :mc_img_s => 'imgss_s_', 
-      :mc_img_l => 'imgss_l_'
+  set :mc_img_s => 'imgs_s_', 
+      :mc_img_l => 'imgs_l_'
   
   DPC = Dropboxr.new(@base_url, session_keys, app_keys['secret'], app_keys['key'])
                           
