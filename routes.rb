@@ -58,7 +58,7 @@ end
 end
 
 get '/build/:state' do
-  case param[:state]
+  case params[:state]
   when 'done'
     erb :'build/done'
   when 'start'
