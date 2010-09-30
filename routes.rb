@@ -22,9 +22,9 @@ get '/timecheck' do
   "Current Time : " + session[:time].inspect
 end
 
-['/rebuild/?', '/rebuild/*'].each do |path|
+['/build/building/?', '/build/building/*'].each do |path|
   get path do
-    redirect '/' unless DPC.connect
+    redirect '/build/error' unless DPC.connect
     
     session[:galleries] = DPC.get_galleries if session[:galleries].nil? # Fetch from session, reduce Dropbox calls
     galleries = session[:galleries]
@@ -50,7 +50,7 @@ end
     rescue Timeout::Error
       puts "Rebuilding took too long. We'll continue after the break."
       
-      redirect "/rebuild/#{rand(99999999)}"
+      redirect "/build/building/#{rand(99999999)}"
     end
     
     redirect '/build/done'
@@ -63,6 +63,8 @@ get '/build/:state' do
     erb :'build/done'
   when 'start'
     erb :'build/start'
+  when 'error'
+    erb :'build/error'
   else
     redirect '/'
   end
@@ -70,7 +72,7 @@ end
 
 get '/' do
   @albums = Album.all() # Should make sure the 'not in' is in the query or so .... :conditions => {:path => })
-  
+  p @albums
   redirect '/empty' if @albums.length == 0
   
   @albums.each { |alb| @albums.delete(alb) if options.album_excludes.include? alb.path }
