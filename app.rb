@@ -14,6 +14,11 @@ configure :development do
   set :views, File.dirname(__FILE__) + '/views'
   set :public, File.dirname(__FILE__) + '/public'
   set :app_file, __FILE__
+  
+  app_keys = YAML.load(File.read('config/dropbox-app-keys.yml'))
+  
+  ENV['DROPBOX_APP_SECRET'] = app_keys['secret']
+  ENV['DROPBOX_APP_KEY'] = app_keys['key']
 end
 
 configure do
@@ -23,15 +28,13 @@ configure do
   # Config files
   albums_excludes = YAML.load(File.read('config/excludes.yml'))
   session_keys = YAML.load(File.read('config/dropbox-session-keys.yml'))
-  app_keys = YAML.load(File.read('config/dropbox-app-keys.yml'))  # secret: ....
-                                                                  # key: ....
   
   # Sinatra config variables
   set :album_excludes => albums_excludes
   set :mc_img_s => 'imgs_s_', 
       :mc_img_l => 'imgs_l_'
   
-  DPC = Dropboxr.new(@base_url, session_keys, app_keys['secret'], app_keys['key'])
+  DPC = Dropboxr.new(@base_url, session_keys, ENV['DROPBOX_APP_SECRET'], ENV['DROPBOX_APP_KEY'])
                           
   puts "Sinatra :: Configure do #{DPC}"
 end
