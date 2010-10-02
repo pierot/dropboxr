@@ -36,6 +36,10 @@ end
   get path do
     redirect '/build/error' unless DPC.connect
     
+    unless session[:galleries].nil?
+      puts "Session is present."
+    end
+    
     session[:galleries] = DPC.get_galleries if session[:galleries].nil? # Fetch from session, reduce Dropbox calls
     galleries = session[:galleries]
     
@@ -119,7 +123,9 @@ get '/gallery/:album/image/:id' do
     rescue ActiveRecord::RecordNotFound
       redirect '/' # back
     end
-
+    
+    # TODO: next photo
+    
     erb :image
 end
 
