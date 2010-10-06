@@ -45,9 +45,9 @@ end
     
     session[:galleries_photos] = {} if session[:galleries_photos].nil?
     
+    puts "Rebuilding #{galleries.length} galleries."
+    
     begin
-      puts "Rebuilding #{galleries.length} galleries."
-      
       Timeout::timeout(20) do
         thread_list = []
         
@@ -119,12 +119,27 @@ end
 get '/gallery/:album/image/:id' do 
     begin
       @album = Album.find(params[:album])
-      @photo = @album.photos.find(params[:id])
+      # @photo = @album.photos.find(params[:id])
     rescue ActiveRecord::RecordNotFound
       redirect '/' # back
     end
     
-    # TODO: next photo
+    @photos = @album.photos 
+    @photo_next = @photos[0] if @photos.length > 0
+    @photo_prev = @photos[@photos.length - 1] if @photos.length > 0
+    
+    @photos.each_with_index do |photo, index|
+      if photo.id == params[:id].to_i
+        @photo_prev = @photos[index - 1] unless @photos[index - 1].nil?
+        @photo_next = @photos[index + 1] unless @photos[index + 1].nil?
+        
+        @photo = photo
+        
+        break
+      end
+    end
+    
+    redirect '/' if @photos.length == 0 || @photo.nil?
     
     erb :image
 end

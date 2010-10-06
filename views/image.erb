@@ -3,9 +3,12 @@
 <h2><%= @album.name %> - <%= @photo.name %></h2>
 
 <div class="single-image">
-	<img src="/image/<%= @photo.id %>" alt="<%= @photo.name %>">
+	<a href="/gallery/<%= @album.id %>/image/<%= @photo_next.id %>"><img src="/image/<%= @photo.id %>" alt="<%= @photo.name %>"></a>
 </div>
 
+<a href="/gallery/<%= @album.id %>/image/<%= @photo_prev.id %>" title="<%= @photo_prev.name %>">vorige</a> - <a href="/gallery/<%= @album.id %>/image/<%= @photo_next.id %>" title="<%= @photo_next.name %>">volgende</a>
+
+<!--
 <div id="disqus_thread"></div>
 <script type="text/javascript">
   var disqus_identifier = "<%= @album.id %>_<%= @photo.id %>";
@@ -16,3 +19,4 @@
    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
   })();
 </script>
+-->
