@@ -3,7 +3,7 @@
 <h2><%= @album.name %> - <%= @photo.name %></h2>
 
 <div class="single-image">
-	<a href="/gallery/<%= @album.id %>/image/<%= @photo_next.id %>"><img src="/image/<%= @photo.id %>" alt="<%= @photo.name %>"></a>
+	<a href="/gallery/<%= @album.id %>/image/<%= @photo_next.id %>" title="klik voor de volgende foto"><img src="/image/<%= @photo.id %>" alt="<%= @photo.name %>"></a>
 </div>
 
 <a href="/gallery/<%= @album.id %>/image/<%= @photo_prev.id %>" title="<%= @photo_prev.name %>">vorige</a> - <a href="/gallery/<%= @album.id %>/image/<%= @photo_next.id %>" title="<%= @photo_next.name %>">volgende</a>
