@@ -78,6 +78,19 @@ get '/build/:state' do
     
     erb :'build/done'
   when 'start'
+    # Postmark.api_key = "1c828846-41f7-4098-a804-c6d82d29e2f2"
+    # 
+    # message = TMail::Mail.new
+    # message.from = "pieter@wellconsidered.be"
+    # message.to = "Pieter Michels <pieter@wellconsidered.be>"
+    # message.subject = "Dropboxr import completed!"
+    # message.content_type = "text/html"
+    # message.body = "Dropboxr has imported or updated all your albums!"
+    # 
+    # message.tag = "dropboxr-heroku-import-done"
+    # 
+    # Postmark.send_through_postmark(message)
+    
     @redirect_url = '/build/building/'
     
     erb :'build/start'
