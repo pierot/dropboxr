@@ -3,7 +3,7 @@ require 'yaml'
 
 dbconfig = YAML.load(File.read('config/database.yml'))
 
-ActiveRecord::Base.establish_connection dbconfig[ENV['RACK_ENV']] #['production']
+ActiveRecord::Base.establish_connection dbconfig[ENV['RACK_ENV']]
 
 begin
   puts "Database :: Creating schema."
@@ -27,7 +27,6 @@ begin
     end
   end
 rescue ActiveRecord::StatementInvalid
-  # schema already exists
   puts "Database :: Schema already existed."
 end
 
