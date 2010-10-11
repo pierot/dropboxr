@@ -2,7 +2,7 @@
 # VARIOUS
 #########################################################################################################
 before do
-  headers['Cache-Control'] = 'public, max-age=172800' # Two days
+  #headers['Cache-Control'] = 'public, max-age=172800' # Two days
   
   if :agent.to_s =~ /(Slurp|msnbot|Googlebot)/ # bots not allowed
     redirect 'http://wellconsidered.be'
