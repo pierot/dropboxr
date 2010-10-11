@@ -1,4 +1,4 @@
-tak :default => :build
+task :default => :build
 
 desc 'Maintain galleries'
 task :build do
