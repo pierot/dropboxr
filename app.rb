@@ -3,8 +3,8 @@ require 'sinatra'
 require 'less'
 require 'memcached'
 require 'timeout'
-require 'postmark'
-require 'tmail'
+#require 'postmark'
+#require 'tmail'
 
 require File.dirname(__FILE__) + '/dropboxr.rb'
 
