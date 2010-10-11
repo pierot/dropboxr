@@ -1,5 +1,7 @@
 require 'dropbox'
 
+# require 'dropboxr/client'
+
 class Dropboxr
   def initialize(redirect_url, session_key, secret, key)
     @redirect_url = redirect_url
@@ -8,10 +10,13 @@ class Dropboxr
     @session_serialized = ""
     session_key.each {|line| @session_serialized << "- #{line}\n"}
     @session_serialized = "--- \n#{@session_serialized}"
-    puts @session_serialized
     
     @secret = secret
     @key = key
+  end
+  
+  def session_serialized
+    @session_serialized
   end
   
   def connect
@@ -20,13 +25,21 @@ class Dropboxr
     else
       authorize
     
-      if @session.authorized?
-        @session.mode = :dropbox
-      end
+      @session.mode = :dropbox if @session.authorized?
       
       @session.authorized?
     end
   end
+  
+  def authorize_user
+    @session = Dropbox::Session.new(@secret, @key)
+    
+    session.authorize_url(:oauth_callback => @redirect_url)
+  end
+
+  def session_authorized_serialized 
+    @session.serialize
+  end 
   
   def get_galleries(directory = 'Photos')
     connect
@@ -59,16 +72,7 @@ class Dropboxr
   def authorize
     puts "DropboxConnector :: Authorizing!"
     
-    if @session_serialized.nil? || @session_serialized.empty?
-      @session = Dropbox::Session.new(@secret, @key)
-      
-      puts "DropboxConnector :: Visit #{session.authorize_url(:oauth_callback => @redirect_url)} to log in to Dropbox."
-      puts "DropboxConnector :: Hit enter when you have done this."
-      gets
-
-      puts "DropboxConnector :: Copy the session key below, paste it in the config/key.yml."
-      puts @session.serialize
-    else
+    unless @session_serialized.nil? || @session_serialized.empty?
       @session = Dropbox::Session.deserialize(@session_serialized)
     end
     

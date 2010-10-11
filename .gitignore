@@ -1,2 +1,2 @@
 db/*
-config/dropbox-app-keys.yml
+config/dev-vars.yml

@@ -6,7 +6,7 @@ require 'timeout'
 #require 'postmark'
 #require 'tmail'
 
-require File.dirname(__FILE__) + '/dropboxr.rb'
+require File.dirname(__FILE__) + '/lib/dropboxr.rb'
 
 use Rack::Session::Pool
 
@@ -17,10 +17,10 @@ configure :development do
   set :public, File.dirname(__FILE__) + '/public'
   set :app_file, __FILE__
   
-  app_keys = YAML.load(File.read('config/dropbox-app-keys.yml'))
+  app_vars = YAML.load(File.read('config/dev-vars.yml'))
   
-  ENV['DROPBOX_APP_SECRET'] = app_keys['secret']
-  ENV['DROPBOX_APP_KEY'] = app_keys['key']
+  ENV['DROPBOX_APP_SECRET'] = app_vars['secret']
+  ENV['DROPBOX_APP_KEY'] = app_vars['key']
 end
 
 configure do

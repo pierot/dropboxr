@@ -6,6 +6,7 @@ helpers do
   def album_photo(album_id)
     album = Album.find(album_id)
     photo = album.photos.find(:first)
+    
     photo.id
   end
   
