@@ -12,6 +12,8 @@ helpers do
   def load_gallery(gallery)
     album = Album.find_or_create_by_name gallery.path.split(/\//)[gallery.path.split(/\//).length - 1].to_s
 
+    puts ":: #{album.modified} != #{gallery.modified.to_s}"
+
     if album.modified != gallery.modified.to_s
       puts "Gallery :: Creating or Updating #{album.name} modified on: #{gallery.modified.to_s} <> #{album.modified}" # -> (#{gallery.inspect})"
 
