@@ -10,13 +10,17 @@ helpers do
     photo.id
   end
   
+  def log(message, verbose = false)
+    puts message unless verbose
+  end
+  
   def load_gallery(gallery)
     album = Album.find_or_create_by_name gallery.path.split(/\//)[gallery.path.split(/\//).length - 1].to_s
 
-    #puts ":: #{album.modified} != #{gallery.modified.to_s}"
+    log ":: #{album.modified} != #{gallery.modified.to_s}"
 
     if album.modified != gallery.modified.to_s
-      puts "Gallery :: Creating or Updating #{album.name} modified on: #{gallery.modified.to_s} <> #{album.modified}" # -> (#{gallery.inspect})"
+      log "Gallery :: Creating or Updating #{album.name} modified on: #{gallery.modified.to_s} <> #{album.modified}", true # -> (#{gallery.inspect})"
 
       # saving in session
       session[:galleries_photos][album.id] = DPC.get_photos gallery.path if session[:galleries_photos][album.id].nil?
@@ -32,9 +36,9 @@ helpers do
               photo.path = item.path
               photo.link = "" # DPC.get_link item.path
               
-              #puts "Photo :: Creating #{photo.path} ..."
+              log "Photo :: Creating #{photo.path} ..."
             else # resetting images
-              #puts "Photo :: Updating #{photo.path} ..."
+              log "Photo :: Updating #{photo.path} ..."
             end
             
             photo.img_small = nil

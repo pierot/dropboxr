@@ -37,7 +37,7 @@ end
     redirect '/build/error' unless DPC.connect
     
     unless session[:galleries].nil?
-      puts "Session is present."
+      log "Session is present.", true
     end
     
     session[:galleries] = DPC.get_galleries if session[:galleries].nil? # Fetch from session, reduce Dropbox calls
@@ -45,24 +45,14 @@ end
     
     session[:galleries_photos] = {} if session[:galleries_photos].nil?
     
-    puts "Rebuilding #{galleries.length} galleries."
+    log "Rebuilding #{galleries.length} galleries.", true
     
     begin
       Timeout::timeout(20) do
-        thread_list = []
-        
-        galleries.each do |gallery|
-          #thread_list << Thread.new {
-          #  puts "Creating new Thread for #{gallery.path}"
-            
-            load_gallery gallery if gallery.directory? && !(options.album_excludes.include? gallery.path)
-          #}
-        end
-        
-        thread_list.each { |x| x.join }
+        galleries.each { |gallery| load_gallery gallery if gallery.directory? && !(options.album_excludes.include? gallery.path) }
       end
     rescue Timeout::Error
-      puts "Rebuilding took too long. We'll continue after the break."
+      log "Rebuilding took too long. We'll continue after the break.", true
       
       redirect "/build/building/#{rand(99999999)}"
     end
@@ -78,19 +68,6 @@ get '/build/:state' do
     
     erb :'build/done'
   when 'start'
-    # Postmark.api_key = "1c828846-41f7-4098-a804-c6d82d29e2f2"
-    # 
-    # message = TMail::Mail.new
-    # message.from = "pieter@wellconsidered.be"
-    # message.to = "Pieter Michels <pieter@wellconsidered.be>"
-    # message.subject = "Dropboxr import completed!"
-    # message.content_type = "text/html"
-    # message.body = "Dropboxr has imported or updated all your albums!"
-    # 
-    # message.tag = "dropboxr-heroku-import-done"
-    # 
-    # Postmark.send_through_postmark(message)
-    
     @redirect_url = '/build/building/'
     
     erb :'build/start'
