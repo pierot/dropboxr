@@ -1,14 +1,12 @@
 require 'dropbox'
 
-# require 'dropboxr/client'
-
 class Dropboxr
   def initialize(redirect_url, session_key, secret, key)
     @redirect_url = redirect_url
     
     # session key from yml file
     @session_serialized = ""
-    session_key.each {|line| @session_serialized << "- #{line}\n"}
+    session_key.each { |line| @session_serialized << "- #{line}\n" }
     @session_serialized = "--- \n#{@session_serialized}"
     
     @secret = secret
@@ -34,7 +32,7 @@ class Dropboxr
   def authorize_user
     @session = Dropbox::Session.new(@secret, @key)
     
-    session.authorize_url(:oauth_callback => @redirect_url)
+    @session.authorize_url(:oauth_callback => @redirect_url)
   end
 
   def session_authorized_serialized 
