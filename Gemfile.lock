@@ -13,9 +13,8 @@ GEM
     activesupport (3.0.3)
     arel (2.0.4)
     builder (2.1.2)
-    dropbox (1.2.0)
+    dropbox (1.1.1)
       json (>= 1.2.0)
-      mechanize (>= 1.0.0)
       multipart-post (>= 1.0)
       oauth (>= 0.3.6)
     i18n (0.4.2)
@@ -24,12 +23,9 @@ GEM
       mutter (>= 0.4.2)
       treetop (>= 1.4.2)
     manifesto (0.6.0)
-    mechanize (1.0.0)
-      nokogiri (>= 1.2.1)
     memcached (1.0.2)
     multipart-post (1.0.1)
     mutter (0.5.3)
-    nokogiri (1.4.4)
     oauth (0.4.4)
     polyglot (0.3.1)
     rack (1.2.1)
@@ -47,7 +43,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord
-  dropbox (>= 1.2.0)
+  dropbox (= 1.1.1)
   less
   manifesto
   memcached
