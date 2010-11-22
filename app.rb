@@ -5,7 +5,6 @@ require 'memcached'
 require 'timeout'
 
 require File.dirname(__FILE__) + '/lib/dropboxr.rb'
-require File.dirname(__FILE__) + '/lib/manifesto.rb'
 
 use Rack::Session::Pool
 
