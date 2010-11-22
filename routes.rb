@@ -32,7 +32,17 @@ end
 get '/manifest' do
   headers 'Content-Type' => 'text/cache-manifest' # Must be served with this MIME type
   
-  Manifesto.cache
+  files = []
+  
+  albums = albums_excluded
+  albums.each do |album|
+    album.photos.each do |photo|
+      files << "/thumb/#{photo.id}"
+      files << "/image/#{photo.id}"
+    end
+  end
+  
+  Manifesto.cache :files => files
 end
 
 #########################################################################################################
@@ -60,7 +70,7 @@ end
     rescue Timeout::Error
       log "Rebuilding took too long. We'll continue after the break.", true
       
-      redirect "/build/building/#{rand(99999999)}"
+      redirect "/build/building/#{rand(99999999999)}"
     end
     
     redirect '/build/done'
@@ -88,8 +98,7 @@ end
 # BASE PAGES
 #########################################################################################################
 get '/' do
-  @albums = Album.all() # Should make sure the 'not in' is in the query or so .... :conditions => {:path => })
-  @albums.each { |alb| @albums.delete(alb) if options.album_excludes.include? alb.path }
+  @albums = albums_excluded
   
   redirect '/empty' if @albums.length == 0
   

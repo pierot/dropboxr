@@ -43,7 +43,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord
-  dropbox (= 1.1.1)
+  dropbox
   less
   manifesto
   memcached

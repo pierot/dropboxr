@@ -10,6 +10,13 @@ helpers do
     photo.id
   end
   
+  def albums_excluded
+    albums = Album.all() # Should make sure the 'not in' is in the query or so .... :conditions => {:path => })
+    albums.each { |alb| albums.delete(alb) if options.album_excludes.include? alb.path }
+    
+    albums
+  end
+  
   def log(message, verbose = false)
     puts message unless verbose
   end

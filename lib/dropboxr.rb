@@ -57,12 +57,13 @@ class Dropboxr
     @session.link path
   end
   
-  def get_image(path, size = '')
-    return nil unless ['s', 'm', 'l', ''].include? size
+  def get_image(path, size = '', format = '')
+    return nil unless ['small', 'medium', 'large', ''].include? size
+    return nil unless ['JPEG', 'PNG', ''].include? format
     
     connect
     
-    @session.thumbnail path, size
+    @session.thumbnail path, size#, format
   end
   
   private
@@ -74,6 +75,6 @@ class Dropboxr
       @session = Dropbox::Session.deserialize(@session_serialized)
     end
     
-    #@session.enable_memoization
+    @session.enable_memoization
   end
 end

@@ -3,7 +3,7 @@ development:
   database: db/photos.db
   timeout: 25000
   
-production: 
+production: # Heroku
   encoding: unicode
   adapter: postgresql
   username: damaxqgdif
