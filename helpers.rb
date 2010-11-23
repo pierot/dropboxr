@@ -48,8 +48,7 @@ helpers do
               log "Photo :: Updating #{photo.path} ..."
             end
             
-            photo.img_small = nil
-            photo.img_large = nil
+            photo.img_small = photo.img_large = nil
           
             photo.revision = item.revision
             photo.modified = item.modified
