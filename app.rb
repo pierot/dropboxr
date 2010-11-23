@@ -1,6 +1,5 @@
 require 'rubygems'
 require 'sinatra'
-require 'less'
 require 'memcached'
 require 'timeout'
 # require 'manifesto-pierot'
