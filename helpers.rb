@@ -17,6 +17,19 @@ helpers do
     albums
   end
   
+  def protected!
+    unless authorized?
+      response['WWW-Authenticate'] = %(Basic realm="Dropboxr HTTP Auth")
+      
+      throw(:halt, [401, "Not authorized!\n"])
+    end
+  end
+  
+  def authorized?
+    @auth ||= Rack::Auth::Basic::Request.new(request.env)
+    @auth.provided? && @auth.basic? && @auth.credentials && @auth.credentials == [ENV['AUTH_LOGIN'], ENV['AUTH_PASS']]
+  end
+  
   def log(message, verbose = false)
     puts message unless verbose
   end
@@ -33,6 +46,8 @@ helpers do
       session[:galleries_photos][album.id] = DPC.get_photos gallery.path if session[:galleries_photos][album.id].nil?
       photos = session[:galleries_photos][album.id]
 
+      photos.sort!{ |a, b| a.path <=> b.path }
+
       photos.each do |item|
         if defined? item.mime_type && item.mime_type == "image/jpeg"
           photo = album.photos.find_or_create_by_path(item.path)
@@ -41,14 +56,14 @@ helpers do
             if photo.name.nil? # new
               photo.name = item.path.scan(/([^\/]+)(?=\.\w+$)/)[0][0].to_s
               photo.path = item.path
-              photo.link = "" # DPC.get_link item.path
+              # photo.link = DPC.get_link item.path
               
               log "Photo :: Creating #{photo.path} ..."
             else # resetting images
               log "Photo :: Updating #{photo.path} ..."
             end
             
-            photo.img_small = photo.img_large = nil
+            # photo.img_small = photo.img_large = nil
           
             photo.revision = item.revision
             photo.modified = item.modified

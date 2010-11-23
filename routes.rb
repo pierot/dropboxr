@@ -38,8 +38,8 @@ get '/manifest' do
   albums.each do |album|
     album.photos.each do |photo|
       files << "/image/#{photo.id}/medium"
-      files << "/image/#{photo.id}/huge"
-      files << "/image/#{photo.id}/large"
+      # files << "/image/#{photo.id}/huge"
+      # files << "/image/#{photo.id}/large" # only used on front-page
     end
   end
   
@@ -51,6 +51,8 @@ end
 #########################################################################################################
 ['/build/building/?', '/build/building/*'].each do |path|
   get path do
+    protected!
+    
     redirect '/build/error' unless DPC.connect
     
     unless session[:galleries].nil?
@@ -79,6 +81,8 @@ end
 end
 
 get '/build/:state' do
+  protected!
+  
   case params[:state]
   when 'done'
     @redirect_url = '/'
