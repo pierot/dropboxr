@@ -58,12 +58,21 @@ class Dropboxr
   end
   
   def get_image(path, size = '', format = '')
-    return nil unless ['small', 'medium', 'large', ''].include? size
+    return nil unless ['small', 'medium', 'large', 'huge', 'original', ''].include? size
     return nil unless ['JPEG', 'PNG', ''].include? format
+    
+    size = 'xl' if size == 'huge'
+    size = '75x75_fit_one' if size == 'medium'
+    
+    # http://forums.dropbox.com/topic.php?id=26965&replies=18
     
     connect
     
-    @session.thumbnail path, size#, format
+    if size == 'original'
+      @session.download path
+    else
+      @session.thumbnail path, {:size => size, :format => format}
+    end
   end
   
   private

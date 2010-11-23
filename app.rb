@@ -3,7 +3,7 @@ require 'sinatra'
 require 'less'
 require 'memcached'
 require 'timeout'
-#require 'manifesto-pierot'
+# require 'manifesto-pierot'
 
 require File.dirname(__FILE__) + '/vendor/manifesto-pierot-0.6.2/manifesto-pierot.rb'
 
@@ -31,6 +31,7 @@ configure do
   # Mime Types
   mime_type :ttf, 'font/ttf'
   mime_type :woff, 'font/woff'
+  mime_type :eot, 'font/eot'
   mime_type :manifest, 'text/cache-manifest'
   
   # Config files
@@ -39,8 +40,7 @@ configure do
   
   # Sinatra config variables
   set :album_excludes => albums_excludes
-  set :mc_img_s => 'img_ss_', 
-      :mc_img_l => 'img_sl_'
+  set :mc_img => 'img_s_'
   
   DPC = Dropboxr.new(@base_url, session_keys, ENV['DROPBOX_APP_SECRET'], ENV['DROPBOX_APP_KEY'])
                           

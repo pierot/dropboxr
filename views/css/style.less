@@ -1,5 +1,6 @@
 @base_color: #3366ee;
 @gray: #888;
+@light_gray: #aaa;
 @light_color: #88aaff;
 
 @footer_height: 30px;
@@ -46,7 +47,8 @@ a {
 	
 	header {
 		padding: 0px 0px 20px 0px;
-		font-size: 24px;
+		font-size: 18px;
+		color: @light_gray;
 	}
 
 	#main {
@@ -58,7 +60,7 @@ a {
 		}
 		
 		ul.gallery, ul.albums {
-			max-width: 980px;
+			/*max-width: 980px;*/
 			.clearfix;
 			
 			li {
@@ -68,25 +70,33 @@ a {
 
 		ul.albums {
 			li {
-				font-size: 14px;
-				text-align: center;
-				padding: 10px;
+				font-size: 16px;
 				overflow: hidden;
-				width: 120px;
-				height: 130px;
+				width: 148px;
+				height: 195px;
+				margin: 0 10px 10px 0px;
 				
 				:hover {
 					background: #fbfbfb;
 				}
 				
-				p {
-					margin: 0 auto;
-					width: 100px;
-					overflow: hidden;
+				figure {
+					display: block;
+					height: 128px;
+					width: 128px;
+					padding: 10px;
+					
+					img {
+						display: block;
+						margin: 0 auto;
+					}
 				}
 				
-				img {
-					margin-bottom: 5px;
+				p {
+					display: block;
+					text-align: center;
+					line-height: 1.2em;
+					padding: 0 5px 5px 5px;
 				}
 			}
 		}
@@ -96,7 +106,7 @@ a {
 				margin: 0px 20px 20px 0px;
 
 				.shadow;
-				.square_size(72px);
+				.square_size(75px);
 
 				a {
 					border: none;
@@ -108,7 +118,7 @@ a {
 						font-size: 12px;
 					}
 
-					.square_size(72px);
+					.square_size(75px);
 				}
 			}
 		}

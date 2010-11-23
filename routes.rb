@@ -37,8 +37,9 @@ get '/manifest' do
   albums = albums_excluded
   albums.each do |album|
     album.photos.each do |photo|
-      files << "/thumb/#{photo.id}"
-      files << "/image/#{photo.id}"
+      files << "/image/#{photo.id}/medium"
+      files << "/image/#{photo.id}/huge"
+      files << "/image/#{photo.id}/large"
     end
   end
   
@@ -152,47 +153,22 @@ end
 #########################################################################################################
 # IMAGES
 #########################################################################################################
-get '/thumb/:id' do 
+get '/image/:id/:size' do 
   content_type 'image/jpeg'
   
-  begin
-    image = CACHE.get(options.mc_img_s + params[:id])
-  rescue Memcached::Error
-    image_item = Photo.find(params[:id])
-    image = image_item.img_small
-
-    if image.nil? && DPC.connect
-      image = DPC.get_image image_item.path
-
-      image_item.img_small = image
-      image_item.save
-    end
-   
-    begin
-      CACHE.set(options.mc_img_s + params[:id], image)
-    rescue Memcached::Error
-      
-    end
-  end
-  
-  raise Sinatra::NotFound if image == nil
-
-  image
-end
-
-get '/image/:id' do 
-  content_type 'image/jpeg'
+  id = params[:id]
+  size = params[:size] || 'small'
   
   begin
-    image = CACHE.get(options.mc_img_l + params[:id])
+    image = CACHE.get(options.mc_img + "#{id}_#{size}")
   rescue Memcached::Error
-    image_item = Photo.find(params[:id])
-    image = DPC.get_image image_item.path, 'l'
+    image_item = Photo.find(id)
+    image = DPC.get_image image_item.path, size
 
     begin
-      CACHE.set(options.mc_img_l + params[:id], image)
+      CACHE.set(options.mc_img + "#{id}_#{size}", image)
     rescue Memcached::Error
-      
+
     end
   end
   
