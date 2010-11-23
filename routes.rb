@@ -17,12 +17,6 @@ not_found do
   'Sorry - Not Found'
 end
 
-get '/css/style.css' do
-  content_type 'text/css', :charset => 'utf-8'
-  
-  less :'css/style'
-end
-
 get '/timecheck' do
   session[:time] = Time.new if session[:time].nil?
   
