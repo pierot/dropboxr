@@ -3,7 +3,9 @@ require 'sinatra'
 require 'less'
 require 'memcached'
 require 'timeout'
-require 'manifesto-pierot'
+#require 'manifesto-pierot'
+
+require File.dirname(__FILE__) + '/vendor/manifesto-pierot-0.6.2/manifesto-pierot.rb'
 
 require File.dirname(__FILE__) + '/lib/dropboxr.rb'
 
