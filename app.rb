@@ -34,6 +34,7 @@ configure do
   mime_type :woff, 'font/woff'
   mime_type :eot, 'font/eot'
   mime_type :manifest, 'text/cache-manifest'
+  mime_type :less, 'text/plain'
   
   # Config files
   albums_excludes = YAML.load(File.read('config/excludes.yml'))
