@@ -1,5 +1,5 @@
 GIT
-  remote: git@github.com:pierot/manifesto.git
+  remote: git://github.com/pierot/manifesto.git
   revision: aad5db70f9bd1d8cceddbc7af05418fe969a1337
   specs:
     manifesto (0.6.0)
