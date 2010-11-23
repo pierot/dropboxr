@@ -1,8 +1,8 @@
 GIT
   remote: git://github.com/pierot/manifesto-pierot.git
-  revision: 8486a1dda94bcf680bf7248a947a22bffad7af25
+  revision: 84db29b8675e855b7fdc5144b9de5982ad7f3d43
   specs:
-    manifesto-pierot (0.6.0)
+    manifesto-pierot (0.6.1)
 
 GEM
   remote: http://rubygems.org/
