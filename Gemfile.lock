@@ -1,8 +1,8 @@
 GIT
-  remote: git://github.com/pierot/manifesto.git
-  revision: aad5db70f9bd1d8cceddbc7af05418fe969a1337
+  remote: git://github.com/pierot/manifesto-pierot.git
+  revision: 8486a1dda94bcf680bf7248a947a22bffad7af25
   specs:
-    manifesto (0.6.0)
+    manifesto-pierot (0.6.0)
 
 GEM
   remote: http://rubygems.org/
@@ -54,7 +54,7 @@ DEPENDENCIES
   activerecord
   dropbox (>= 1.2.0)
   less
-  manifesto!
+  manifesto-pierot!
   memcached
   rack
   sinatra
