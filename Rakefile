@@ -9,7 +9,7 @@ task :cron do
   Pony.mail :to             => 'pieter@wellconsidered.be',
             :from           => 'info@dropboxr',
             :subject        => 'Cron executed!', 
-            :via            :smtp, 
+            :via            => :smtp, 
             :via_options    => {:address                => 'smtp.gmail.com',
                                 :port                   => '587',
                                 :enable_starttls_auto   => true,
