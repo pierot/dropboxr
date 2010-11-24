@@ -7,7 +7,7 @@ task :cron do
   puts "Building galleries. #{Time.now.strftime('%Y/%m/%d %H:%M:%S')}"
   
   Pony.mail :to             => 'pieter@wellconsidered.be',
-            :from           => 'info@dropboxr',
+            :from           => 'pieter@wellconsidered.be',
             :subject        => 'Cron executed!', 
             :via            => :smtp, 
             :via_options    => {:address                => 'smtp.gmail.com',
@@ -17,6 +17,5 @@ task :cron do
                                 :password               => ENV['GMAIL_PASSWORD'],
                                 :authentication         => :plain,
                                 :domain                 => "wellconsidered.be"
-                               } # , 
-            # :attachments    => {''}
+                               }
 end
