@@ -19,9 +19,6 @@ begin
       table.column :album_id, :integer
       table.column :name, :string
       table.column :path, :string
-      #table.column :link, :string
-      #table.column :img_small, :binary
-      #table.column :img_large, :binary
       table.column :revision, :string
       table.column :modified, :string
     end
