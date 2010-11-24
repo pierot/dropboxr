@@ -1,12 +1,10 @@
-require 'rubygems'
 require 'sinatra'
 require 'memcached'
 require 'timeout'
-# require 'manifesto-pierot'
 
 require File.dirname(__FILE__) + '/vendor/manifesto-pierot-0.6.2/manifesto-pierot.rb'
 
-require File.dirname(__FILE__) + '/lib/dropboxr.rb'
+require './lib/dropboxr'
 
 use Rack::Session::Pool
 
@@ -44,7 +42,7 @@ configure do
   set :album_excludes => albums_excludes
   set :mc_img => 'img_s_'
   
-  DPC = Dropboxr.new(@base_url, session_keys, ENV['DROPBOX_APP_SECRET'], ENV['DROPBOX_APP_KEY'])
+  DPC = Dropboxr::Connector.new(@base_url, session_keys, ENV['DROPBOX_APP_SECRET'], ENV['DROPBOX_APP_KEY'])
                           
   puts "Sinatra :: Configure do #{DPC}"
 end

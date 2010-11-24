@@ -47,7 +47,7 @@ end
   get path do
     protected!
     
-    redirect '/build/error' unless DPC.connect
+    redirect '/build/error' unless DPC.authorized?
     
     unless session[:galleries].nil?
       log "Session is present.", true
@@ -161,7 +161,7 @@ get '/image/:id/:size' do
     image = CACHE.get(options.mc_img + "#{id}_#{size}")
   rescue Memcached::Error
     image_item = Photo.find(id)
-    image = DPC.get_image image_item.path, size
+    image = DPC.get_image image_item.path, {:size => size}
 
     begin
       CACHE.set(options.mc_img + "#{id}_#{size}", image)
