@@ -2,9 +2,8 @@ require 'sinatra'
 require 'memcached'
 require 'timeout'
 
-require File.dirname(__FILE__) + '/vendor/manifesto-pierot-0.6.2/manifesto-pierot.rb'
-
-require './lib/dropboxr'
+require 'manifesto-pierot-0.6.2/manifesto-pierot.rb'
+require 'dropboxr'
 
 use Rack::Session::Pool
 
@@ -19,6 +18,7 @@ configure :development do
   
   ENV['DROPBOX_APP_SECRET'] = app_vars['secret'] # local
   ENV['DROPBOX_APP_KEY'] = app_vars['key'] # local
+  
   ENV['AUTH_LOGIN'] = app_vars['login'] # local
   ENV['AUTH_PASS'] = app_vars['pass'] # local
 end
