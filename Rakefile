@@ -1,10 +1,12 @@
 require 'pony'
 
-task :default => :build
+# task :default => :build
 
 desc 'Maintain galleries'
 task :cron do
   puts "Building galleries. #{Time.now.strftime('%Y/%m/%d %H:%M:%S')}"
+  
+  
   
   Pony.mail :to             => 'pieter@wellconsidered.be',
             :from           => 'pieter@wellconsidered.be',

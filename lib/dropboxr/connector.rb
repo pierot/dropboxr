@@ -5,6 +5,7 @@ module Dropboxr
   class Connector
     
     include Calls
+    include Collector
     
     def initialize(redirect_url, session_key, secret, key)
       @redirect_url = redirect_url

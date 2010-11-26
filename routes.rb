@@ -28,13 +28,10 @@ get '/manifest' do
   
   files = []
   
-  albums = albums_excluded
+  albums = albums_excluding
+  
   albums.each do |album|
-    album.photos.each do |photo|
-      files << "/image/#{photo.id}/medium"
-      # files << "/image/#{photo.id}/huge"
-      # files << "/image/#{photo.id}/large" # only used on front-page
-    end
+    album.photos.each { |photo| files << "/image/#{photo.id}/medium" }
   end
   
   Manifesto.cache :files => files
@@ -49,26 +46,63 @@ end
     
     redirect '/build/error' unless DPC.authorized?
     
-    unless session[:galleries].nil?
-      log "Session is present.", true
-    end
+    galleries = DPC.collect options.album_excludes
     
-    session[:galleries] = DPC.get_galleries if session[:galleries].nil? # Fetch from session, reduce Dropbox calls
-    galleries = session[:galleries]
-    
-    session[:galleries_photos] = {} if session[:galleries_photos].nil?
-    
-    log "Rebuilding #{galleries.length} galleries.", true
-    
-    begin
-      Timeout::timeout(20) do
-        galleries.each { |gallery| load_gallery gallery if gallery.directory? && !(options.album_excludes.include? gallery.path) }
+    galleries.each do |gallery|
+      album = Album.find_or_create_by_name gallery.name
+
+      log "Building :: #{album.modified} != #{gallery.modified}"
+
+      if album.modified != gallery.modified.to_s
+        log "Gallery :: Creating or Updating #{album.name} modified on: #{gallery.modified.to_s} <> #{album.modified}", true
+
+        gallery.photos.each do |item|
+          photo = album.photos.find_or_create_by_path(item.path)
+
+          if photo.name.nil? || photo.modified != item.modified
+            if photo.name.nil? # new
+              photo.name = item.name
+              photo.path = item.path
+
+              log "Photo :: Creating #{photo.path} ..."
+            else
+              log "Photo :: Updating #{photo.path} ..."
+            end
+
+            photo.revision = item.revision
+            photo.modified = item.modified
+
+            photo.save
+            album.save
+          end
+        end
+
+        album.path = gallery.path
+        album.modified = gallery.modified
+        album.save
       end
-    rescue Timeout::Error
-      log "Rebuilding took too long. We'll continue after the break.", true
-      
-      redirect "/build/building/#{rand(99999999999)}"
     end
+    
+    # unless session[:galleries].nil?
+    #  log "Session is present.", true
+    # end
+    
+    # session[:galleries] = DPC.get_galleries if session[:galleries].nil? # Fetch from session, reduce Dropbox calls
+    # galleries = session[:galleries]
+    
+    # session[:galleries_photos] = {} if session[:galleries_photos].nil?
+    
+    # log "Rebuilding #{galleries.length} galleries.", true
+    
+    # begin
+    #   Timeout::timeout(20) do
+    #     galleries.each { |gallery| load_gallery gallery if gallery.directory? && !(options.album_excludes.include? gallery.path) }
+    #   end
+    # rescue Timeout::Error
+    #   log "Rebuilding took too long. We'll continue after the break.", true
+    #   
+    #   redirect "/build/building/#{rand(99999999999)}"
+    # end
     
     redirect '/build/done'
   end

@@ -10,7 +10,7 @@ helpers do
     photo.id
   end
   
-  def albums_excluded
+  def albums_excluding
     albums = Album.all() # Should make sure the 'not in' is in the query or so .... :conditions => {:path => })
     albums.each { |alb| albums.delete(alb) if options.album_excludes.include? alb.path }
     
@@ -34,49 +34,49 @@ helpers do
     puts message unless verbose
   end
   
-  def load_gallery(gallery)
-    album = Album.find_or_create_by_name gallery.path.split(/\//)[gallery.path.split(/\//).length - 1].to_s
-
-    log ":: #{album.modified} != #{gallery.modified.to_s}"
-
-    if album.modified != gallery.modified.to_s
-      log "Gallery :: Creating or Updating #{album.name} modified on: #{gallery.modified.to_s} <> #{album.modified}", true # -> (#{gallery.inspect})"
-
-      # saving in session
-      session[:galleries_photos][album.id] = DPC.get_photos gallery.path if session[:galleries_photos][album.id].nil?
-      photos = session[:galleries_photos][album.id]
-
-      photos.sort!{ |a, b| a.path <=> b.path }
-
-      photos.each do |item|
-        if defined? item.mime_type && item.mime_type == "image/jpeg"
-          photo = album.photos.find_or_create_by_path(item.path)
-          
-          if photo.name.nil? || photo.modified != item.modified
-            if photo.name.nil? # new
-              photo.name = item.path.scan(/([^\/]+)(?=\.\w+$)/)[0][0].to_s
-              photo.path = item.path
-              # photo.link = DPC.get_link item.path
-              
-              log "Photo :: Creating #{photo.path} ..."
-            else # resetting images
-              log "Photo :: Updating #{photo.path} ..."
-            end
-            
-            # photo.img_small = photo.img_large = nil
-          
-            photo.revision = item.revision
-            photo.modified = item.modified
-            
-            photo.save
-            album.save
-          end
-        end
-      end
-      
-      album.path = gallery.path
-      album.modified = gallery.modified.to_s
-      album.save
-    end
-  end
+  # def load_gallery(gallery)
+  #   album = Album.find_or_create_by_name gallery.path.split(/\//)[gallery.path.split(/\//).length - 1].to_s
+  # 
+  #   log ":: #{album.modified} != #{gallery.modified.to_s}"
+  # 
+  #   if album.modified != gallery.modified.to_s
+  #     log "Gallery :: Creating or Updating #{album.name} modified on: #{gallery.modified.to_s} <> #{album.modified}", true # -> (#{gallery.inspect})"
+  # 
+  #     # saving in session
+  #     session[:galleries_photos][album.id] = DPC.get_photos gallery.path if session[:galleries_photos][album.id].nil?
+  #     photos = session[:galleries_photos][album.id]
+  # 
+  #     photos.sort!{ |a, b| a.path <=> b.path }
+  # 
+  #     photos.each do |item|
+  #       if defined? item.mime_type && item.mime_type == "image/jpeg"
+  #         photo = album.photos.find_or_create_by_path(item.path)
+  #         
+  #         if photo.name.nil? || photo.modified != item.modified
+  #           if photo.name.nil? # new
+  #             photo.name = item.path.scan(/([^\/]+)(?=\.\w+$)/)[0][0].to_s
+  #             photo.path = item.path
+  #             # photo.link = DPC.get_link item.path
+  #             
+  #             log "Photo :: Creating #{photo.path} ..."
+  #           else # resetting images
+  #             log "Photo :: Updating #{photo.path} ..."
+  #           end
+  #           
+  #           # photo.img_small = photo.img_large = nil
+  #         
+  #           photo.revision = item.revision
+  #           photo.modified = item.modified
+  #           
+  #           photo.save
+  #           album.save
+  #         end
+  #       end
+  #     end
+  #     
+  #     album.path = gallery.path
+  #     album.modified = gallery.modified.to_s
+  #     album.save
+  #   end
+  # end
 end
