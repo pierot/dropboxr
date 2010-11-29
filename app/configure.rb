@@ -1,3 +1,13 @@
+require 'sinatra'
+require 'memcached'
+require 'timeout'
+
+$: << File.join(File.dirname(__FILE__), '..', 'lib')
+$: << File.join(File.dirname(__FILE__), '..', 'vendor')
+
+require 'manifesto-pierot-0.6.2/manifesto-pierot.rb'
+require 'dropboxr'
+
 use Rack::Session::Pool
 
 configure :development do
@@ -13,7 +23,7 @@ configure :development do
 end
 
 configure do
-  set :root, File.dirname(__FILE__) + '/../'
+  set :root, File.join(File.dirname(__FILE__), '..')
   
   # Global constants
   CACHE = Memcached.new
