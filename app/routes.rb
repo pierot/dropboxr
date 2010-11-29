@@ -27,7 +27,6 @@ get '/manifest' do
   headers 'Content-Type' => 'text/cache-manifest' # Must be served with this MIME type
   
   files = []
-  
   albums = albums_excluding
   
   albums.each do |album|
