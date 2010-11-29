@@ -83,27 +83,6 @@ end
       end
     end
     
-    # unless session[:galleries].nil?
-    #  log "Session is present.", true
-    # end
-    
-    # session[:galleries] = DPC.get_galleries if session[:galleries].nil? # Fetch from session, reduce Dropbox calls
-    # galleries = session[:galleries]
-    
-    # session[:galleries_photos] = {} if session[:galleries_photos].nil?
-    
-    # log "Rebuilding #{galleries.length} galleries.", true
-    
-    # begin
-    #   Timeout::timeout(20) do
-    #     galleries.each { |gallery| load_gallery gallery if gallery.directory? && !(options.album_excludes.include? gallery.path) }
-    #   end
-    # rescue Timeout::Error
-    #   log "Rebuilding took too long. We'll continue after the break.", true
-    #   
-    #   redirect "/build/building/#{rand(99999999999)}"
-    # end
-    
     redirect '/build/done'
   end
 end
