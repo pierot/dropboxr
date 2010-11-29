@@ -35,6 +35,8 @@ module DropboxrHelpers
           album.path = gallery.path
           album.modified = gallery.modified
           album.save
+          
+          puts "Gallery :: Saved #{album.name}"
         end
       end
     rescue Exception => e
