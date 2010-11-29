@@ -34,6 +34,8 @@ get '/manifest' do
     album.photos.each { |photo| files << "/image/#{photo.id}/medium" }
   end
   
+  files << request.referer
+  
   Manifesto.cache :files => files
 end
 
@@ -46,44 +48,13 @@ end
     
     redirect '/build/error' unless DPC.authorized?
     
-    galleries = DPC.collect options.album_excludes
+    all_fine, message = build_galleries
     
-    galleries.each do |gallery|
-      album = Album.find_or_create_by_name gallery.name
-
-      log "Building :: #{album.modified} != #{gallery.modified}"
-
-      if album.modified != gallery.modified.to_s
-        log "Gallery :: Creating or Updating #{album.name} modified on: #{gallery.modified.to_s} <> #{album.modified}", true
-
-        gallery.photos.each do |item|
-          photo = album.photos.find_or_create_by_path(item.path)
-
-          if photo.name.nil? || photo.modified != item.modified
-            if photo.name.nil? # new
-              photo.name = item.name
-              photo.path = item.path
-
-              log "Photo :: Creating #{photo.path} ..."
-            else
-              log "Photo :: Updating #{photo.path} ..."
-            end
-
-            photo.revision = item.revision
-            photo.modified = item.modified
-
-            photo.save
-            album.save
-          end
-        end
-
-        album.path = gallery.path
-        album.modified = gallery.modified
-        album.save
-      end
+    if all_fine
+      redirect '/build/done'
+    else
+      redirect '/build/error'
     end
-    
-    redirect '/build/done'
   end
 end
 

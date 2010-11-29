@@ -5,14 +5,15 @@ module Dropboxr
     Gallery = Struct.new(:name, :path, :modified, :photos)
     Photo = Struct.new(:path, :name, :revision, :modified)
     
-    def collect(album_excludes)
+    def collect(dir_excludes = [])
+      dir_excludes = directory_excludes if dir_excludes.empty?
       items = get_galleries
       galleries = []
       
-      puts "Rebuilding #{items.length} galleries."
+      puts "Dropboxr::Connector::Collector.Collect #{items.length} galleries."
       
       items.each do |item| 
-        if item.directory? && !(album_excludes.include? item.path)
+        if item.directory? && !(dir_excludes.include? item.path)
           galleries << collect_gallery(item)
         end
       end
@@ -21,7 +22,7 @@ module Dropboxr
     end
   
     def collect_gallery(gallery)
-      puts "Load Gallery #{gallery.path}"
+      puts "Dropboxr::Connector::Collector.CollectGallery #{gallery.path}"
       
       items = get_photos gallery.path
       items.sort!{ |a, b| a.path <=> b.path }

@@ -9,13 +9,21 @@ end
 
 desc 'Maintain galleries'
 task :cron do
-  puts "Building galleries. #{Time.now.strftime('%Y/%m/%d %H:%M:%S')}"
+  puts "Cron. Building galleries. #{Time.now.strftime('%Y/%m/%d %H:%M:%S')}"
   
+  require './app/app'
   
+  include DropboxrHelpers
   
+  all_fine, extra_info = build_galleries
+  
+  body = extra_info.to_s
+  subject = all_fine ? "Cron Executed!" : "Cron Failed!"
+
   Pony.mail :to             => 'pieter@wellconsidered.be',
             :from           => 'pieter@wellconsidered.be',
-            :subject        => 'Cron executed!', 
+            :subject        => subject, 
+            :body           => body, 
             :via            => :smtp, 
             :via_options    => {:address                => 'smtp.gmail.com',
                                 :port                   => '587',

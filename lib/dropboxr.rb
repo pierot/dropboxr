@@ -1,6 +1,8 @@
-require File.dirname(__FILE__) + '/dropboxr/collector.rb'
-require File.dirname(__FILE__) + '/dropboxr/calls.rb'
-require File.dirname(__FILE__) + '/dropboxr/connector.rb'
+$: << File.expand_path(File.dirname(__FILE__))
+
+require 'dropboxr/collector.rb'
+require 'dropboxr/calls.rb'
+require 'dropboxr/connector.rb'
 
 # Container Module
 

@@ -1,13 +1,3 @@
-require 'sinatra'
-require 'memcached'
-require 'timeout'
-
-$: << File.join(File.dirname(__FILE__), '..', 'lib')
-$: << File.join(File.dirname(__FILE__), '..', 'vendor')
-
-require 'manifesto-pierot-0.6.2/manifesto-pierot.rb'
-require 'dropboxr'
-
 use Rack::Session::Pool
 
 configure :development do
@@ -20,6 +10,9 @@ configure :development do
   
   ENV['AUTH_LOGIN'] = app_vars['login'] # local
   ENV['AUTH_PASS'] = app_vars['pass'] # local
+  
+  ENV['GMAIL_USER'] = app_vars['gmail_email']
+  ENV['GMAIL_PASSWORD'] = app_vars['gmail_pass']
 end
 
 configure do
@@ -40,10 +33,12 @@ configure do
   session_keys = YAML.load(File.read('config/dropbox-session-keys.yml'))
   
   # Sinatra config variables
-  set :album_excludes => albums_excludes
   set :mc_img => 'img_s_'
+  set :album_excludes => albums_excludes
   
-  DPC = Dropboxr::Connector.new(@base_url, session_keys, ENV['DROPBOX_APP_SECRET'], ENV['DROPBOX_APP_KEY'])
-                          
-  puts "Sinatra :: Configure do #{DPC}"
+  # Dropboxr
+  DPC = Dropboxr::Connector.new(session_keys, ENV['DROPBOX_APP_SECRET'], ENV['DROPBOX_APP_KEY'])
+  
+  DPC.redirect_url = @base_url
+  DPC.directory_excludes = albums_excludes
 end
