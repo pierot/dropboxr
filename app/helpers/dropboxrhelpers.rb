@@ -9,7 +9,7 @@ module DropboxrHelpers
         puts "DropboxrHelpers :: BuildGalleries :: Building :: #{album.modified} != #{gallery.modified}"
 
         if album.modified != gallery.modified.to_s
-          puts "Gallery :: Creating or Updating #{album.name} modified on: #{gallery.modified.to_s} <> #{album.modified}", true
+          puts "Gallery :: Creating or Updating #{album.name} modified on: #{gallery.modified.to_s} <> #{album.modified}"
 
           gallery.photos.each do |item|
             photo = album.photos.find_or_create_by_path(item.path)
