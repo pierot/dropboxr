@@ -110,7 +110,7 @@ end
 # BASE PAGES
 #########################################################################################################
 get '/' do
-  @albums = albums_excluded
+  @albums = albums_excluding
   
   redirect '/empty' if @albums.length == 0
   

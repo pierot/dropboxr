@@ -1,6 +1,11 @@
 require 'pony'
 
-# task :default => :build
+task :default => :run
+
+desc 'Run app'
+task :run do 
+  system "rackup -s thin"
+end
 
 desc 'Maintain galleries'
 task :cron do
