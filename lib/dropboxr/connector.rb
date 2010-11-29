@@ -7,7 +7,7 @@ module Dropboxr
     include Calls
     include Collector
     
-    attr_accessor :redirect_url, :directory_excludes
+    attr_accessor :redirect_url, :directory_excludes, :cache
     
     def initialize(session_key, secret, key)
       # session key from yml file
@@ -20,6 +20,7 @@ module Dropboxr
       
       directory_excludes = []
       redirect_url = ''
+      cache = false
     end
    
     def authorized?
@@ -48,7 +49,7 @@ module Dropboxr
         @session = Dropbox::Session.deserialize(@session_serialized)
       end
     
-      @session.enable_memoization
+      @session.enable_memoization if cache
     end
     
   end
