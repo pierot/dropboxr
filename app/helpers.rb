@@ -9,7 +9,7 @@ helpers do
     album = Album.find(album_id)
     photo = album.photos.find(:first)
     
-    photo.id
+    photo.object_id
   end
   
   def albums_excluding
