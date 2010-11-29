@@ -53,6 +53,8 @@ end
     if all_fine
       redirect '/build/done'
     else
+      p message
+      
       redirect '/build/error'
     end
   end
