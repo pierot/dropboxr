@@ -33,7 +33,7 @@ configure do
   session_keys = YAML.load(File.read('config/dropbox-session-keys.yml'))
   
   # Sinatra config variables
-  set :mc_img => 'img_s_'
+  set :mc_img => 'img_ss_'
   set :album_excludes => albums_excludes
   
   # Dropboxr
