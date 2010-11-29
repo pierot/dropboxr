@@ -42,3 +42,7 @@ configure do
   DPC.redirect_url = @base_url
   DPC.directory_excludes = albums_excludes
 end
+
+configure :staging do
+  CACHE = Memcached.new 'localhost:0'
+end

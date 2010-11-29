@@ -15,7 +15,7 @@ helpers do
   def albums_excluding
     albums = Album.all() # Should make sure the 'not in' is in the query or so .... :conditions => {:path => })
     albums.each { |alb| albums.delete(alb) if options.album_excludes.include? alb.path }
-    p albums
+
     albums
   end
   
