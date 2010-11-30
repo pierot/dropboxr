@@ -143,13 +143,13 @@ get '/image/:id/:size' do
   size = params[:size] || 'small'
   
   begin
-    image = options.cache.get(options.mc_img + "#{id}_#{size}")
+    image = settings.cache.get(settings.mc_img + "#{id}_#{size}")
   rescue Memcached::Error
     image_item = Photo.find(id)
-    image = options.cache.get_image image_item.path, {:size => size}
+    image = settings.dpc.get_image image_item.path, {:size => size}
 
     begin
-      options.cache.set(options.mc_img + "#{id}_#{size}", image)
+      settings.cache.set(settings.mc_img + "#{id}_#{size}", image)
     rescue Memcached::Error
 
     end
