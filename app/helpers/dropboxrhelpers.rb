@@ -1,7 +1,7 @@
 module DropboxrHelpers
   def build_galleries
     begin
-      galleries = settings.collect
+      galleries = settings.dpc.collect
 
       galleries.each do |gallery|
         album = Album.find_or_create_by_name gallery.name
