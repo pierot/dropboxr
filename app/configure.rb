@@ -44,5 +44,5 @@ configure do
 end
 
 configure :staging do
-  cache = nil
+  cache = nil # no caching available
 end
