@@ -45,7 +45,7 @@ end
   get path do
     protected!
     
-    redirect '/build/error' unless DPC.authorized?
+    redirect '/build/error' unless settings.authorized?
     
     all_fine, message = build_galleries
     
