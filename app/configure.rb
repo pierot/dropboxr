@@ -39,10 +39,10 @@ configure do
   # Dropboxr
   set :dpc => Dropboxr::Connector.new(session_keys, ENV['DROPBOX_APP_SECRET'], ENV['DROPBOX_APP_KEY'])
   
-  options.dpc.redirect_url = @base_url
-  options.dpc.directory_excludes = albums_excludes
+  dpc.redirect_url = @base_url
+  dpc.directory_excludes = albums_excludes
 end
 
 configure :staging do
-  options.cache = nil
+  cache = nil
 end
