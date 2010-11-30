@@ -19,7 +19,7 @@ configure do
   set :root, File.join(File.dirname(__FILE__), '..')
   
   # Global constants
-  CACHE = Memcached.new
+  set :cache = Memcached.new
   
   # Mime Types
   mime_type :ttf, 'font/ttf'
@@ -37,12 +37,12 @@ configure do
   set :album_excludes => albums_excludes
   
   # Dropboxr
-  DPC = Dropboxr::Connector.new(session_keys, ENV['DROPBOX_APP_SECRET'], ENV['DROPBOX_APP_KEY'])
+  set :dpc = Dropboxr::Connector.new(session_keys, ENV['DROPBOX_APP_SECRET'], ENV['DROPBOX_APP_KEY'])
   
-  DPC.redirect_url = @base_url
-  DPC.directory_excludes = albums_excludes
+  options.dpc.redirect_url = @base_url
+  options.dpc.directory_excludes = albums_excludes
 end
 
 configure :staging do
-  CACHE = Memcached.new 'localhost:0'
+  options.cache = nil
 end
