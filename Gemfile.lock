@@ -13,7 +13,7 @@ GEM
     activesupport (3.0.3)
     arel (2.0.4)
     builder (2.1.2)
-    dropbox (1.2.0)
+    dropbox (1.2.2)
       json (>= 1.2.0)
       mechanize (>= 1.0.0)
       multipart-post (>= 1.0)
@@ -50,7 +50,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord
-  dropbox (>= 1.2.0)
+  dropbox (>= 1.2.2)
   memcached
   pony
   rack

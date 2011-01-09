@@ -3,7 +3,7 @@ development:
     database: db/photos.db
     timeout: 25000
   
-staging: # Heroku
+staging: # dropboxr.heroku.com
     encoding: unicode
     adapter: postgresql
     username: damaxqgdif
@@ -12,7 +12,7 @@ staging: # Heroku
     database: damaxqgdif
     password: f5lxx1zz5pnorynqglhzmsp34
   
-production: # Fotos
+production: # fotos.heroku.com
     encoding: unicode
     adapter: postgresql
     username: mzrdmhlqax

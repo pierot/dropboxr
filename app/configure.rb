@@ -3,7 +3,7 @@ use Rack::Session::Pool
 configure :development do
   disable :run
   
-  app_vars = YAML.load(File.read('config/dev-vars.yml'))
+  app_vars = YAML.load File.read('config/dev-vars.yml')
   
   ENV['DROPBOX_APP_SECRET'] = app_vars['secret'] # local
   ENV['DROPBOX_APP_KEY'] = app_vars['key'] # local
@@ -29,8 +29,8 @@ configure do
   mime_type :less, 'text/plain'
   
   # Config files
-  albums_excludes = YAML.load(File.read('config/excludes.yml'))
-  session_keys = YAML.load(File.read('config/dropbox-session-keys.yml'))
+  albums_excludes = YAML.load File.read('config/excludes.yml')
+  session_keys = YAML.load File.read('config/dropbox-session-keys.yml')
   
   # Sinatra config variables
   set :mc_img => 'img_ss_'
