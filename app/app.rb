@@ -1,5 +1,4 @@
 require 'sinatra'
-require 'memcached'
 require 'timeout'
 
 $: << File.join(File.dirname(__FILE__), '..', 'app')

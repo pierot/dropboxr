@@ -19,9 +19,6 @@ configure do
   set :root, File.join(File.dirname(__FILE__), '..')
   set :cache_data, File.join(File.dirname(__FILE__), '../db/data')
   
-  # Global constants
-  set :cache => Memcached.new # if available we'll use it
-  
   # Mime Types
   mime_type :ttf, 'font/ttf'
   mime_type :woff, 'font/woff'

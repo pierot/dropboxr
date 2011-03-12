@@ -28,7 +28,6 @@ GEM
       treetop (~> 1.4.8)
     mechanize (1.0.0)
       nokogiri (>= 1.2.1)
-    memcached (1.0.2)
     mime-types (1.16)
     multipart-post (1.0.1)
     nokogiri (1.4.4)
@@ -53,7 +52,6 @@ DEPENDENCIES
   activerecord
   database_cleaner
   dropbox (>= 1.2.2)
-  memcached
   pony
   rack
   sinatra
