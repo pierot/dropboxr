@@ -71,6 +71,12 @@ get '/build/:state' do
     @redirect_url = '/build/building/'
     
     erb :'build/start'
+  when 'reset'
+    @redirect_url = '/build/start'
+    
+    DatabaseCleaner.clean
+    
+    redirect @redirect_url
   when 'error'
     erb :'build/error'
   else
@@ -139,22 +145,56 @@ end
 get '/image/:id/:size' do 
   content_type 'image/jpeg'
   
+  memcache = true
+  
+  begin 
+    settings.cache.get('not_found')
+  rescue Memcached::Error
+    memcache = false
+  end
+  
   id = params[:id]
   size = params[:size] || 'small'
+  image_file_path = "#{settings.cache_data}/#{size}_#{id}.jpg"
+  file_exists = false
   
-  begin
-    image = settings.cache.get(settings.mc_img + "#{id}_#{size}")
-  rescue Memcached::Error
-    image_item = Photo.find(id)
-    image = settings.dpc.get_image image_item.path, {:size => size}
-
+  if memcache
     begin
-      settings.cache.set(settings.mc_img + "#{id}_#{size}", image)
+      image = settings.cache.get(settings.mc_img + "#{id}_#{size}")
     rescue Memcached::Error
-
+      image = nil
+    end
+  else  
+    if file_exists = File.exists?(image_file_path)
+      image = File.open(image_file_path, 'rb') { |file| file.read }
     end
   end
   
+  if image.nil?
+    begin
+      image_item = Photo.find(id)
+      image = settings.dpc.get_image image_item.path, {:size => size}
+    rescue ActiveRecord::RecordNotFound
+      # silent
+    end
+  end
+  
+  if memcache
+    begin
+      settings.cache.set(settings.mc_img + "#{id}_#{size}", image)
+    rescue Memcached::Error
+      # silent
+    end
+  else
+    unless image.nil? && !file_exists
+      puts "Save image to disk :: #{image_file_path}"
+      
+      File.open(image_file_path, "wb") do |f|
+        f.write(image)
+      end
+    end
+  end
+ 
   raise Sinatra::NotFound if image == nil
 
   image
