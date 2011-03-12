@@ -31,7 +31,6 @@ configure do
   session_keys = YAML.load File.read('config/dropbox-session-keys.yml')
   
   # Sinatra config variables
-  set :mc_img => 'img_ss_'
   set :album_excludes => albums_excludes
   
   # Dropboxr
@@ -39,8 +38,4 @@ configure do
   
   settings.dpc.redirect_url = @base_url
   settings.dpc.directory_excludes = albums_excludes
-end
-
-configure :staging do
-  cache = nil # no caching available
 end
