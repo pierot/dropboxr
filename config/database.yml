@@ -1,22 +1,14 @@
-development:
-    adapter: sqlite3
-    database: db/photos.db
-    timeout: 25000
+development: &defaults
+  adapter: sqlite3
+  database: db/photos.db
+  timeout: 25000
   
-staging: # dropboxr.heroku.com
-    encoding: unicode
-    adapter: postgresql
-    username: damaxqgdif
-    port: 5432
-    host: @ec2-184-72-226-117.compute-1.amazonaws.com
-    database: damaxqgdif
-    password: f5lxx1zz5pnorynqglhzmsp34
-  
-production: # fotos.heroku.com
-    encoding: unicode
-    adapter: postgresql
-    username: mzrdmhlqax
-    port: 5432
-    host: @ec2-184-72-255-44.compute-1.amazonaws.com
-    database: mzrdmhlqax
-    password: f5lxx1zz5pnorynqglhzmsp34
+production: # fotos.noort.be
+  <<: *defaults
+  #encoding: unicode
+  #adapter: postgresql
+  #username: mzrdmhlqax
+  #port: 5432
+  #host: @ec2-184-72-255-44.compute-1.amazonaws.com
+  #database: mzrdmhlqax
+  #password: f5lxx1zz5pnorynqglhzmsp34
