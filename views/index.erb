@@ -4,9 +4,7 @@
 <% for album in @albums %>
 	<li>
 		<a href="/gallery/<%= album.id %>">
-			<figure>
-				<img src="/image/<%= album_photo album.id %>/large" alt="<%= album.name %>">
-			</figure>
+			<img src="/image/<%= album_photo album.id %>/large" alt="<%= album.name %>">
 			<p><%= album.name %></p>
 		</a>
 	</li>
