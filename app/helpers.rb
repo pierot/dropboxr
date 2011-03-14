@@ -29,7 +29,7 @@ helpers do
   
   def authorized?
     @auth ||= Rack::Auth::Basic::Request.new(request.env)
-    @auth.provided? && @auth.basic? && @auth.credentials && @auth.credentials == [ENV['AUTH_LOGIN'], ENV['AUTH_PASS']]
+    @auth.provided? && @auth.basic? && @auth.credentials && @auth.credentials == [settings.auth_login, settings.auth_pass]
   end
   
   def log(message, verbose = false)
