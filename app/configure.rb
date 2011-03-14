@@ -11,11 +11,11 @@ configure do
   # Settings
   app_vars = YAML.load File.read('config/dev-vars.yml')
   
-  settings.dropbox_app_secret = app_vars['secret']
-  settings.dropbox_app_key = app_vars['key']
+  dropbox_app_secret = app_vars['secret']
+  dropbox_app_key = app_vars['key']
   
-  settings.auth_login = app_vars['login']
-  settings.auth_pass = app_vars['pass']
+  set :auth_login, app_vars['login']
+  set :auth_pass, app_vars['pass']
   
   # Mime Types
   mime_type :ttf, 'font/ttf'
@@ -32,7 +32,7 @@ configure do
   set :album_excludes => albums_excludes
   
   # Dropboxr
-  set :dpc => Dropboxr::Connector.new(session_keys, settings.dropbox_app_secret, settings.dropbox_app_key)
+  set :dpc => Dropboxr::Connector.new(session_keys, dropbox_app_secret, dropbox_app_key)
   
   settings.dpc.redirect_url = @base_url
   settings.dpc.directory_excludes = albums_excludes
