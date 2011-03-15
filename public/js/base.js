@@ -4,12 +4,14 @@ $(document).ready(function(){
 		$(this).parent().css('border', 'none');
 	});
 	
-	/*$('ul.gallery li a').fancybox({
-		'transitionIn': 'elastic',
-		'transitionOut': 'elastic',
-		'speedIn': 600, 
-		'speedOut': 200, 
-		'overlayShow': false
-	});*/
-	
 });
+
+// iOS fix
+var a = document.getElementsByTagName("a");
+
+for(var i = 0; i < a.length; i++) {
+    a[i].onclick=function() {
+        window.location=this.getAttribute("href");
+        return false;
+    }
+}

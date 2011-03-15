@@ -1,6 +1,6 @@
 @media only screen and (device-width: 768px) { /* For general iPad layouts */
-  #wrapper {
-		margin: 20px 0px 0px 20px;
+	#wrapper {
+		margin: 20px 20px 0px 20px;
 	} 
 
 	#wrapper #main ul.albums li {
@@ -50,6 +50,10 @@
 		margin-top: 40px;
 		position: static;
 	}
+}
+
+@media only screen and (max-device-width: 1024px) and (orientation:landscape) {
+
 }
 
 @media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait) {
