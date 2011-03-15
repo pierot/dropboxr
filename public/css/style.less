@@ -1,3 +1,25 @@
+/*
+Copyright (c) 2010, Yahoo! Inc. All rights reserved.
+Code licensed under the BSD License:
+http://developer.yahoo.com/yui/license.html
+version: 2.8.1
+*/
+html{color:#000;background:#FFF;}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td{margin:0;padding:0;}table{border-collapse:collapse;border-spacing:0;}
+fieldset,img{border:0;}
+address,caption,cite,code,dfn,em,strong,th,var,optgroup{font-style:inherit;font-weight:inherit;}
+del,ins{text-decoration:none;}
+li{list-style:none;}caption,th{text-align:left;}
+h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}
+q:before,q:after{content:'';}
+abbr,acronym{border:0;font-variant:normal;}
+sup, sub{vertical-align:baseline;}
+legend{color:#000;}
+input,button,textarea,select,optgroup,option{font-family:inherit;font-size:inherit;font-style:inherit;font-weight:inherit;}
+input,button,textarea,select{*font-size:100%;}
+
+/************************************************************************************************************************************/
+
 @base_color: #3366ee;
 @gray: #888;
 @light_gray: #aaa;
@@ -7,9 +29,9 @@
 @footer_height: 30px;
 
 .shadow (@radius: 5px){
-  -moz-box-shadow: @radius @radius @radius #e1e1e1;
-  -webkit-box-shadow: @radius @radius @radius #e1e1e1;
-  box-shadow: @radius @radius @radius #e1e1e1;
+	-webkit-box-shadow: @radius @radius @radius #e1e1e1;	
+		 -moz-box-shadow: @radius @radius @radius #e1e1e1;
+  				box-shadow: @radius @radius @radius #e1e1e1;
 }
 
 .square_size (@size: 100px) {
@@ -71,19 +93,14 @@ a {
 			margin-bottom: 20px;
 		}
 		
-		ul.gallery, ul.albums {
-			/*max-width: 980px;*/
+		ul.albums {
+			@photo_width: 130px;
+			
 			.clearfix;
 			
 			li {
 				float: left;
-			}
-		}
-
-		ul.albums {
-			li {
 				font-size: 16px;
-				overflow: hidden;
 				margin: 0 20px 20px 0px;
 				border: 1px solid #e2e2e2;
 				
@@ -92,9 +109,9 @@ a {
 				a {
 					display: block;
 					background: #fff;
-					padding: 10px 10px 10px 10px;
+					padding: 10px;
 					position: relative;
-					width: 130px;
+					min-width: @photo_width;
 					height: 170px;
 					border: 0px;
 					
@@ -111,12 +128,11 @@ a {
 					}
 				
 					p {
-						display: block;
 						position: absolute;
 						text-align: center;
 						line-height: 1.2em;
 						bottom: 10px;
-						width: 130px;
+						width: @photo_width;
 					}
 				}
 			}
