@@ -35,4 +35,23 @@ helpers do
   def log(message, verbose = false)
     puts message unless verbose
   end
+  
+  def prev_next_photos(photos, photo_id)
+    photo_next = photos[0] if photos.length > 0
+    photo_prev = photos[photos.length - 1] if photos.length > 0
+    curr_photo = nil
+    
+    photos.each_with_index do |photo, index|
+      if photo.id == photo_id
+        photo_prev = photos[index - 1] unless photos[index - 1].nil?
+        photo_next = photos[index + 1] unless photos[index + 1].nil?
+        
+        curr_photo = photo
+        
+        break
+      end
+    end
+    
+    return curr_photo, photo_next, photo_prev
+  end
 end

@@ -9,6 +9,10 @@ before do
   end
 end
 
+before '/build/*' do
+  protected!
+end
+
 error do
   'Sorry there was a nasty error - ' + request.env['sinatra.error'].name
 end
@@ -43,8 +47,6 @@ end
 #########################################################################################################
 ['/build/building/?', '/build/building/*'].each do |path|
   get path do
-    protected!
-    
     redirect '/build/error' unless settings.dpc.authorized?
     
     all_fine, message = build_galleries
@@ -60,8 +62,6 @@ end
 end
 
 get '/build/:state' do
-  protected!
-  
   case params[:state]
   when 'done'
     @redirect_url = '/'
@@ -111,32 +111,23 @@ get '/gallery/:album' do
   erb :gallery
 end
 
-get '/gallery/:album/image/:id' do 
-    begin
-      @album = Album.find(params[:album])
-      # @photo = @album.photos.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      redirect '/' # back
-    end
+get %r{/gallery/([\w]+)/(image|slide)/([\w]+)} do
+  param_album = params[:captures][0]
+  param_type  = params[:captures][1]
+  param_photo = params[:captures][2]
+  
+  begin
+    @album = Album.find(param_album)
+  rescue ActiveRecord::RecordNotFound
+    redirect '/' # back
+  end
+  
+  @photos = @album.photos 
+  @photo, @photo_next, @photo_prev = prev_next_photos(@photos, param_photo.to_i)
     
-    @photos = @album.photos 
-    @photo_next = @photos[0] if @photos.length > 0
-    @photo_prev = @photos[@photos.length - 1] if @photos.length > 0
-    
-    @photos.each_with_index do |photo, index|
-      if photo.id == params[:id].to_i
-        @photo_prev = @photos[index - 1] unless @photos[index - 1].nil?
-        @photo_next = @photos[index + 1] unless @photos[index + 1].nil?
-        
-        @photo = photo
-        
-        break
-      end
-    end
-    
-    redirect '/' if @photos.length == 0 || @photo.nil?
-    
-    erb :image
+  redirect '/' if @photos.length == 0 || @photo.nil?
+  
+  erb :"#{param_type}"
 end
 
 #########################################################################################################
@@ -163,7 +154,7 @@ get '/image/:id/:size' do
     end
   end
   
-  unless image.nil? && !file_exists
+  if !image.nil? && !file_exists
     puts "Save image to disk :: #{image_file_path}"
       
     File.open(image_file_path, "wb") do |f|
