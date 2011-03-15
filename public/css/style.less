@@ -17,6 +17,18 @@
 	width: @size;
 }
 
+.rounded(@radius:5px) {
+  -webkit-border-radius: @radius;
+     -moz-border-radius: @radius;
+      		border-radius: @radius;
+}
+
+.link_style {
+	border-bottom: 1px solid @light_color;
+	color: @base_color;
+	text-decoration: none;
+}
+
 .clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
 .clearfix { display: inline-block; }
 * html .clearfix { height: 1%; } /* Hides from IE-mac \*/
@@ -39,9 +51,7 @@ html, body {
 }
 
 a {
-	border-bottom: 1px solid @light_color;
-	color: @base_color;
-	text-decoration: none;
+	.link_style;
 }
 
 #wrapper {
@@ -75,7 +85,7 @@ a {
 				font-size: 16px;
 				overflow: hidden;
 				margin: 0 20px 20px 0px;
-				border: 1px solid #ddd;
+				border: 1px solid #e2e2e2;
 				
 				.shadow(4px);
 				
@@ -86,10 +96,18 @@ a {
 					position: relative;
 					width: 130px;
 					height: 170px;
+					border: 0px;
+					
+					.rounded(4px);
 				
-					img {
-						display: block;
-						margin: 0 auto;
+					div {
+						max-height: 110px;
+						overflow: hidden;
+						
+						img {
+							display: block;
+							margin: 0 auto;
+						}
 					}
 				
 					p {
@@ -108,7 +126,7 @@ a {
 			li {
 				float: none;
 				margin: 0px 20px 20px 0px;
-				border: 1px solid #ddd;
+				border: 1px solid #e2e2e2;
 				display: inline-block;  
 				vertical-align: top;
 				
@@ -120,6 +138,8 @@ a {
 					background: #fff;
 					padding: 10px 10px 20px 10px;
 					overflow: hidden;
+					
+					.rounded(4px);
 				}
 			}
 		}
@@ -132,6 +152,13 @@ a {
 
 .ie7 {
 	ul.gallery {
+		li {
+			zoom: 1;
+			display: inline;
+		}
+	}	
+	
+	ul.albums {
 		li {
 			zoom: 1;
 			display: inline;
