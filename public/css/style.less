@@ -1,14 +1,15 @@
 @base_color: #3366ee;
 @gray: #888;
 @light_gray: #aaa;
+@bg_gray: #eee;
 @light_color: #88aaff;
 
 @footer_height: 30px;
 
 .shadow (@radius: 5px){
-  -moz-box-shadow: @radius @radius @radius #f3f3f3;
-  -webkit-box-shadow: @radius @radius @radius #f3f3f3;
-  box-shadow: @radius @radius @radius #f3f3f3;
+  -moz-box-shadow: @radius @radius @radius #e1e1e1;
+  -webkit-box-shadow: @radius @radius @radius #e1e1e1;
+  box-shadow: @radius @radius @radius #e1e1e1;
 }
 
 .square_size (@size: 100px) {
@@ -34,6 +35,7 @@ html, body {
 	font-size-adjust: 0.45;
 	font-size: 15px;
 	color: @gray;
+	background: @bg_gray;
 }
 
 a {
@@ -72,49 +74,52 @@ a {
 			li {
 				font-size: 16px;
 				overflow: hidden;
-				width: 170px;
-				height: 170px;
 				margin: 0 20px 20px 0px;
-				position: relative;
+				border: 1px solid #ddd;
 				
-				:hover {
-					background: #fbfbfb;
-				}
+				.shadow(4px);
 				
-				img {
+				a {
 					display: block;
-					margin: 0 auto;
-				}
+					background: #fff;
+					padding: 10px 10px 10px 10px;
+					position: relative;
+					width: 130px;
+					height: 170px;
 				
-				p {
-					display: block;
-					position: absolute;
-					text-align: center;
-					line-height: 1.2em;
-					bottom: 10px;
-					width: 100%;
+					img {
+						display: block;
+						margin: 0 auto;
+					}
+				
+					p {
+						display: block;
+						position: absolute;
+						text-align: center;
+						line-height: 1.2em;
+						bottom: 10px;
+						width: 130px;
+					}
 				}
 			}
 		}
 
 		ul.gallery {
 			li {
+				float: none;
 				margin: 0px 20px 20px 0px;
-
-				.shadow;
-				.square_size(75px);
+				border: 1px solid #ddd;
+				display: inline-block;  
+				vertical-align: top;
+				
+				.shadow(3px);
 
 				a {
 					border: none;
 					display: block;
-					background: #fbfbfb;
+					background: #fff;
+					padding: 10px 10px 20px 10px;
 					overflow: hidden;
-					
-					img {
-						font-size: 12px;
-					}
-
-					.square_size(75px);
 				}
 			}
 		}
@@ -122,9 +127,14 @@ a {
 		.single-image {
 			margin-bottom: 20px;
 		}
-		
-		#disqus_thread {
-			width: 640px;
+	}
+}
+
+.ie7 {
+	ul.gallery {
+		li {
+			zoom: 1;
+			display: inline;
 		}
 	}
 }
