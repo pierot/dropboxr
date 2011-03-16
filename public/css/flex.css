@@ -1,6 +1,6 @@
 @media only screen and (device-width: 768px) { /* For general iPad layouts */
 	#wrapper {
-		margin: 20px 20px 0px 20px;
+		margin: 30px 20px 0px 20px;
 	} 
 
 	#wrapper #main ul.albums li {
@@ -19,7 +19,7 @@
 
 @media only screen and (max-device-width: 480px) { /* For general iPhone layouts */
   #wrapper {
-		margin: 10px 0px 0px 15px;
+		margin: 20px 0px 0px 15px;
 	}
 	
 	#wrapper #main ul.gallery li {
