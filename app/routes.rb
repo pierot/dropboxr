@@ -10,6 +10,10 @@ before do
 end
 
 before '/build/*' do
+  session[:requested_path] = request.env['REQUEST_PATH']
+  
+  redirect '/connect/start' unless settings.dpc.authorized?
+  
   protected!
 end
 
@@ -45,10 +49,26 @@ end
 #########################################################################################################
 # BUILDING / SETUP
 #########################################################################################################
+get '/connect/start' do
+  settings.dpc.redirect_url = "#{base_url}/connect/done"
+
+  redirect settings.dpc.authorize_user_url
+end
+
+get '/connect/done' do
+  if settings.dpc.authorize_user(params)
+    redirect session[:requested_path]
+  else
+    redirect '/connect/error'
+  end
+end
+
+get '/connect/error' do
+  erb :'connect/error'
+end
+
 ['/build/building/?', '/build/building/*'].each do |path|
   get path do
-    redirect '/build/error' unless settings.dpc.authorized?
-    
     all_fine, message = build_galleries
     
     if all_fine

@@ -26,14 +26,12 @@ configure do
   
   # Config files
   albums_excludes = YAML.load File.read('config/excludes.yml')
-  session_keys = YAML.load File.read('config/dropbox-session-keys.yml')
   
   # Sinatra config variables
   set :album_excludes => albums_excludes
   
   # Dropboxr
-  set :dpc => Dropboxr::Connector.new(session_keys, dropbox_app_secret, dropbox_app_key)
-  
-  settings.dpc.redirect_url = @base_url
+  set :dpc => Dropboxr::Connector.new('config/dropbox-session-keys.yml', dropbox_app_secret, dropbox_app_key)
+
   settings.dpc.directory_excludes = albums_excludes
 end
