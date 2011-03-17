@@ -14,13 +14,15 @@ module DropboxrHelpers
           gallery.photos.each do |item|
             photo = album.photos.find_or_create_by_path(item.path)
 
-            if photo.name.nil? || photo.modified != item.modified
+            if photo.name.nil? || photo.modified != item.modified # photo not in db or modification date is updated
               if photo.name.nil? # new
                 photo.name = item.name
                 photo.path = item.path
 
                 puts "DropboxrHelpers :: BuildGalleries :: Photo :: Creating #{photo.path} ..."
               else
+                photo.updated = true
+                
                 puts "DropboxrHelpers :: BuildGalleries :: Photo :: Updating #{photo.path} ..."
               end
 

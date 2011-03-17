@@ -141,16 +141,26 @@ get '/image/:id/:size' do
   image_file_path = "#{settings.cache_data}/#{size}_#{id}.jpg"
   file_exists = false
   
+  begin
+    image_item = Photo.find(id)
+  rescue ActiveRecord::RecordNotFound
+    # silent
+  end
+  
   if file_exists = File.exists?(image_file_path)
     image = File.open(image_file_path, 'rb') { |file| file.read }
   end
   
-  if image.nil?
-    begin
-      image_item = Photo.find(id)
-      image = settings.dpc.get_image image_item.path, {:size => size}
-    rescue ActiveRecord::RecordNotFound
-      # silent
+  if image.nil? || image_item.updated
+    image = settings.dpc.get_image image_item.path, {:size => size}
+    
+    if image_item.updated # reset & delete all versions / formats
+      delete_matching_regexp(settings.cache_data, Regexp.new(".*(#{id})\.(jpg)"))
+      
+      file_exists = false
+      
+      image_item.updated = false
+      image_item.save
     end
   end
   

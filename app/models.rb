@@ -24,6 +24,7 @@ begin
       table.column :path, :string
       table.column :revision, :string
       table.column :modified, :string
+      table.column :updated, :boolean
     end
   end
 rescue ActiveRecord::StatementInvalid

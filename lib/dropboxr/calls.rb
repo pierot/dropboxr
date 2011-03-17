@@ -37,10 +37,16 @@ module Dropboxr
     
       authorized?
     
-      if size == 'original'
-        @session.download path
-      else
-        @session.thumbnail path, {:size => size, :format => format}
+      begin
+        if size == 'original'
+          @session.download path
+        else
+          @session.thumbnail path, {:size => size, :format => format}
+        end
+      rescue Dropbox::UnsuccessfulResponseError => e
+        p e
+        
+        nil
       end
     end
     

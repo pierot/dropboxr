@@ -54,4 +54,20 @@ helpers do
     
     return curr_photo, photo_next, photo_prev
   end
+  
+  def delete_matching_regexp(dir, regex)
+    Dir.entries(dir).each do |name|
+      path = File.join(dir, name)
+    
+      if name =~ regex
+        ftype = File.directory?(path) ? Dir : File
+        
+        begin
+          ftype.delete(path)
+        rescue SystemCallError => e
+          $stderr.puts e.message
+        end
+      end
+    end
+  end
 end
