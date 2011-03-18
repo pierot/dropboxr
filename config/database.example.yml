@@ -1,0 +1,7 @@
+development: &defaults
+  adapter: sqlite3
+  database: db/photos.db
+  timeout: 25000
+  
+production:
+  <<: *defaults

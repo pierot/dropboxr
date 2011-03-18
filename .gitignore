@@ -1,3 +1,5 @@
-db/*
-config/dev-vars.yml
+db/photos.db
+config/settings.yml
 config/dropbox-session-keys.yml
+config/excludes.yml
+config/database.yml
