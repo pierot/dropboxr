@@ -9,7 +9,7 @@ end
 
 desc 'Maintain galleries'
 task :cron do
-  puts "Cron. Building galleries. #{Time.now.strftime('%Y/%m/%d %H:%M:%S')}"
+  puts "Cron. Rebuilding galleries. #{Time.now.strftime('%Y/%m/%d %H:%M:%S')}"
   
   require './app/app'
   
@@ -20,8 +20,8 @@ task :cron do
   body = extra_info.to_s
   subject = all_fine ? "Cron Executed!" : "Cron Failed!"
 
-  Pony.mail :to             => 'pieter@wellconsidered.be',
-            :from           => 'pieter@wellconsidered.be',
+  Pony.mail :to             => 'pieter@noort.be',
+            :from           => 'pieter@noort.be',
             :subject        => subject, 
             :body           => body, 
             :via            => :smtp, 
@@ -31,6 +31,6 @@ task :cron do
                                 :user_name              => ENV['GMAIL_USER'],
                                 :password               => ENV['GMAIL_PASSWORD'],
                                 :authentication         => :plain,
-                                :domain                 => "wellconsidered.be"
+                                :domain                 => "noort.be"
                                }
 end

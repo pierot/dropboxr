@@ -3,3 +3,4 @@ config/settings.yml
 config/dropbox-session-keys.yml
 config/excludes.yml
 config/database.yml
+config/deploy.rb
