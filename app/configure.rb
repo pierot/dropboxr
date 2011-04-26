@@ -9,7 +9,7 @@ configure do
   set :cache_data, File.join(File.dirname(__FILE__), '../db/data')
   
   # Settings
-  app_vars = YAML.load File.read('config/dev-vars.yml')
+  app_vars = YAML.load File.read('config/settings.yml')
   
   dropbox_app_secret = app_vars['secret']
   dropbox_app_key = app_vars['key']
