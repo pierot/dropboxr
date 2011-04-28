@@ -20,11 +20,11 @@ input,button,textarea,select{*font-size:100%;}
 
 /************************************************************************************************************************************/
 
-@base_color: #3366ee;
+@base_color: #81c573;
+@base_color_light: #b1e1a8;
 @gray: #888;
 @light_gray: #aaa;
 @bg_gray: #eee;
-@light_color: #88aaff;
 
 @footer_height: 30px;
 
@@ -46,7 +46,7 @@ input,button,textarea,select{*font-size:100%;}
 }
 
 .link_style {
-	border-bottom: 1px solid @light_color;
+	border-bottom: 1px solid @base_color_light;
 	color: @base_color;
 	text-decoration: none;
 }
@@ -57,19 +57,43 @@ input,button,textarea,select{*font-size:100%;}
 .clearfix { display: block; }
 
 @font-face {
-	font-family: 'SpeakOffcRegular';
-	src: url('speakoffc-webfont.eot');
-	src: local('☺'), url('speakoffc-webfont.woff') format('woff'), url('speakoffc-webfont.ttf') format('truetype'), url('speakoffc-webfont.svg#webfont5MOdO5r7') format('svg');
-	font-weight: normal;
-	font-style: normal;
+    font-family: 'VerlagCompressedBold';
+    src: url('../fonts/verlag_compressed_bold-webfont.eot');
+    src: url('../fonts/verlag_compressed_bold-webfont.eot?#iefix') format('eot'),
+         url('../fonts/verlag_compressed_bold-webfont.woff') format('woff'),
+         url('../fonts/verlag_compressed_bold-webfont.ttf') format('truetype'),
+         url('../fonts/verlag_compressed_bold-webfont.svg#webfontEbv27P0U') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'VerlagCompressedBook';
+    src: url('../fonts/verlag_compressed_book-webfont.eot');
+    src: url('../fonts/verlag_compressed_book-webfont.eot?#iefix') format('eot'),
+         url('../fonts/verlag_compressed_book-webfont.woff') format('woff'),
+         url('../fonts/verlag_compressed_book-webfont.ttf') format('truetype'),
+         url('../fonts/verlag_compressed_book-webfont.svg#webfontvI3ICY7D') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'VerlagCompressedLight';
+    src: url('../fonts/verlag_compressed_light-webfont.eot');
+    src: url('../fonts/verlag_compressed_light-webfont.eot?#iefix') format('eot'),
+         url('../fonts/verlag_compressed_light-webfont.woff') format('woff'),
+         url('../fonts/verlag_compressed_light-webfont.ttf') format('truetype'),
+         url('../fonts/verlag_compressed_light-webfont.svg#webfontOJ5YDjat') format('svg');
+    font-weight: normal;
+    font-style: normal;
 }
 
 html, body {
-	font-family: 'SpeakOffcRegular', sans-serif;
-	font-size-adjust: 0.45;
-	font-size: 15px;
-	color: @gray;
-	background: @bg_gray;
+	font-family: 'VerlagCompressedLight';
+	font-size: 18px;
+	color: @base_color;
+	background: @bg_gray url(../img/bg.png);
 }
 
 a {
@@ -80,16 +104,17 @@ a {
 	margin: 20px 0px 0px 20px;
 	
 	header {
+		font-family: 'VerlagCompressedBold';
 		padding: 0px 0px 20px 0px;
-		font-size: 18px;
+		font-size: 30px;
 		color: @light_gray;
 	}
 
 	#main {
 		h2 {
+			font-family: 'VerlagCompressedBold';
 			color: @base_color;
-			font-size: 32px;
-			font-weight: bold;
+			font-size: 48px;
 			margin-bottom: 20px;
 		}
 		
@@ -100,7 +125,7 @@ a {
 			
 			li {
 				float: left;
-				font-size: 16px;
+				font-size: 18px;
 				margin: 0 20px 20px 0px;
 				border: 1px solid #e2e2e2;
 				
@@ -131,7 +156,7 @@ a {
 					p {
 						position: absolute;
 						text-align: center;
-						line-height: 1.2em;
+						/*line-height: 1.2em;*/
 						bottom: 10px;
 						width: @photo_width;
 					}
@@ -194,7 +219,7 @@ a {
 footer {
 	background: #fbfbfb;
 	color: @gray;
-	font-size: 10px;
+	font-size: 12px;
 	padding-left: 20px;
 	line-height: @footer_height;
 	position: fixed;
