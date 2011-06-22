@@ -51,10 +51,17 @@ input,button,textarea,select{*font-size:100%;}
 	text-decoration: none;
 }
 
-.clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
-.clearfix { display: inline-block; }
-* html .clearfix { height: 1%; } /* Hides from IE-mac \*/
-.clearfix { display: block; }
+.clearfix {
+  zoom: 1;
+  
+  &:after {
+    display: block;
+    visibility: hidden;
+    height: 0;
+    clear: both;
+    content: ".";
+  }
+}
 
 @font-face {
     font-family: 'VerlagCompressedBold';
@@ -120,6 +127,8 @@ a {
 		
 		ul.albums {
 			@photo_width: 130px;
+
+			margin-bottom: 30px;
 			
 			.clearfix;
 			
