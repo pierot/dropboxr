@@ -143,8 +143,8 @@ get %r{/gallery/([\w]+)/(image|slide)/([\w]+)} do
   end
   
   @photos = @album.photos 
-  @photo, @photo_next, @photo_prev = prev_next_photos(@photos, param_photo.to_i)
-    
+  @photo, @photo_next, @photo_prev, @count = prev_next_photos(@photos, param_photo.to_i)
+
   redirect '/' if @photos.length == 0 || @photo.nil?
   
   erb :"#{param_type}"

@@ -1,51 +1,60 @@
-@media only screen and (device-width: 768px) { /* For general iPad layouts */
-  h2 {
-    font-size: 30px;
-    margin-bottom: 10px;
-	}
+/*
+ (min-width: 1212px)
+ (max-width: 991px) and (min-width: 768px)
+ (max-width: 767px) and (min-width: 480px)
+ (max-width: 479px)
+*/
 
-  footer {
-		margin-top: 40px;
-		position: static;
-	}
-}
-
-@media only screen and (max-device-width: 480px) { /* For general iPhone layouts */
+@media only screen and (max-width: 768px) {
   body {
-    -webkit-text-size-adjust: none;
   }
-
-  h2 {
-    font-size: 30px;
-    margin-bottom: 10px;
-	}
 
   #wrapper {
-    margin: 10px 0px 0px 10px;
+    margin: 10px 0 0 10px;
   }
 
-  ul.albums li {
-    margin: 0px 10px 10px;
+  #wrapper #main h2 {
+    margin-bottom: 10px;
+    font-size: 36px;
   }
 
-  ul.gallery li {
+  #wrapper #main ul.albums li {
+    margin: 0px 10px 10px 0px;
+  }
+
+  #wrapper #main ul.gallery li {
     margin: 0px 10px 10px 0px;
   }
 
   footer {
-		margin-top: 40px;
+		margin-top: 20px;
 		position: static;
-	}  
+		padding-left: 0px;
+	} 
+
+	footer a:first-child {
+	  margin-left: 10px;
+	}
 }
 
-@media only screen and (max-device-width: 1024px) and (orientation:landscape) {
+@media only screen and (max-width: 480px) {
+  body {
+    -webkit-text-size-adjust: none;
+  }
+  
+  #wrapper {
+    margin-left: 20px;
+  }
 
+  #wrapper #main ul.albums li {
+    margin: 0px 30px 30px 0px; 
+  }
+
+  #wrapper #main ul.gallery li {
+    margin: 0px 30px 30px 0px;
+  }
 }
 
-@media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait) {
-  /* For portrait layouts only */
-}
-
-@media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape) {
-  /* For landscape layouts only */
+@media only screen and (max-width: 320px) {
+  
 }

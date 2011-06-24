@@ -40,6 +40,7 @@ helpers do
     photo_next = photos[0] if photos.length > 0
     photo_prev = photos[photos.length - 1] if photos.length > 0
     curr_photo = nil
+    count = 0
     
     photos.each_with_index do |photo, index|
       if photo.id == photo_id
@@ -47,12 +48,13 @@ helpers do
         photo_next = photos[index + 1] unless photos[index + 1].nil?
         
         curr_photo = photo
+        count = index + 1
         
         break
       end
     end
     
-    return curr_photo, photo_next, photo_prev
+    return curr_photo, photo_next, photo_prev, count
   end
   
   def delete_matching_regexp(dir, regex)

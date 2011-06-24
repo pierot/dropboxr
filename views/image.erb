@@ -1,6 +1,6 @@
 <a href="/gallery/<%= @album.id %>">&laquo; terug naar '<%= @album.path %>'</a><br><br>
 
-<h2><%= @album.name %> - <%= @photo.name %></h2>
+<h2><%= @album.name %> - <%= @photo.name %> (<%= @count %>/<%= @photos.length %>)</h2>
 
 <div class="single-image">
 	<a href="/gallery/<%= @album.id %>/image/<%= @photo_next.id %>" title="klik voor de volgende foto">
