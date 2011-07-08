@@ -2,8 +2,6 @@
 # VARIOUS
 #########################################################################################################
 before do
-  #headers['Cache-Control'] = 'public, max-age=172800' # Two days
-  
   if :agent.to_s =~ /(Slurp|msnbot|Googlebot)/ # bots not allowed
     redirect 'http://noort.be'
   end
@@ -79,6 +77,33 @@ end
       redirect '/build/error'
     end
   end
+end
+
+get '/build/manage' do
+  @albums = albums_excluding
+    
+  erb :'build/manage'
+end
+
+get '/build/manage/delete/:album' do
+  album_id = params[:album]
+
+  # exists ?
+  begin
+    album = Album.find(params[:album])
+    album.destroy # still allows you to use the album object
+
+    image_file_path = "#{settings.cache_data}/"
+
+    album.photos.each do |photo|
+      Dir.glob("#{image_file_path}*_#{photo.id}.jpg").each do |photo_file|
+        File.delete photo_file if File.exists? photo_file
+      end
+    end
+  rescue ActiveRecord::RecordNotFound
+  end
+
+  redirect '/build/manage'
 end
 
 get '/build/:state' do
