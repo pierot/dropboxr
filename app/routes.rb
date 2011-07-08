@@ -79,10 +79,10 @@ end
   end
 end
 
-get '/build/manage' do
+get '/build/manage/' do
   @albums = albums_excluding
     
-  erb :'build/manage'
+  erb :'build/manage/'
 end
 
 get '/build/manage/delete/:album' do

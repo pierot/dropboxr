@@ -11,7 +11,7 @@ var isMobileDevice = function () {
 };
 
 // iOS fix
-if(isMobileDevice) {
+if(isMobileDevice()) {
   var a = document.getElementsByTagName("a");
 
   for(var i = 0; i < a.length; i++) {
