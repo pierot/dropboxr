@@ -16,7 +16,7 @@ before '/build/*' do
 end
 
 error do
-  'Sorry there was a nasty error - ' + request.env['sinatra.error'].name
+  'Sorry there was a nasty error - ' + request.env['sinatra.error']
 end
 
 not_found do
@@ -79,10 +79,10 @@ end
   end
 end
 
-get '/build/manage/' do
+get '/build/manage/?' do
   @albums = albums_excluding
     
-  erb :'build/manage/'
+  erb :'build/manage'
 end
 
 get '/build/manage/delete/:album' do
