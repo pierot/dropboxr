@@ -13,12 +13,14 @@ GEM
     activesupport (3.0.3)
     arel (2.0.4)
     builder (2.1.2)
+    daemon_controller (0.2.6)
     database_cleaner (0.6.5)
     dropbox (1.2.2)
       json (>= 1.2.0)
       mechanize (>= 1.0.0)
       multipart-post (>= 1.0)
       oauth (>= 0.3.6)
+    fastthread (1.0.7)
     i18n (0.4.2)
     json (1.4.6)
     mail (2.2.10)
@@ -32,10 +34,16 @@ GEM
     multipart-post (1.0.1)
     nokogiri (1.4.4)
     oauth (0.4.4)
+    passenger (3.0.7)
+      daemon_controller (>= 0.2.5)
+      fastthread (>= 1.0.1)
+      rack
+      rake (>= 0.8.1)
     polyglot (0.3.1)
     pony (1.1)
       mail (> 2.0)
     rack (1.2.1)
+    rake (0.9.2)
     sinatra (1.1.0)
       rack (~> 1.1)
       tilt (~> 1.1)
@@ -52,6 +60,7 @@ DEPENDENCIES
   activerecord
   database_cleaner
   dropbox (>= 1.2.2)
+  passenger
   pony
   rack
   sinatra
