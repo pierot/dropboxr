@@ -63,5 +63,6 @@ DEPENDENCIES
   passenger
   pony
   rack
+  rake
   sinatra
   sqlite3-ruby (>= 1.3.1)
