@@ -9,5 +9,6 @@ gem 'rack'
 gem 'sqlite3-ruby', '>= 1.3.1'
 gem 'pony'
 gem 'foreman'
+gem 'passenger', '3.0.7'
 
 # gem 'manifesto-pierot', '>= 0.6.2', :git => 'git://github.com/pierot/manifesto-pierot.git'
