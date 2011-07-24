@@ -7,9 +7,15 @@ helpers do
   
   def album_photo(album_id)
     album = Album.find(album_id)
-    photo = album.photos.find(:first)
-   
-    photo.id
+    photo = album.photos.first
+    
+    begin
+      photo.id
+    rescue NoMethodError => e
+      $stderr.puts e.message
+
+      0
+    end
   end
   
   def albums_excluding
