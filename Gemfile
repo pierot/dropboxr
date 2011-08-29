@@ -19,11 +19,16 @@ end
 
 gem 'jquery-rails'
 
+group :product do
+  gem 'therubyracer'
+end
+
 # Use unicorn as the web server
 # gem 'unicorn'
 
 # Deploy with Capistrano
-# gem 'capistrano'
+gem 'capistrano'
+gem 'capistrano_colors'
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
