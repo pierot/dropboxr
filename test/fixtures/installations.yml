@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+one:
+  session_key: MyText
+  secret: MyString
+  key: MyString
+
+two:
+  session_key: MyText
+  secret: MyString
+  key: MyString

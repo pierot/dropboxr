@@ -6,7 +6,6 @@ module Dropboxr
     Photo = Struct.new(:path, :name, :revision, :modified)
     
     def collect(dir_excludes = [])
-      dir_excludes = directory_excludes if dir_excludes.empty?
       items = get_galleries
       galleries = []
       
@@ -17,6 +16,8 @@ module Dropboxr
           galleries << collect_gallery(item)
         end
       end
+
+      puts "Dropboxr::Connector::Collector.Collected #{items.length} galleries."
       
       galleries
     end

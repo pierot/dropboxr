@@ -1,9 +1,0 @@
-<a href="/">&laquo; alle foto albums</a><br><br>
-
-<h2><%= @album.name %></h2>
-
-<ul class="gallery">
-<% for photo in @photos %>
-  <li><a href="/gallery/<%= @album.id %>/image/<%= photo.id %>" rel="gallery"><img src="/image/<%= photo.id %>/medium" alt="<%= photo.name %>" ></a></li>
-<% end %>
-</ul>

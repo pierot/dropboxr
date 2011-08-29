@@ -1,24 +1,7 @@
-task :default => :run
+#!/usr/bin/env rake
+# Add your own tasks in files placed in lib/tasks ending in .rake,
+# for example lib/tasks/capistrano.rake, and they will automatically be available to Rake.
 
-###############################################################################
+require File.expand_path('../config/application', __FILE__)
 
-desc 'Run app'
-task :run do 
-  system "rackup -s thin"
-end
-
-###############################################################################
-
-desc 'Cron tasks'
-task :cron do
-  puts "Cron. Rebuilding galleries. #{Time.now.strftime('%Y/%m/%d %H:%M:%S')}"
-  
-  require './app/app'
-  
-  include DropboxrHelpers
-  
-  all_fine, extra_info = build_galleries
-  
-  body = extra_info.to_s
-  subject = all_fine ? "Cron Executed!" : "Cron Failed!"
-end
+Dropboxr::Application.load_tasks

@@ -1,8 +1,5 @@
-db/photos.db
-config/settings.yml
-config/dropbox-session-keys.yml
-config/excludes.yml
-config/database.yml
-config/deploy.rb
-log
-tmp
+.bundle
+db/*.sqlite3
+log/*.log
+tmp/
+.sass-cache/

@@ -4,9 +4,7 @@
 # development environment upon cd'ing into the directory
 
 # First we specify our desired <ruby>[@<gemset>], the @gemset name is optional.
-environment_id="ruby-1.9.2-p290" # @dropboxr"
-
-# rvm_project_rvmrc_default=1
+environment_id="ruby-1.9.2-p290@rails31"
 
 #
 # Uncomment following line if you want options to be set only for given project.
@@ -47,6 +45,3 @@ fi
 #   rvm gemset import "$filename" | grep -v already | grep -v listed | grep -v complete | sed '/^$/d'
 # fi
 
-# if ! command -v bundle ; then
-#   gem install bundler
-# fi

@@ -1,12 +1,4 @@
-require 'bundler'
-require './app/app'
- 
-unless ENV['RACK_ENV'] == 'development'
-	log = File.new('tmp/sinatra.log', 'a+')
-	log.sync = true
-	
-	STDOUT.reopen(log)
-	STDERR.reopen(log)
-end
+# This file is used by Rack-based servers to start the application.
 
-run Sinatra::Application
+require ::File.expand_path('../config/environment',  __FILE__)
+run Dropboxr::Application

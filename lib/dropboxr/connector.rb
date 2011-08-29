@@ -7,27 +7,17 @@ module Dropboxr
     include Calls
     include Collector
     
-    attr_accessor :redirect_url, :directory_excludes, :cache
+    attr_accessor :redirect_url, :directory_excludes, :cache, :session_serialized
     
-    def initialize(session_key_file, secret, key)
+    def initialize(key = '', secret = '', session_key = '')
       @secret = secret
       @key = key
-      @session_key_file = session_key_file
+
+      @session_serialized = session_key
       
       directory_excludes = []
       redirect_url = ''
       cache = false
-      
-      if File.exists?(@session_key_file)
-        session_key = YAML.load File.read(@session_key_file)
-        
-        # session key from yml file
-        @session_serialized = ""
-        session_key.each { |line| @session_serialized << "- #{line}\n" }
-        @session_serialized = "--- \n#{@session_serialized}"
-      else
-        # not authorized yet, no session keys found
-      end
     end
    
     def authorized?
@@ -56,7 +46,7 @@ module Dropboxr
       unless @session.nil?
         @session.authorize(params)
         
-        File.open(@session_key_file, 'w+') { |f| f.write(@session.serialize) }
+        @session_serialized = @session.serialize
         
         setup_mode
       end
@@ -74,10 +64,10 @@ module Dropboxr
       puts "Dropboxr::Connector.Authorizing!"
     
       unless @session_serialized.nil? || @session_serialized.empty?
-        @session = Dropbox::Session.deserialize(@session_serialized)
+        @session = Dropbox::Session.deserialize(session_serialized)
       end
     
-      @session.enable_memoization if cache
+      @session.enable_memoization if cache unless @session.nil?
     end
     
   end

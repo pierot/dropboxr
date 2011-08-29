@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+one:
+  album_id: 1
+  name: MyString
+  path: MyString
+  revision: MyString
+  modified: MyString
+  updated: false
+
+two:
+  album_id: 1
+  name: MyString
+  path: MyString
+  revision: MyString
+  modified: MyString
+  updated: false
