@@ -1,11 +1,7 @@
 class AlbumsController < ApplicationController
 
   def index
-    begin
-      return redirect_to install_path if Installation.installed.empty?
-    rescue ActiveRecord::StatementInvalid
-      return redirect_to install_path
-    end
+    return redirect_to install_path if Installation.installed.empty?
 
     @albums = Album.all
 

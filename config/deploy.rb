@@ -37,9 +37,9 @@ namespace :deploy do
 
   # after "deploy:finalize_update", "uploads:symlink"
 
-  # after 'deploy:update_code' do
-  #   run "cd #{release_path}; RAILS_ENV=production rake assets:precompile"
-  # end
+  after 'deploy:update_code' do
+    run "cd #{release_path}; RAILS_ENV=production rake assets:precompile"
+  end
 
   # on :start, "uploads:register_dirs"
 end
