@@ -17,7 +17,7 @@ role :db, domain, :primary => true
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
 
-set :rvm_ruby_string,       'ruby-1.9.2-p290@rails31'
+set :rvm_ruby_string,       'ruby-1.9.2-head@rails31'
 set :rvm_type,              :system
 set :use_sudo,              false
 set :group_writable,        true         # Shared environment
