@@ -35,6 +35,10 @@ else
   fi
 fi
 
+if ! command -v bundle ; then
+  gem install bundler
+fi
+
 #
 # If you use an RVM gemset file to install a list of gems (*.gems), you can have
 # it be automatically loaded. Uncomment the following and adjust the filename if
