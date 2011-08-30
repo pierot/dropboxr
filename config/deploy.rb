@@ -35,41 +35,7 @@ namespace :deploy do
     run "#{sudo} touch #{File.join(current_path, 'tmp', 'restart.txt')}"
   end
 
-  # after "deploy:finalize_update", "uploads:symlink"
-
   after 'deploy:update_code' do
     run "cd #{release_path}; RAILS_ENV=production rake assets:precompile"
   end
-
-  # on :start, "uploads:register_dirs"
-end
-
-namespace :uploads do
-  # desc <<-EOD
-  #   Creates the upload folders unless the exist
-  #   and sets the proper upload permissions.
-  # EOD
-  # task :setup, :except => { :no_release => true } do
-  #   dirs = db_dirs.map { |d| File.join(shared_path, d) }
-  #   run "#{sudo} mkdir -p #{dirs.join(' ')} && #{sudo} chmod g+w #{dirs.join(' ')}"
-  # end
-
-  #   [internal] Creates the symlink to uploads shared folder
-  #   for the most recently deployed version.
-  # EOD
-  # task :symlink, :except => { :no_release => true } do
-  #   run "rm -rf #{release_path}/db"
-  #   run "ln -nfs #{shared_path}/db #{release_path}/db"
-  # end
-
-  # desc <<-EOD
-  #   [internal] Computes dirs and registers them
-  #   in Capistrano environment.
-  # EOD
-  # task :register_dirs do
-  #   set :db_dirs, %w(db db/data)
-  #   set :shared_children, fetch(:shared_children) + fetch(:db_dirs)
-
-  #   uploads.setup
-  # end
 end
