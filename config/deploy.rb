@@ -8,7 +8,7 @@ set :application, 'dropboxr'
 set :repository,  'git@github.com:pierot/dropboxr.git'
 set :domain,      'tortuga'
 set :user,        'pirate'
-set :deploy_to,   '/srv/www/noort.be/domains/fotos2.noort.be/'
+set :deploy_to,   '/srv/www/noort.be/domains/dropboxr.noort.be/'
 
 role :web, domain
 role :app, domain
@@ -24,6 +24,7 @@ set :group_writable,        true         # Shared environment
 set :keep_releases,         3             # Backup revisions
 set :scm,                   :git
 set :deploy_via,            :remote_cache
+set :normalize_asset_timestamps, false
 
 namespace :deploy do
   task :restart, :roles => :app, :except => { :no_release => true } do
@@ -40,7 +41,7 @@ namespace :deploy do
   #   run "cd #{release_path}; RAILS_ENV=production rake assets:precompile"
   # end
 
-  on :start, "uploads:register_dirs"
+  # on :start, "uploads:register_dirs"
 end
 
 namespace :uploads do
