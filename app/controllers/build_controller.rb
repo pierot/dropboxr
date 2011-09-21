@@ -5,7 +5,7 @@ class BuildController < ApplicationController
   end
 
   def building
-    dbr_conn = Dropboxr::Application.config.dbr
+    dbr_conn = dropboxr_conn
     
     if dbr_conn.authorized?
       begin

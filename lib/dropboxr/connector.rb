@@ -43,6 +43,7 @@ module Dropboxr
     end
     
     def authorize_user(params)
+      p @session
       unless @session.nil?
         @session.authorize(params)
         
