@@ -1,25 +1,26 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.1.0'
-
-# Bundle edge Rails instead:
-# gem 'rails',     :git => 'git://github.com/rails/rails.git'
+gem 'rails', '3.1.1'
 
 gem 'sqlite3'
-gem 'friendly_id', '~> 4.0.0.beta8', :require => "friendly_id"
+gem 'friendly_id', '~> 4.0.0.beta14', :require => "friendly_id"
 gem 'dropbox' 
+
+gem 'haml'
+
+gem 'thin'
 
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails', "  ~> 3.1.0"
-  gem 'coffee-rails', "~> 3.1.0"
+  gem 'sass-rails', "  ~> 3.1.1"
+  gem 'coffee-rails', "~> 3.1.1"
   gem 'uglifier'
 end
 
 gem 'jquery-rails'
 
-group :product do
+group :production do
   gem 'therubyracer'
 end
 
@@ -32,6 +33,10 @@ gem 'capistrano_colors'
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
+
+group :test, :development do
+  gem 'rspec-rails'
+end
 
 group :test do
   # Pretty printed test output

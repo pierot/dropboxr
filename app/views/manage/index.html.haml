@@ -1,0 +1,10 @@
+%h1 Manage
+
+%br
+
+- if Installation.installed.empty?
+  = link_to 'Install', manage_install_index_path
+- else
+  = link_to 'Start (re)building', building_manage_build_index_path
+  %br
+  = link_to 'Go to albums', root_path

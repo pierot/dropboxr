@@ -1,6 +1,0 @@
-<h1>Fotos Noort</h1>
-
-<% @albums.each do |album| %>
-  <%= album.name %><%= link_to album.name, album_path(album.slug) %>
-  <%= image_tag image_path(album_photo(album.id), 'large'), :alt => album.name %>
-<% end %>

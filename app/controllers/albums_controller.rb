@@ -1,11 +1,11 @@
 class AlbumsController < ApplicationController
 
   def index
-    return redirect_to install_path if Installation.installed.empty?
+    return redirect_to manage_install_index_path if Installation.installed.empty?
 
-    @albums = Album.all
+    @albums = Album.includes(:photos).all
 
-    redirect_to build_path if @albums.empty?
+    redirect_to manage_build_index_path if @albums.empty?
   end
 
   def show

@@ -1,7 +1,0 @@
-<h1><%= @album.name %></h1>
-
-<% @photos.each do |photo| %>
-  <%= photo.name %> <%= link_to photo.name, album_photo_path(@album.slug, photo.id) %>
-  <%= image_tag image_path(photo.id, 'medium'), :alt => photo.name %>
-  <br>
-<% end %>

@@ -2,21 +2,38 @@ Dropboxr::Application.routes.draw do
   
   get 'image/:id(/:size)' => 'image#index', :as => 'image'
 
-  scope 'manage' do 
-    match 'build' => 'build#index'
+  namespace :manage do 
+    resources :build do
+      collection do
+        get :building
+        get :done
+        get :error
+      end
+    end
 
-    match "build/building" => 'build#building'
-    match "build/done" => 'build#done'
-    match "build/error" => 'build#error'
+    resources :install do
+      collection do
+        get :callback
+        get :index
+        get :done
+        get :error
+      end
+    end
 
-    match "install" => 'install#index'
+    # match "build/building" => 'build#building'
+    # match "build/done" => 'build#done'
+    # match "build/error" => 'build#error'
 
-    match "install/callback" => 'install#callback'
-    match "install/error" => 'install#error'
-    match "install/done" => 'install#done'
+    # match "install" => 'install#index'
 
-    match "/" => 'manage#index', :as => 'manage'
+    # match "install/callback" => 'install#callback'
+    # match "install/error" => 'install#error'
+    # match "install/done" => 'install#done'
+    
+    # match "/" => 'manage#index', :as => 'manage'
   end
+
+  resources :manage
 
   match 'fresh' => 'pages#fresh'
   match 'about' => 'pages#about'
