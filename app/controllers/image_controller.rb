@@ -1,7 +1,4 @@
 class ImageController < ApplicationController
-  
-  caches_page :index
-
   def index
     photo = Photo.find(params[:id]) 
     size = params[:size] || 'medium'
@@ -12,5 +9,4 @@ class ImageController < ApplicationController
 
     send_data image, :type => 'image/jpeg'
   end
-
 end
