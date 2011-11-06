@@ -5,8 +5,8 @@ gem 'rails', '3.1.1'
 gem 'sqlite3'
 gem 'friendly_id', '~> 4.0.0.beta14', :require => "friendly_id"
 gem 'dropbox' 
-
 gem 'haml'
+gem 'paperclip'
 
 gem 'thin'
 
