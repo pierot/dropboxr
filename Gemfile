@@ -8,6 +8,7 @@ gem 'dropbox'
 gem 'haml'
 
 gem 'thin'
+gem 'sqlite3'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -21,7 +22,7 @@ gem 'jquery-rails'
 
 group :production do
   gem 'therubyracer'
-  gem 'pg'
+  # gem 'pg'
 end
 
 # Use unicorn as the web server
@@ -36,7 +37,7 @@ gem 'capistrano_colors'
 
 group :test, :development do
   gem 'rspec-rails'
-  gem 'sqlite3'
+  # gem 'sqlite3'
 end
 
 group :test do

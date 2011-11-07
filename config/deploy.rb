@@ -42,9 +42,7 @@ namespace :deploy do
 end
 
 namespace :db do
-
   task :symlink, :except => { :no_release => true } do
     run "mkdir -p #{shared_path}/db"
   end
-
 end
