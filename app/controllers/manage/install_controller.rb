@@ -7,7 +7,7 @@ class Manage::InstallController < ApplicationController
 
       redirect_to dbr_conn.authorize_user_url
     else
-      redirect_to done_manage_install_path
+      redirect_to done_manage_install_index_path
     end
   end
 
@@ -21,9 +21,9 @@ class Manage::InstallController < ApplicationController
         insta = Installation.new({:session_key => dbr_conn.session_serialized})
         insta.save
 
-        redirect_to done_manage_install_path
+        redirect_to done_manage_install_index_path
       else
-        redirect_to error_manage_install_path
+        redirect_to error_manage_install_index_path
       end
     else
       redirect_to root_path
