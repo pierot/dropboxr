@@ -34,7 +34,7 @@ namespace :deploy do
     run "#{sudo} touch #{File.join(current_path, 'tmp', 'restart.txt')}"
   end
 
-  after "deploy:finalize_update", "db:symlink"
+  after "deploy:finalize_update", "db:shared_db"
   before "deploy:migrate", "db:setup"
 
   # after 'deploy:update_code' do
@@ -43,11 +43,11 @@ namespace :deploy do
 end
 
 namespace :db do
-  task :symlink, :except => { :no_release => true } do
+  task :shared_db, :except => { :no_release => true } do
     run "mkdir -p #{shared_path}/db"
   end
 
   task :setup do
-    run "cd #{release_path}; RALS_ENV=production bundle exec rake db:create"
+    run "cd #{current_path}; RALS_ENV=production bundle exec rake db:create"
   end
 end
