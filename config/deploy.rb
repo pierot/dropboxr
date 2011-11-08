@@ -35,6 +35,7 @@ namespace :deploy do
   end
 
   after "deploy:finalize_update", "db:symlink"
+  before "deploy:migrate", "db:setup"
 
   # after 'deploy:update_code' do
   #   run "cd #{release_path}; RAILS_ENV=production rake assets:precompile"
@@ -44,5 +45,11 @@ end
 namespace :db do
   task :symlink, :except => { :no_release => true } do
     run "mkdir -p #{shared_path}/db"
+
+    setup
+  end
+
+  task :setup do
+    run "cd #{release_path}; RALS_ENV=production bundle exec rake db:create"
   end
 end
