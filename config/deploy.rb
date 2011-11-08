@@ -49,6 +49,7 @@ namespace :db do
 
   task :setup do
     run "cd #{current_path}; RALS_ENV=production bundle exec rake db:create"
-    run "cd #{current_path}; chmod 777 #{current_path}/db/production.sqlite3"
+    run "cd #{current_path}; chmod 755 #{current_path}/db/production.sqlite3"
+    run "cd #{current_path}; chown -R #{current_path}/db" # temp
   end
 end
