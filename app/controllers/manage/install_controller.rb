@@ -12,9 +12,9 @@ class Manage::InstallController < ApplicationController
   end
 
   def callback
-    dbr_conn = dropboxr_conn
-
     p params
+
+    dbr_conn = dropboxr_conn
 
     if params[:oauth_token]
       if dbr_conn.authorize_user(params)
