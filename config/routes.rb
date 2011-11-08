@@ -19,18 +19,6 @@ Dropboxr::Application.routes.draw do
         get :error
       end
     end
-
-    # match "build/building" => 'build#building'
-    # match "build/done" => 'build#done'
-    # match "build/error" => 'build#error'
-
-    # match "install" => 'install#index'
-
-    # match "install/callback" => 'install#callback'
-    # match "install/error" => 'install#error'
-    # match "install/done" => 'install#done'
-    
-    # match "/" => 'manage#index', :as => 'manage'
   end
 
   resources :manage

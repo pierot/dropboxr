@@ -13,11 +13,13 @@ class Manage::InstallController < ApplicationController
 
   def callback
     dbr_conn = dropboxr_conn
- 
+
+    p params
+
     if params[:oauth_token]
       if dbr_conn.authorize_user(params)
         Installation.delete_all # fuck it
-        
+
         insta = Installation.new({:session_key => dbr_conn.session_serialized})
         insta.save
 
@@ -36,5 +38,4 @@ class Manage::InstallController < ApplicationController
 
   def error
   end
-
 end
