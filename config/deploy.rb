@@ -45,8 +45,6 @@ end
 namespace :db do
   task :symlink, :except => { :no_release => true } do
     run "mkdir -p #{shared_path}/db"
-
-    setup
   end
 
   task :setup do
