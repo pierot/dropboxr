@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
 
   def dropboxr_conn
     logger.info "Fetching Dropboxr Conn"
+    logger.flush
 
     if Dropboxr::Application.config.dbr.nil?
       session_key = ''
