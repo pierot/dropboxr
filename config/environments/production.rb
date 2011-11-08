@@ -22,7 +22,8 @@ Dropboxr::Application.configure do
   # config.force_ssl = true
 
   # See everything in the log (default is :info)
-  config.log_level = :debug
+  # config.log_level = :debug
+  config.logger.auto_flushing = 1
 
   # Use a different logger for distributed setups
   # config.logger = SyslogLogger.new
