@@ -37,9 +37,9 @@ namespace :deploy do
   after "deploy:finalize_update", "db:shared_db"
   before "deploy:migrate", "db:setup"
 
-  # after 'deploy:update_code' do
-  #   run "cd #{release_path}; RAILS_ENV=production rake assets:precompile"
-  # end
+  after 'deploy:update_code' do
+    run "cd #{release_path}; RAILS_ENV=production rake assets:precompile"
+  end
 end
 
 namespace :db do
