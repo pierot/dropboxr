@@ -17,7 +17,7 @@
 
 .pagination
   %ul
-    %li.prev.disabled
+    %li.prev
       %a{:href => "#{album_photo_path(@album.slug, @photo_prev.id)}"} &larr; Previous
     %li.next
       %a{:href => "#{album_photo_path(@album.slug, @photo_next.id)}"} Next &rarr;
