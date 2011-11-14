@@ -1,15 +1,23 @@
-= link_to "&laquo; terug naar #{@album.name}".html_safe, album_path(@album.slug)
-
-%br
+%ul.breadcrumb
+  %li
+    %a{:href => "#{root_path}"} Home
+    %span.divider /
+  %li
+    %a{:href => "#{album_path(@album.slug)}"} #{@album.name}
+    %span.divider /
+  %li.active #{@photo.name}
 
 %h2
   = "#{@album.name} - #{@photo.name} (#{@count} / #{@photos.length})"
 
 %div.single-image
   = link_to image_tag(image_path(@photo.id, 'huge'), :alt => @photo.name), album_photo_path(@album.slug, @photo_next.id)
-  %br
-  = link_to 'download ware grootte', image_path(@photo.id, 'original')
+  .well
+    = link_to 'download ware grootte', image_path(@photo.id, 'original'), :class => 'btn small info'
 
-= link_to 'vorige', album_photo_path(@album.slug, @photo_prev.id)
-= " - "
-= link_to 'volgende', album_photo_path(@album.slug, @photo_next.id)
+.pagination
+  %ul
+    %li.prev.disabled
+      %a{:href => "#{album_photo_path(@album.slug, @photo_prev.id)}"} &larr; Previous
+    %li.next
+      %a{:href => "#{album_photo_path(@album.slug, @photo_next.id)}"} Next &rarr;

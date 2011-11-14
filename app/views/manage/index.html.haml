@@ -1,10 +1,14 @@
 %h1 Manage
 
-%br
+.alert-message.block-message.success
+  %p
+    %strong Hello!
 
-- if Installation.installed.empty?
-  = link_to 'Install', manage_install_index_path
-- else
-  = link_to 'Start (re)building', building_manage_build_index_path
-  %br
-  = link_to 'Go to albums', root_path
+  .alert-actions
+  - if Installation.installed.empty?
+    %a.btn.small{:href => manage_install_index_path} Install
+  - else
+    %a.btn.small{:href => building_manage_build_index_path} Start (re)building
+    %br
+    %a.btn.small{:href => root_path} Go to albums
+
