@@ -5,10 +5,10 @@
     %strong Hello!
 
   .alert-actions
-  - if Installation.installed.empty?
-    %a.btn.small{:href => manage_install_index_path} Install
-  - else
-    %a.btn.small{:href => building_manage_build_index_path} Start (re)building
-    %br
-    %a.btn.small{:href => root_path} Go to albums
+    - if Installation.installed.empty?
+      %a.btn.small{:href => manage_install_index_path} Install
+    - else
+      %a.btn.small{:href => building_manage_build_index_path} Start (re)building
+      %br
+      %a.btn.small{:href => root_path} Go to albums
 

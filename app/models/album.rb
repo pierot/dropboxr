@@ -10,6 +10,10 @@ class Album < ActiveRecord::Base
   validates :path, :presence => true
 
   def is_new?
-    Date.parse(modified).to_datetime.in_time_zone('UTC') > 1.month.ago
+    unless modified.nil?
+      Date.parse(modified).to_datetime.in_time_zone('UTC') > 1.month.ago
+    else
+      false
+    end
   end
 end
