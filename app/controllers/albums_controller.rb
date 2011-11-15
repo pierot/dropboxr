@@ -5,7 +5,7 @@ class AlbumsController < ApplicationController
 
     @albums = Album.includes(:photos).ordered.all
 
-    redirect_to manage_build_index_path if @albums.empty?
+    redirect_to manage_index_path if @albums.empty?
   end
 
   def show
