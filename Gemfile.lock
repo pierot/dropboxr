@@ -164,6 +164,7 @@ DEPENDENCIES
   haml
   jquery-rails
   less
+  less-rails
   less-rails-bootstrap
   rails (= 3.1.1)
   rspec-rails

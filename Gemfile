@@ -16,6 +16,7 @@ group :assets do
   gem 'coffee-rails', "~> 3.1.1"
   gem 'uglifier'
   gem 'less'
+  gem 'less-rails'
   gem 'less-rails-bootstrap'
 end
 
