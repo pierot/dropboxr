@@ -1,0 +1,45 @@
+/*
+ * This is a manifest file that'll automatically include all the stylesheets available in this directory
+ * and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
+ * the top of the compiled file, but it's generally better to create a new file per style scope.
+ * 
+ *= require twitter/bootstrap
+ *= require_self
+ *= require_tree . 
+*/
+
+@import "twitter/bootstrap/variables";
+@import "twitter/bootstrap/mixins";
+
+body {
+  padding: 20px 0;
+}
+
+.thumbs {
+  margin: 20px 0;
+
+  li {
+    list-style-type: none;
+    width: 170px;
+    height: 190px;
+    float: left;
+    text-align: center;
+    
+    img {
+      display: block;
+      padding: 4px;
+      margin: 0 auto;
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+
+      .border-radius(4px);
+      .box-shadow(0 1px 1px rgba(0,0,0,.075));
+
+      &:hover {
+        border-color: @linkColor;
+
+        .box-shadow(0 1px 4px rgba(0,105,214,.25));
+      }
+    }
+  }
+}

@@ -1,9 +1,12 @@
-= link_to "&laquo; terug naar overzicht".html_safe, root_path
+%ul.breadcrumb
+  %li
+    %a{:href => "#{root_path}"} Home
+    %span.divider /
+  %li.active #{@album.name}
 
-%h1= @album.name
+%h2= @album.name
 
-- @photos.each do |photo|
-  = photo.name
-  = link_to photo.name, album_photo_path(@album.slug, photo.id)
-  = image_tag image_path(photo.id, 'medium'), :alt => photo.name
-  %br
+%ul.thumbs
+  - @photos.each do |photo|
+    %li
+      = link_to (image_tag image_path(photo.id, 'large'), :alt => photo.name, :class => 'thumbnail'), album_photo_path(@album.slug, photo.id)

@@ -1,7 +1,11 @@
 %h1 Build done
 
-%br
+.alert-message.block-message.success
+  %p
+    %strong Well done!
+    You successfully read this alert message. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Maecenas faucibus mollis interdum.
 
-= link_to 'Home', root_path
-%br
-= link_to 'Manage', manage_index_path 
+  .alert-actions
+    %a.btn.small{:href => root_path} Home
+    %br
+    %a.btn.small{:href => manage_index_path} Manage
