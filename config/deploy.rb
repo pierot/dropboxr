@@ -16,7 +16,6 @@ role :db, domain, :primary => true
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
 
-# set :rvm_ruby_string,       'ruby-1.9.2-head@rails31'
 set :rvm_type,              :system
 set :use_sudo,              false
 set :group_writable,        true         # Shared environment
@@ -35,7 +34,11 @@ namespace :deploy do
   end
 
   after "deploy:finalize_update", "db:shared_db"
+
   before "deploy:migrate", "db:setup"
+
+  after "deploy", "db:temp"
+  after "deploy:migrations", "db:temp"
 
   after 'deploy:update_code' do
     run "cd #{release_path}; RAILS_ENV=production bundle exec rake assets:precompile"
@@ -49,7 +52,11 @@ namespace :db do
 
   task :setup do
     run "cd #{current_path}; RALS_ENV=production bundle exec rake db:create"
+
     run "cd #{current_path}; chmod 755 #{current_path}/db/production.sqlite3"
-    run "cd #{current_path}; chown -R #{current_path}/db" # temp
+  end
+
+  task :temp do
+    run "cd #{current_path}; chown -R nobody #{current_path}/db"
   end
 end
