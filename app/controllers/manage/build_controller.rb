@@ -20,6 +20,11 @@ class Manage::BuildController < ApplicationController
             if album.modified != gallery.modified.to_s
               puts "Creating or Updating #{album.name} modified on: #{gallery.modified.to_s} <> #{album.modified}"
 
+              album.modified = gallery.modified
+              album.save
+
+              # puts "Album modified :: #{album.modified}"
+
               gallery.photos.each do |item|
                 photo = album.photos.find_or_create_by_path(item.path)
 
@@ -42,13 +47,13 @@ class Manage::BuildController < ApplicationController
                 end
               end
               
-              album.modified = gallery.modified
               album.save
               
               puts "Gallery :: Saved #{album.name}"
             end
           else
             puts "Gallery :: Not saved"
+
             p album.errors
           end
         end
