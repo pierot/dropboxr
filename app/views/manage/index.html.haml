@@ -3,12 +3,12 @@
 .alert-message.block-message.success
   %p
     %strong Hello!
+    You are using Dropboxr now.
 
   .alert-actions
-  - if Installation.installed.empty?
-    %a.btn.small{:href => manage_install_index_path} Install
-  - else
-    %a.btn.small{:href => building_manage_build_index_path} Start (re)building
-    %br
-    %a.btn.small{:href => root_path} Go to albums
+    - if Installation.installed.empty?
+      %a.btn.small{:href => manage_install_index_path} Install
+    - else
+      %a.btn.small{:href => building_manage_build_index_path} Start (re)building
+      %a.btn.small{:href => root_path} Go to albums
 
