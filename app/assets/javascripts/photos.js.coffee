@@ -1,3 +1,3 @@
 $ ->
   $('.single-image img').load ->
-    $(this).css('max-width', '508px') if $(this).height() > $(this).width()
+    $(this).addClass('portrait') if $(this).height() > $(this).width()

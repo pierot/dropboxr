@@ -9,11 +9,17 @@ body {
 }
 
 .container-fluid {
-  min-width: inherit;
+  min-width: 280px;
 }
 
 .thumbs {
   margin: 20px 0;
+
+  &.album {
+    li {
+      height: 160px;
+    }
+  }
 
   li {
     list-style-type: none;
@@ -45,7 +51,32 @@ body {
   img {
     margin: 10px 0;
     width: 100%;
-    max-width: 1024px; /* 508 */
-    height: auto;
+    max-width: 1024px;
+
+    &.portrait {
+      max-width: 508px;
+    }
+  }
+}
+
+@media screen and (max-width: 320px) {
+  body {
+    padding: 8px 0px;
+  }
+
+  .container-fluid {
+    padding: 0 8px;
+  }
+
+  .thumbs {
+    margin: 10px 0px;
+
+    li {
+      width: 150px;
+    }
+  }
+
+  .breadcrumb {
+    margin-bottom: 8px;
   }
 }

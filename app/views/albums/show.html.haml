@@ -6,7 +6,7 @@
 
 %h2= @album.name
 
-%ul.thumbs
+%ul.thumbs.album
   - @photos.each do |photo|
     %li
       = link_to (image_tag image_path(photo.id, 'large'), :alt => photo.name, :class => 'thumbnail'), album_photo_path(@album.slug, photo.id)
