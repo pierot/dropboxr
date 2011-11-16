@@ -34,6 +34,7 @@ namespace :deploy do
   end
 
   after "deploy:finalize_update", "db:shared_db"
+  after "deploy:finalize_update", "db:temp"
 
   before "deploy:migrate", "db:setup"
 
@@ -58,5 +59,8 @@ namespace :db do
 
   task :temp do
     run "cd #{current_path}; chown -R nobody #{current_path}/db"
+
+    run "chmod 755 #{shared_path}/db/production.sqlite3"
+    run "chown -R nobody #{shared_path}/db"
   end
 end
