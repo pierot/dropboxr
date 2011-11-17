@@ -9,11 +9,11 @@ module Dropboxr
     
     attr_accessor :redirect_url, :directory_excludes, :cache, :session_serialized
     
-    def initialize(key = '', secret = '', session_key = '')
-      @secret = secret
-      @key = key
+    def initialize(options = {})
+      @secret ||= options[:secret]
+      @key ||= options[:key]
 
-      @session_serialized = session_key
+      @session_serialized ||= options[:session_key]
       
       directory_excludes = []
       redirect_url = ''
