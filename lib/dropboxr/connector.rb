@@ -37,7 +37,7 @@ module Dropboxr
     end
   
     def authorize_user_url
-      @session = Dropbox::Session.new(@secret, @key)
+      @session = Dropbox::Session.new(@key, @secret)
     
       @session.authorize_url(:oauth_callback => redirect_url)
     end

@@ -1,3 +1,5 @@
+require 'open-uri'
+
 class ImageController < ApplicationController
   def index
     photo = Photo.find(params[:id]) 
@@ -18,14 +20,14 @@ class ImageController < ApplicationController
     end
 
     photo_path = if size == 'thumb'
-      photo.photo.path(:thumb)
+      photo.thumb
     elsif size == 'original'
       image_data = dropboxr_conn.get_image photo.path, {:size => size} 
     else
-      photo.photo.path
+      photo.image
     end
 
-    image_data ||= File.open(photo_path).read
+    image_data ||= open(photo_path) { |f| f.read }
 
     send_data image_data, :type => 'image/jpeg'
   end
