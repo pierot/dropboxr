@@ -1,12 +1,34 @@
+require 'open-uri'
+
 class ImageController < ApplicationController
   def index
     photo = Photo.find(params[:id]) 
-    size = params[:size] || 'medium'
+    size = params[:size] || 'huge'
 
-    dbr_conn = dropboxr_conn
+    if photo.photo.nil? || !photo.photo.present? # thus, only first time
+      image = dropboxr_conn.get_image photo.path, {:size => 'huge'}
 
-    image = dbr_conn.get_image photo.path, {:size => size}
+      file_path = "#{Rails.root}/tmp/#{photo.id}.jpg"
+      file_content = File.open(file_path, "wb") do |f| 
+        f.write(image)
+      end if image
 
-    send_data image, :type => 'image/jpeg'
+      photo.photo = File.new(file_path)
+      photo.save!
+
+      File.delete(file_path)
+    end
+
+    photo_path = if size == 'thumb'
+      photo.photo.url(:thumb)
+    elsif size == 'original'
+      image_data = dropboxr_conn.get_image photo.path, {:size => size} 
+    else
+      photo.photo.url
+    end
+
+    image_data ||= open(photo_path) { |f| f.read }
+
+    send_data image_data, :type => 'image/jpeg'
   end
 end

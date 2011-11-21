@@ -1,8 +1,11 @@
 .DS_Store
 .bundle
+.DS_Store
 db/*.sqlite3
 log/*.log
 tmp/
 .sass-cache/
 public/image/*
 public/system/*
+config/s3.yml
+config/database.yml

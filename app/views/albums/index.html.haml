@@ -3,7 +3,7 @@
 %ul.thumbs
   - @albums.each do |album|
     %li
-      = link_to (image_tag image_path(album_photo(album.id), 'large'), :alt => album.name, :class => 'thumbnail'), album_path(album.slug)
+      = link_to (image_tag photo_path(album_photo(album.id), 'thumb'), :alt => album.name, :class => 'thumbnail'), album_path(album.slug)
       = link_to album.name, album_path(album.slug)
       - if album.is_new?
         %span.label.success New
