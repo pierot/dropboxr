@@ -51,7 +51,7 @@ end
 
 namespace :config do
   task :symlinks do
-    run "mkdir -p #{shared_path}/db"
+    # run "mkdir -p #{shared_path}/db"
   end
 
   task :s3 do
@@ -69,7 +69,7 @@ namespace :config do
   end
 
   task :temp do
-    run "chown -R nobody #{shared_path}/db"
+    # run "chown -R nobody #{shared_path}/db"
     run "chown -R nobody #{release_path}/tmp"
   end
 end
@@ -80,5 +80,5 @@ namespace :db do
   end
 end
 
-        require './config/boot'
-        require 'airbrake/capistrano'
+require './config/boot'
+require 'airbrake/capistrano'
