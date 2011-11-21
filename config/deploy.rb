@@ -37,12 +37,12 @@ namespace :deploy do
   after "deploy:finalize_update", "config:s3"
   after "deploy:finalize_update", "config:database"
 
-  after "deploy:finalize_update", "db:temp"
+  after "deploy:finalize_update", "config:temp"
 
   before "deploy:migrate", "db:setup"
 
-  after "deploy", "db:temp"
-  after "deploy:migrations", "db:temp"
+  after "deploy", "config:temp"
+  after "deploy:migrations", "config:temp"
 
   after 'deploy:update_code' do
     run "cd #{release_path}; RAILS_ENV=production bundle exec rake assets:precompile"
@@ -54,13 +54,23 @@ namespace :config do
     run "mkdir -p #{shared_path}/db"
   end
 
-  task :s3 { copy_file 's3.yml' }
-  task :database { copy_file 'database.yml' }
+  task :s3 do
+    copy_file 's3.yml'
+  end
+
+  task :database do
+    copy_file 'database.yml'
+  end
 
   def copy_file(file_name)
-    contents = File.read(file_name)
+    contents = File.read("config/#{file_name}")
 
-    put contents, "#{File.join(current_path, 'config', file_name)}"
+    put contents, "#{File.join(release_path, 'config', file_name)}"
+  end
+
+  task :temp do
+    run "chown -R nobody #{shared_path}/db"
+    run "chown -R nobody #{release_path}/tmp"
   end
 end
 
@@ -68,8 +78,7 @@ namespace :db do
   task :setup do
     run "cd #{current_path}; RALS_ENV=production bundle exec rake db:create"
   end
-
-  task :temp do
-    run "chown -R nobody #{shared_path}/db"
-  end
 end
+
+        require './config/boot'
+        require 'airbrake/capistrano'
