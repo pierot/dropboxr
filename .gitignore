@@ -7,3 +7,5 @@ tmp/
 .sass-cache/
 public/image/*
 public/system/*
+config/s3.yml
+config/database.yml
