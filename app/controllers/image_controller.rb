@@ -3,7 +3,7 @@ require 'open-uri'
 class ImageController < ApplicationController
   def index
     photo = Photo.find(params[:id]) 
-    size = params[:size] || 'medium'
+    size = params[:size] || 'huge'
 
     if photo.photo.nil? || !photo.photo.present? # thus, only first time
       image = dropboxr_conn.get_image photo.path, {:size => 'huge'}
@@ -20,11 +20,11 @@ class ImageController < ApplicationController
     end
 
     photo_path = if size == 'thumb'
-      photo.thumb
+      photo.photo.url(:thumb)
     elsif size == 'original'
       image_data = dropboxr_conn.get_image photo.path, {:size => size} 
     else
-      photo.image
+      photo.photo.url
     end
 
     image_data ||= open(photo_path) { |f| f.read }

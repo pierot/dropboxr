@@ -13,11 +13,4 @@ class Photo < ActiveRecord::Base
   validates :revision, :presence => true
   validates :modified, :presence => true
 
-  def thumb
-    photo.url(:thumb)
-  end
-
-  def image
-    photo.url
-  end
 end

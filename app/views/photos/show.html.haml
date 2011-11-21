@@ -11,7 +11,7 @@
   = "#{@album.name} - #{@photo.name} (#{@count} / #{@photos.length})"
 
 %div.single-image
-  = link_to image_tag(image_path(@photo.id, 'huge'), :alt => @photo.name), album_photo_path(@album.slug, @photo_next.id)
+  = link_to image_tag(photo_path(@photo), :alt => @photo.name), album_photo_path(@album.slug, @photo_next.id)
   .well
     = link_to 'download ware grootte', image_path(@photo.id, 'original'), :class => 'btn small info'
 
