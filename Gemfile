@@ -28,6 +28,7 @@ gem 'jquery-rails'
 group :production do
   gem 'therubyracer'
   # gem 'pg'
+  gem 'mysql'
 end
 
 # Use unicorn as the web server
