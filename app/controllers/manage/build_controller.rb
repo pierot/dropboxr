@@ -3,10 +3,10 @@ class Manage::BuildController < ApplicationController
 
   def building
     dbr_conn = dropboxr_conn
-    
+
     if dbr_conn.authorized?
       begin
-        galleries = dbr_conn.collect(['/Photos/iPod Photo Cache'])
+        galleries = dbr_conn.collect(['/Photos/iPod Photo Cache']) # exclude folders
 
         galleries.each do |gallery|
           album = Album.find_or_create_by_name gallery.name
@@ -24,7 +24,8 @@ class Manage::BuildController < ApplicationController
               album.save
 
               # puts "Album modified :: #{album.modified}"
-
+              
+              gallery_puts = ""
               gallery.photos.each do |item|
                 photo = album.photos.find_or_create_by_path(item.path)
 
@@ -33,11 +34,11 @@ class Manage::BuildController < ApplicationController
                     photo.name = item.name
                     photo.path = item.path
 
-                    puts "Photo :: Creating #{photo.path} ..."
+                    gallery_puts << "Photo :: Creating #{photo.path} ...\n"
                   else
                     photo.updated = true
-                    
-                    puts "Photo :: Updating #{photo.path} ..."
+
+                    gallery_puts << "Photo :: Updating #{photo.path} ...\n"
                   end
 
                   photo.revision = item.revision
@@ -46,9 +47,11 @@ class Manage::BuildController < ApplicationController
                   photo.save
                 end
               end
-              
+
+              puts gallery_puts
+
               album.save
-              
+
               puts "Gallery :: Saved #{album.name}"
             end
           else

@@ -12,9 +12,7 @@ module Dropboxr
       puts "Dropboxr::Connector::Collector.Collect #{items.length} galleries."
       
       items.each do |item| 
-        if item.directory? && !(dir_excludes.include? item.path)
-          galleries << collect_gallery(item)
-        end
+        galleries << collect_gallery(item) if item.directory? && !(dir_excludes.include? item.path)
       end
 
       puts "Dropboxr::Connector::Collector.Collected #{items.length} galleries."
@@ -26,12 +24,12 @@ module Dropboxr
       puts "Dropboxr::Connector::Collector.CollectGallery #{gallery.path}"
       
       items = get_photos gallery.path
-      items.sort!{ |a, b| a.path <=> b.path }
+      items.sort!{ |a, b| a.path <=> b.path } # alphabetic
 
       photos = []
       
-      items.each do |item| 
-        if defined? item.mime_type && item.mime_type == "image/jpeg"
+      items.each do |item|
+        if !item.directory? && (defined? item.mime_type && item.mime_type == 'image/jpeg')
           photos << Photo.new(  item.path, 
                                 item.path.scan(/([^\/]+)(?=\.\w+$)/)[0][0].to_s, 
                                 item.revision, 
@@ -42,7 +40,7 @@ module Dropboxr
       Gallery.new(  gallery.path.split(/\//)[gallery.path.split(/\//).length - 1].to_s, 
                     gallery.path, 
                     gallery.modified.to_s, 
-                    photos)  
+                    photos)
     end
 
   end
