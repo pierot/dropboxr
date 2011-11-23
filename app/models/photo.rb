@@ -13,7 +13,7 @@ class Photo < ActiveRecord::Base
   validates :modified, :presence => true
 
   def image_data(size = 'huge')
-    cache_it if self.photo.nil? || !self.photo.present? # thus, only first time
+    cached = cache_it 
 
     photo_path = if size == 'thumb'
       self.photo.url(:thumb)
@@ -27,6 +27,8 @@ class Photo < ActiveRecord::Base
   end
 
   def cache_it
+    return true unless self.photo.nil? || !self.photo.present? # thus, only first time
+
     image = Dropboxr::Connector.connection.get_image self.path, {:size => 'huge'}
 
     file_path = "#{Rails.root}/tmp/#{self.id}.jpg"
@@ -39,6 +41,8 @@ class Photo < ActiveRecord::Base
     save!
 
     File.delete(file_path)
+
+    true
   end
 
 end

@@ -1,5 +1,8 @@
+require 'resque/server'
+
 Dropboxr::Application.routes.draw do
-  
+  mount Resque::Server.new, :at => "/resque"
+
   get 'image/:id(/:size)' => 'image#index', :as => 'image'
 
   namespace :manage do 

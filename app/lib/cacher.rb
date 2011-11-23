@@ -1,12 +1,8 @@
 class Cacher
-  @queue :caching
- 
-  def non_cached
-    Photo.where('photo_file_name IS NULL')
-  end
+  @queue = :caching
 
   def self.perform
-    to_run = non_cached
+    to_run = Photo.where('photo_file_name IS NULL')
 
     to_run.each do |photo|
       photo.cache_it
