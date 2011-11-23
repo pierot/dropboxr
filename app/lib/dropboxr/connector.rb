@@ -2,12 +2,28 @@ require 'dropbox'
 
 module Dropboxr
 
+  class << self
+    attr_accessor :connection
+  end
+
   class Connector
     
     include Calls
     include Collector
     
     attr_accessor :redirect_url, :directory_excludes, :cache, :session_serialized
+
+    def self.connection
+      if Dropboxr.connection.nil?
+        puts "Dropboxr::Connector Create Connection"
+
+        session_key = Installation.installed.first.session_key unless Installation.installed.empty?
+
+        Dropboxr.connection = Dropboxr::Connector.new :key => Dropboxr::Application.config.dbr_key, :secret => Dropboxr::Application.config.dbr_secret, :session_key => session_key
+      end
+
+      Dropboxr.connection
+    end
     
     def initialize(options = {})
       @secret ||= options[:secret]
@@ -43,7 +59,6 @@ module Dropboxr
     end
     
     def authorize_user(params)
-      p @session
       unless @session.nil?
         @session.authorize(params)
         
@@ -62,7 +77,7 @@ module Dropboxr
     end
   
     def authorize!
-      puts "Dropboxr::Connector.Authorizing!"
+      puts "Dropboxr::Connector Authorizing!"
     
       unless @session_serialized.nil? || @session_serialized.empty?
         @session = Dropbox::Session.deserialize(session_serialized)

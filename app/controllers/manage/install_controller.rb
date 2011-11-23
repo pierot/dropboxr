@@ -1,10 +1,9 @@
 class Manage::InstallController < ApplicationController
   def index
-    dbr_conn = dropboxr_conn
+    dbr_conn = Dropboxr::Connector.connection
+    dbr_conn.redirect_url = callback_manage_install_index_url
 
     unless dbr_conn.authorized? && !Installation.installed.empty?
-      dbr_conn.redirect_url = callback_manage_install_index_url
-
       redirect_to dbr_conn.authorize_user_url
     else
       redirect_to done_manage_install_index_path
@@ -12,9 +11,7 @@ class Manage::InstallController < ApplicationController
   end
 
   def callback
-    p params
-
-    dbr_conn = dropboxr_conn
+    dbr_conn = Dropboxr::Connector.connection
 
     if params[:oauth_token]
       if dbr_conn.authorize_user(params)
@@ -30,7 +27,6 @@ class Manage::InstallController < ApplicationController
     else
       redirect_to root_path
     end
-
   end
 
   def done

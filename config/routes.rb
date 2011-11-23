@@ -3,6 +3,8 @@ Dropboxr::Application.routes.draw do
   get 'image/:id(/:size)' => 'image#index', :as => 'image'
 
   namespace :manage do 
+    get :cache
+
     resources :build do
       collection do
         get :building
