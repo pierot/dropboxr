@@ -16,4 +16,8 @@ class Album < ActiveRecord::Base
       false
     end
   end
+
+  def cache_photos
+    Resque.enqueue(Cacher, self.id)
+  end
 end

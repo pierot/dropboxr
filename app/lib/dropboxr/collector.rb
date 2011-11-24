@@ -36,7 +36,7 @@ module Dropboxr
                                 item.modified)
         end
       end
-      
+
       Gallery.new(  gallery.path.split(/\//)[gallery.path.split(/\//).length - 1].to_s, 
                     gallery.path, 
                     gallery.modified.to_s, 
@@ -64,7 +64,7 @@ module Dropboxr
               album.save
 
               # puts "Album modified :: #{album.modified}"
-              
+
               gallery_puts = ""
               gallery.photos.each do |item|
                 photo = album.photos.find_or_create_by_path(item.path)
@@ -91,8 +91,7 @@ module Dropboxr
               puts gallery_puts
 
               album.save
-
-              Resque.enqueue(Cacher, album.id)
+              album.cache_photos
 
               puts "Dropboxr::Connector::Builder Gallery :: Saved #{album.name}"
             end

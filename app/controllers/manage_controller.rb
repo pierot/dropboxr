@@ -6,7 +6,7 @@ class ManageController < ApplicationController
   def cache
     albums = Album.select("id").all
     albums.each do |album|
-      Resque.enqueue(Cacher, album.id)
+      album.cache_photos
     end
   end
 

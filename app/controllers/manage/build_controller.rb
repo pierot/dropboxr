@@ -6,8 +6,6 @@ class Manage::BuildController < ApplicationController
 
     unless Dropboxr::Connector.connection.build
       return redirect_to error_manage_build_index_path
-    else
-      # Resque.enqueue(Cacher)
     end
 
     redirect_to done_manage_build_index_path
