@@ -91,7 +91,6 @@ module Dropboxr
               puts gallery_puts
 
               album.save
-              album.cache_photos
 
               puts "Dropboxr::Connector::Builder Gallery :: Saved #{album.name}"
             end

@@ -13,9 +13,6 @@ gem 'sqlite3'
 gem 'aws-s3', :require => 'aws/s3'
 gem 'paperclip'
 
-gem 'resque'
-gem 'resque-status'
-
 gem "airbrake"
 
 # Gems used only for assets and not required
