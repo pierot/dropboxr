@@ -4,7 +4,10 @@ class ManageController < ApplicationController
   end
 
   def cache
-    Resque.enqueue(Cacher)
+    albums = Album.select("id").all
+    albums.each do |album|
+      Resque.enqueue(Cacher, album.id)
+    end
   end
 
 end

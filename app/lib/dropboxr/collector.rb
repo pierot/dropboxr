@@ -92,6 +92,8 @@ module Dropboxr
 
               album.save
 
+              Resque.enqueue(Cacher, album.id)
+
               puts "Dropboxr::Connector::Builder Gallery :: Saved #{album.name}"
             end
           else
