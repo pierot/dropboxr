@@ -40,6 +40,7 @@ class Photo < ActiveRecord::Base
     end if image
 
     self.photo = File.new(file_path)
+
     save!
 
     File.delete(file_path)
