@@ -1,6 +1,12 @@
 module Dropboxr
   
   module Calls
+
+    def get_gallery(path)
+      authorized?
+
+      @session.metadata path
+    end
     
     def get_galleries(directory = 'Photos')
       authorized?

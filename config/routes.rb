@@ -7,6 +7,7 @@ Dropboxr::Application.routes.draw do
     resources :build do
       collection do
         get :building
+        get :collecting
         get :done
         get :error
       end
