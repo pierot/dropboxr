@@ -1,7 +1,10 @@
 class PhotosController < ApplicationController
 
   def show
-    @album = Album.find_by_slug(params[:album_id])
+    @album = Album.ordered.find_by_slug(params[:album_id])
+
+    redirect_to root_path if @album.nil?
+
     @photos = @album.photos
     @photo = Photo.find_by_id(params[:id])
 

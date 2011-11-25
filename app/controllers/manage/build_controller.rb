@@ -4,9 +4,15 @@ class Manage::BuildController < ApplicationController
   def building
     redirect_to manage_install_index_path unless Dropboxr::Connector.connection.authorized?
 
-    unless Dropboxr::Connector.connection.build
-      return redirect_to error_manage_build_index_path
-    end
+    Dropboxr::Connector.connection.build_galleries
+
+    redirect_to done_manage_build_index_path
+  end
+
+  def collecting
+    redirect_to manage_install_index_path unless Dropboxr::Connector.connection.authorized?
+
+    Dropboxr::Connector.connection.collect_galleries
 
     redirect_to done_manage_build_index_path
   end

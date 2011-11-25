@@ -1,113 +1,97 @@
 module Dropboxr
-  
+
   module Collector
-    
+
     Gallery = Struct.new(:name, :path, :modified, :photos)
     Photo = Struct.new(:path, :name, :revision, :modified)
-    
-    def collect(dir_excludes = [])
+
+    # Gather all galleries
+    # And save in DB
+    def collect_galleries(dir_excludes = ['/Photos/iPod Photo Cache'])
       items = get_galleries
       galleries = []
-      
-      puts "Dropboxr::Connector::Collector Collect #{items.length} galleries."
-      
-      items.each do |item| 
-        galleries << collect_gallery(item) if item.directory? && !(dir_excludes.include? item.path)
-      end
 
-      puts "Dropboxr::Connector::Collector Collected #{items.length} galleries."
-      
-      galleries
+      items.each do |item| 
+        name = item.path.split(/\//)[item.path.split(/\//).length - 1].to_s
+        album = Album.find_or_create_by_name(name) if item.directory? && !(dir_excludes.include? item.path)
+
+        unless album.nil?
+          album.path = item.path
+          album.save
+        end
+      end
     end
-  
-    def collect_gallery(gallery)
-      puts "Dropboxr::Connector::Collector CollectGallery #{gallery.path}"
-      
-      items = get_photos gallery.path
+
+    # Collect all photos of all galleries
+    # And save in DB
+    def build_galleries
+      collect_galleries
+
+      albums = Album.all
+
+      albums.each do |album|
+        build_gallery album.path
+      end
+    end
+
+    # Collect all photos of gallery
+    def collect_photos(gallery_path)
+      items = get_photos gallery_path
       items.sort!{ |a, b| a.path <=> b.path } # alphabetic
 
       photos = []
-      
+
       items.each do |item|
         if !item.directory? && (defined? item.mime_type && item.mime_type == 'image/jpeg')
-          photos << Photo.new(  item.path, 
-                                item.path.scan(/([^\/]+)(?=\.\w+$)/)[0][0].to_s, 
-                                item.revision, 
-                                item.modified)
+          photos << Photo.new(item.path, item.path.scan(/([^\/]+)(?=\.\w+$)/)[0][0].to_s, item.revision, item.modified)
         end
       end
 
-      Gallery.new(  gallery.path.split(/\//)[gallery.path.split(/\//).length - 1].to_s, 
-                    gallery.path, 
-                    gallery.modified.to_s, 
-                    photos)
+      photos
     end
 
-    def build
-      puts "Dropboxr::Connector::Collector Build"
+    # Collect all photos of gallery
+    # And save in DB
+    def build_gallery(gallery_path)
+      gallery = get_gallery gallery_path
+      photos = collect_photos gallery_path
 
-      begin
-        galleries = collect(['/Photos/iPod Photo Cache']) # exclude folders
+      album = Album.find_by_path(gallery_path)
 
-        galleries.each do |gallery|
-          album = Album.find_or_create_by_name gallery.name
-          album.path = gallery.path
-          album.save
+      if album.modified != gallery.modified.to_s
+        puts "Dropboxr::Collector::BuildGallery Creating or Updating #{album.name} modified on: #{gallery.modified.to_s} <> #{album.modified}"
 
-          puts "Dropboxr::Connector::Builder Building :: #{album.modified} != #{gallery.modified}"
+        album.modified = gallery.modified.to_s
+        album.save
 
-          if album.valid?
-            if album.modified != gallery.modified.to_s
-              puts "Dropboxr::Connector::Builder Creating or Updating #{album.name} modified on: #{gallery.modified.to_s} <> #{album.modified}"
+        gallery_puts = ""
 
-              album.modified = gallery.modified
-              album.save
+        photos.each do |item|
+          photo = album.photos.find_or_create_by_path(item.path)
 
-              # puts "Album modified :: #{album.modified}"
+          if photo.name.nil? || photo.modified != item.modified # photo not in db or modification date is updated
+            if photo.name.nil? # new
+              photo.name = item.name
+              photo.path = item.path
 
-              gallery_puts = ""
-              gallery.photos.each do |item|
-                photo = album.photos.find_or_create_by_path(item.path)
+              gallery_puts << "Dropboxr::Collector::BuildGallery Photo :: Creating #{photo.path} ...\n"
+            else
+              photo.updated = true
 
-                if photo.name.nil? || photo.modified != item.modified # photo not in db or modification date is updated
-                  if photo.name.nil? # new
-                    photo.name = item.name
-                    photo.path = item.path
-
-                    gallery_puts << "Dropboxr::Connector::Builder Photo :: Creating #{photo.path} ...\n"
-                  else
-                    photo.updated = true
-
-                    gallery_puts << "Dropboxr::Connector::Builder Photo :: Updating #{photo.path} ...\n"
-                  end
-
-                  photo.revision = item.revision
-                  photo.modified = item.modified
-
-                  photo.save
-                end
-              end
-
-              puts gallery_puts
-
-              album.save
-              album.cache_photos
-
-              puts "Dropboxr::Connector::Builder Gallery :: Saved #{album.name}"
+              gallery_puts << "Dropboxr::Collector::BuildGallery Photo :: Updating #{photo.path} ...\n"
             end
-          else
-            puts "Dropboxr::Connector::Builder Gallery :: Not saved"
 
-            p album.errors
+            photo.revision = item.revision
+            photo.modified = item.modified
+
+            photo.save
           end
         end
-      rescue Exception => e
-        p e
 
-        false 
-      end 
+        puts gallery_puts
 
-      true
+        album.save
+      end
     end
 
   end
