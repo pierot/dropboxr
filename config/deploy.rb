@@ -26,11 +26,11 @@ set :normalize_asset_timestamps, false
 
 namespace :deploy do
   task :restart, :roles => :app, :except => { :no_release => true } do
-    # run "#{sudo} touch #{File.join(current_path, 'tmp', 'restart.txt')}"
+    run "#{sudo} touch #{File.join(current_path, 'tmp', 'restart.txt')}"
   end
 
   task :start, :roles => :app, :except => { :no_release => true } do
-    # run "#{sudo} touch #{File.join(current_path, 'tmp', 'restart.txt')}"
+    run "#{sudo} touch #{File.join(current_path, 'tmp', 'restart.txt')}"
   end
 
   after "deploy:finalize_update", "config:symlinks"
