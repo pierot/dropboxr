@@ -4,10 +4,11 @@ require 'rvm/capistrano'
 require 'bundler/capistrano'
 require 'capistrano_colors'
 
-set :application, 'dropboxr'
+set :application, 'dropboxr-resque'
 set :repository,  'git@github.com:pierot/dropboxr.git'
 set :domain,      'tortuga'
-set :deploy_to,   '/srv/www/fotos.noort.be/'
+set :deploy_to,   '/srv/www/fotos-resque.noort.be/'
+set :user,        'root'
 
 role :web, domain
 role :app, domain
@@ -26,11 +27,11 @@ set :normalize_asset_timestamps, false
 
 namespace :deploy do
   task :restart, :roles => :app, :except => { :no_release => true } do
-    run "#{sudo} touch #{File.join(current_path, 'tmp', 'restart.txt')}"
+    # run "#{sudo} touch #{File.join(current_path, 'tmp', 'restart.txt')}"
   end
 
   task :start, :roles => :app, :except => { :no_release => true } do
-    run "#{sudo} touch #{File.join(current_path, 'tmp', 'restart.txt')}"
+    # run "#{sudo} touch #{File.join(current_path, 'tmp', 'restart.txt')}"
   end
 
   after "deploy:finalize_update", "config:symlinks"
@@ -87,7 +88,7 @@ end
 namespace :foreman do
   desc 'Export the Procfile to Ubuntu upstart scripts'
   task :export, :roles => :app do
-    run "cd #{release_path} && sudo bundle exec foreman export upstart /etc/init -a #{application} -u #{user} -l #{release_path}/log/foreman"
+    run "cd #{release_path} && bundle exec foreman export upstart /etc/init -a #{application} -u #{user} -l #{release_path}/log/foreman"
   end
 
   desc "Start the application services"
@@ -103,7 +104,7 @@ namespace :foreman do
 
   desc "Restart the application services"
   task :restart, :roles => :app do
-    run "sudo start #{application} || sudo restart #{application}"
+    run "start #{application} || restart #{application}"
   end
 end
 
