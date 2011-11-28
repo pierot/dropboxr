@@ -26,11 +26,11 @@ set :normalize_asset_timestamps, false
 
 namespace :deploy do
   task :restart, :roles => :app, :except => { :no_release => true } do
-    run "#{sudo} touch #{File.join(current_path, 'tmp', 'restart.txt')}"
+    # run "#{sudo} touch #{File.join(current_path, 'tmp', 'restart.txt')}"
   end
 
   task :start, :roles => :app, :except => { :no_release => true } do
-    run "#{sudo} touch #{File.join(current_path, 'tmp', 'restart.txt')}"
+    # run "#{sudo} touch #{File.join(current_path, 'tmp', 'restart.txt')}"
   end
 
   after "deploy:finalize_update", "config:symlinks"
@@ -43,6 +43,9 @@ namespace :deploy do
 
   after "deploy", "config:temp"
   after "deploy:migrations", "config:temp"
+
+  after "deploy:update", "foreman:export"    # Export foreman scripts
+  after "deploy:update", "foreman:restart"   # Restart application scripts
 
   after 'deploy:update_code' do
     run "cd #{release_path}; RAILS_ENV=production bundle exec rake assets:precompile"
@@ -77,6 +80,30 @@ end
 namespace :db do
   task :setup do
     run "cd #{current_path}; RALS_ENV=production bundle exec rake db:create"
+  end
+end
+
+# Foreman tasks
+namespace :foreman do
+  desc 'Export the Procfile to Ubuntu upstart scripts'
+  task :export, :roles => :app do
+    run "cd #{release_path} && sudo bundle exec foreman export upstart /etc/init -a #{application} -u #{user} -l #{release_path}/log/foreman"
+  end
+
+  desc "Start the application services"
+  task :start, :roles => :app do
+    sudo "start #{application}"
+  end
+
+  desc "Stop the application services"
+
+  task :stop, :roles => :app do
+    sudo "stop #{application}"
+  end
+
+  desc "Restart the application services"
+  task :restart, :roles => :app do
+    run "sudo start #{application} || sudo restart #{application}"
   end
 end
 
