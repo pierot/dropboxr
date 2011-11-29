@@ -6,7 +6,7 @@ require 'capistrano_colors'
 
 set :application, 'dropboxr-resque'
 set :repository,  'git@github.com:pierot/dropboxr.git'
-set :branchg,     'resque-foreman'
+set :branch,     'resque-foreman'
 set :domain,      'tortuga'
 set :deploy_to,   '/srv/www/fotos-resque.noort.be/'
 set :user,        'root'
@@ -38,6 +38,7 @@ namespace :deploy do
   after "deploy:finalize_update", "config:symlinks"
   after "deploy:finalize_update", "config:s3"
   after "deploy:finalize_update", "config:database"
+  after "deploy:finalize_update", "config:resque"
 
   after "deploy:finalize_update", "config:temp"
 
@@ -57,6 +58,10 @@ end
 namespace :config do
   task :symlinks do
     # run "mkdir -p #{shared_path}/db"
+  end
+
+  task :resque do
+    copy_file 'resque.yml'
   end
 
   task :s3 do
