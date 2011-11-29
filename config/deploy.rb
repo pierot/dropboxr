@@ -89,7 +89,8 @@ end
 namespace :foreman do
   desc 'Export the Procfile to Ubuntu upstart scripts'
   task :export, :roles => :app do
-    run "cd #{release_path} && bundle exec foreman export upstart /etc/init -a #{application} -u #{user} -l #{release_path}/log/foreman"
+    # run "cd #{release_path} && bundle exec foreman export upstart /etc/init -a #{application} -u #{user} -l #{release_path}/log/foreman"
+    run "cd #{release_path} && foreman export upstart /etc/init -a #{application} -c web=3 -u #{user} -l #{release_path}/log/foreman"
   end
 
   desc "Start the application services"
