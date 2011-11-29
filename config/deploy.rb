@@ -28,11 +28,9 @@ set :normalize_asset_timestamps, false
 
 namespace :deploy do
   task :restart, :roles => :app, :except => { :no_release => true } do
-    # run "#{sudo} touch #{File.join(current_path, 'tmp', 'restart.txt')}"
   end
 
   task :start, :roles => :app, :except => { :no_release => true } do
-    # run "#{sudo} touch #{File.join(current_path, 'tmp', 'restart.txt')}"
   end
 
   after "deploy:finalize_update", "config:symlinks"
@@ -94,8 +92,7 @@ end
 namespace :foreman do
   desc 'Export the Procfile to Ubuntu upstart scripts'
   task :export, :roles => :app do
-    # run "cd #{release_path} && bundle exec foreman export upstart /etc/init -a #{application} -u #{user} -l #{release_path}/log/foreman"
-    run "cd #{release_path} && foreman export upstart /etc/init -a #{application} -c web=3 -u #{user} -l #{release_path}/log/foreman"
+    run "cd #{release_path} && bundle exec foreman export upstart /etc/init -a #{application} -c web=3 -u #{user} -l #{release_path}/log/foreman"
   end
 
   desc "Start the application services"
