@@ -40,7 +40,7 @@ namespace :deploy do
 
   after "deploy:finalize_update", "config:temp"
 
-  before "deploy:migrate", "db:setup"
+  before "deploy:migrate", "db:create"
 
   after "deploy", "config:temp"
   after "deploy:migrations", "config:temp"
@@ -83,8 +83,12 @@ namespace :config do
 end
 
 namespace :db do
-  task :setup do
+  task :create do
     run "cd #{current_path}; RALS_ENV=production bundle exec rake db:create"
+  end
+
+  task :drop do
+    run "cd #{current_path}; RALS_ENV=production bundle exec rake db:drop"
   end
 end
 
