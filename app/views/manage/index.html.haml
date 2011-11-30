@@ -13,14 +13,12 @@
       %a.btn.small{:href => building_manage_build_index_path} Build
       %a.btn.small{:href => root_path} Go to albums
 
-.alert-message.block-message.success
-  %p
-    %strong Qeue-able jobs
+- unless Installation.installed.empty?
+  .alert-message.block-message.success
+    %p
+      %strong Qeue-able jobs
 
-  .alert-actions
-    - if Installation.installed.empty?
-      %a.btn.small{:href => manage_install_index_path} Install
-    - else
+    .alert-actions
       %a.btn.small{:href => cache_manage_qeue_index_path} Cache 
       %a.btn.small{:href => build_manage_qeue_index_path} Build
 
