@@ -77,10 +77,10 @@ module Dropboxr
     end
   
     def authorize!
-      puts "Dropboxr::Connector Authorizing!"
+      puts "Dropboxr::Connector Authorizing! #{@session_serialized}"
     
       unless @session_serialized.nil? || @session_serialized.empty?
-        @session = Dropbox::Session.deserialize(session_serialized)
+        @session = Dropbox::Session.deserialize(@session_serialized)
       end
     
       @session.enable_memoization if cache unless @session.nil?
