@@ -1,4 +1,4 @@
-require 'dropbox'
+require 'dropbox_sdk'
 
 module Dropboxr
 
@@ -43,8 +43,6 @@ module Dropboxr
         authorize!
     
         unless @session.nil?
-          setup_mode
-          
           @session.authorized?
         else
           false
@@ -53,37 +51,37 @@ module Dropboxr
     end
   
     def authorize_user_url
-      @session = Dropbox::Session.new(@key, @secret, {:ssl => true})
-    
-      @session.authorize_url(:oauth_callback => redirect_url)
+      @session = DropboxSession.new @key, @secret
+
+      @session.get_authorize_url(redirect_url)
     end
     
-    def authorize_user(params)
+    def authorize_user
       unless @session.nil?
-        @session.authorize(params)
+        @session.get_access_token
+  
+        create_client
         
         @session_serialized = @session.serialize
-        
-        setup_mode
       end
       
       authorized?
     end
   
     private
-    
-    def setup_mode
-      @session.mode = :dropbox if @session.authorized?
+
+    def create_client
+      @client = DropboxClient.new @session, :dropbox
     end
   
     def authorize!
       puts "Dropboxr::Connector Authorizing! #{@session_serialized}"
     
       unless @session_serialized.nil? || @session_serialized.empty?
-        @session = Dropbox::Session.deserialize(@session_serialized)
+        @session = DropboxSession.deserialize(@session_serialized)
+
+        create_client
       end
-    
-      @session.enable_memoization if cache unless @session.nil?
     end
     
   end

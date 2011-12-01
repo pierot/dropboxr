@@ -1,3 +1,5 @@
+require 'cgi'
+
 module Dropboxr
   
   module Calls
@@ -5,35 +7,29 @@ module Dropboxr
     def get_gallery(path)
       authorized?
 
-      @session.metadata path
+      @client.metadata path
     end
     
     def get_galleries(directory = 'Photos')
       authorized?
     
-      @session.list directory
+      result = @client.metadata directory
+      result["contents"]
     end
     
     def get_photos(gallery)
       authorized?
     
-      @session.list gallery #, {suppress_list: true}
-    end
-  
-    def get_link(path)
-      authorized?
-    
-      @session.link path
+      result = @client.metadata gallery
+      result["contents"]
     end
   
     def get_image(path, options={})
       # defaults
       size = options[:size] || ''
-      format = options[:format] || ''
       
       # validation
       return nil unless ['small', 'medium', 'large', 'huge', 'original', ''].include? size
-      return nil unless ['JPEG', 'PNG', ''].include? format
     
       # conversion
       size = 'xl' if size == 'huge'
@@ -42,14 +38,17 @@ module Dropboxr
       # http://forums.dropbox.com/topic.php?id=26965&replies=18
     
       authorized?
+
+      path = CGI.escape path
+      path.gsub! '+', '%20'
     
       begin
         if size == 'original'
-          @session.download path
+          @client.get_file path
         else
-          @session.thumbnail path, {:size => size, :format => format}
+          @client.thumbnail path, size
         end
-      rescue Dropbox::UnsuccessfulResponseError => e
+      rescue DropboxError => e
         p e
         
         nil

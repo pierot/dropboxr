@@ -14,7 +14,7 @@ class Manage::InstallController < ApplicationController
     dbr_conn = Dropboxr::Connector.connection
 
     if params[:oauth_token]
-      if dbr_conn.authorize_user(params)
+      if dbr_conn.authorize_user
         Installation.delete_all # fuck it
 
         insta = Installation.new({:session_key => dbr_conn.session_serialized})

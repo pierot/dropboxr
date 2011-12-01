@@ -3,7 +3,6 @@ source 'http://rubygems.org'
 gem 'rails', '3.1.1'
 
 gem 'friendly_id', '~> 4.0.0.beta14', :require => "friendly_id"
-gem 'dropbox' 
 
 gem 'jquery-rails'
 gem 'haml'

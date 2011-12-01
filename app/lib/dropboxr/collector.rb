@@ -12,11 +12,11 @@ module Dropboxr
       galleries = []
 
       items.each do |item| 
-        name = item.path.split(/\//)[item.path.split(/\//).length - 1].to_s
-        album = Album.find_or_create_by_name(name) if item.directory? && !(dir_excludes.include? item.path)
+        name = item["path"].split(/\//)[item["path"].split(/\//).length - 1].to_s
+        album = Album.find_or_create_by_name(name) if item["is_dir"] && !(dir_excludes.include? item["path"])
 
         unless album.nil?
-          album.path = item.path
+          album.path = item["path"]
           album.save
         end
       end
@@ -37,13 +37,13 @@ module Dropboxr
     # Collect all photos of gallery
     def collect_photos(gallery_path)
       items = get_photos gallery_path
-      items.sort!{ |a, b| a.path <=> b.path } # alphabetic
+      items.sort!{ |a, b| a["path"] <=> b["path"] } # alphabetic
 
       photos = []
 
       items.each do |item|
-        if !item.directory? && (defined? item.mime_type && item.mime_type == 'image/jpeg')
-          photos << Photo.new(item.path, item.path.scan(/([^\/]+)(?=\.\w+$)/)[0][0].to_s, item.revision, item.modified)
+        if !item["is_dir"] && (defined? item["mime_type"] && item["mime_type"] == 'image/jpeg')
+          photos << Photo.new(item["path"], item["path"].scan(/([^\/]+)(?=\.\w+$)/)[0][0].to_s, item["revision"], item["modified"])
         end
       end
 
@@ -58,21 +58,21 @@ module Dropboxr
 
       album = Album.find_by_path(gallery_path)
 
-      if album.modified != gallery.modified.to_s
-        puts "Dropboxr::Collector::BuildGallery Creating or Updating #{album.name} modified on: #{gallery.modified.to_s} <> #{album.modified}"
+      if album.modified != gallery["modified"]
+        puts "Dropboxr::Collector::BuildGallery Creating or Updating #{album.name} modified on: #{gallery["modified"]} <> #{album.modified}"
 
-        album.modified = gallery.modified.to_s
+        album.modified = gallery["modified"]
         album.save
 
         gallery_puts = ""
 
         photos.each do |item|
-          photo = album.photos.find_or_create_by_path(item.path)
+          photo = album.photos.find_or_create_by_path(item["path"])
 
-          if photo.name.nil? || photo.modified != item.modified # photo not in db or modification date is updated
+          if photo.name.nil? || photo.modified != item["modified"] # photo not in db or modification date is updated
             if photo.name.nil? # new
-              photo.name = item.name
-              photo.path = item.path
+              photo.name = item["name"]
+              photo.path = item["path"]
 
               gallery_puts << "Dropboxr::Collector::BuildGallery Photo :: Creating #{photo.path} ...\n"
             else
@@ -81,8 +81,8 @@ module Dropboxr
               gallery_puts << "Dropboxr::Collector::BuildGallery Photo :: Updating #{photo.path} ...\n"
             end
 
-            photo.revision = item.revision
-            photo.modified = item.modified
+            photo.revision = item["revision"]
+            photo.modified = item["modified"]
 
             photo.save
           end
