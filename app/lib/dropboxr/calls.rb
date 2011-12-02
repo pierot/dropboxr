@@ -1,25 +1,34 @@
 require 'cgi'
 
 module Dropboxr
-  
+
   module Calls
 
-    def get_gallery(path)
-      authorized?
+    def self.before(*names)
+      p names
+      names.each do |name|
+        m = instance_method(name)
 
+        define_method(name) do |*args, &block|
+          yield
+
+          m.bind(self).(*args, &block)
+        end
+      end
+    end
+
+    before(*instance_methods) { authorized? }
+
+    def get_gallery(path)
       @client.metadata path
     end
     
     def get_galleries(directory = 'Photos')
-      authorized?
-    
       result = @client.metadata directory
       result["contents"]
     end
     
     def get_photos(gallery)
-      authorized?
-    
       result = @client.metadata gallery
       result["contents"]
     end
