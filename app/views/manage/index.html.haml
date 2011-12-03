@@ -3,6 +3,7 @@
 .alert-message.block-message.success
   %p
     %strong Hello!
+    %br
     You are using Dropboxr now.
 
   .alert-actions
@@ -14,11 +15,22 @@
       %a.btn.small{:href => root_path} Go to albums
 
 - unless Installation.installed.empty?
-  .alert-message.block-message.success
+  .alert-message.block-message.info
     %p
       %strong Qeue-able jobs
+      %br
+      These jobs will run in the background.
+
+    %p
+      %strong Did you know?
+      %ul
+        %li
+          %strong #{@count_cached_photos} 
+          out of 
+          %strong #{@count_photos}
+          photos are cached
 
     .alert-actions
-      %a.btn.small{:href => cache_manage_qeue_index_path} Cache 
       %a.btn.small{:href => build_manage_qeue_index_path} Build
+      %a.btn.small{:href => cache_manage_qeue_index_path} Cache 
 

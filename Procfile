@@ -1,2 +1,2 @@
 web: bundle exec thin start -p $PORT
-job: QUEUE=* bundle exec rake resque:work COUNT=3 
+job: VVERBOSE=1 COUNT=3 QUEUE=* bundle exec rake resque:workers

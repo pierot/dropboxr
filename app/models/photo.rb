@@ -13,6 +13,7 @@ class Photo < ActiveRecord::Base
   validates :modified, :presence => true
 
   scope :not_cached, where('photo_file_name IS NULL')
+  scope :cached, where('photo_file_name IS NOT NULL')
 
   def image_data(size = 'huge')
     cached = cache_it 
