@@ -6,7 +6,7 @@ require 'capistrano_colors'
 
 set :application, 'dropboxr-resque'
 set :repository,  'git@github.com:pierot/dropboxr.git'
-set :branch,     'resque-foreman'
+set :branch,      'resque'
 set :domain,      'tortuga'
 set :deploy_to,   '/srv/www/fotos-resque.noort.be/'
 set :user,        'root'
