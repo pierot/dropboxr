@@ -5,7 +5,6 @@ module Dropboxr
   module Calls
 
     def self.before(*names)
-      p names
       names.each do |name|
         m = instance_method(name)
 
