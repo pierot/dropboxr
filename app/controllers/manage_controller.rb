@@ -10,7 +10,7 @@ class ManageController < ApplicationController
   protected
 
     def require_login
-      authenticate_or_request_with_http_basic('Restricted Area') do |username, password|
+      authenticate_or_request_with_http_basic(Dropboxr::Application.config.auth_area_name) do |username, password|
         username == Dropboxr::Application.config.auth_username && password == Dropboxr::Application.config.auth_password
       end
     end
