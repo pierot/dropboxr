@@ -18,10 +18,10 @@ class Album < ActiveRecord::Base
   end
 
   def cache_photos
-    Resque.enqueue(CacherQeue, self.id)
+    CacherQeue.create(:album_id => self.id)
   end
 
   def build_photos
-    Resque.enqueue(BuilderQeue, self.path)
+    BuilderQeue.create(:album_path => self.path)
   end
 end

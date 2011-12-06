@@ -1,8 +1,12 @@
-class BuilderQeue
+class BuilderQeue < Resque::JobWithStatus
   @queue = :building
 
-  def self.perform(album_path)
-    Dropboxr::Connector.connection.build_gallery album_path
+  def perform
+    Dropboxr::Connector.connection.build_gallery options['album_path'] do |index, total, name|
+      at("At #{index} of #{total} photos for album #{name}")
+    end
+
+    completed
   end
 
 end

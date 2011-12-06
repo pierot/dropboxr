@@ -19,6 +19,8 @@ module Dropboxr
     before(*instance_methods) { authorized? }
 
     def get_gallery(path)
+      authorized?
+
       @client.metadata path
     end
     

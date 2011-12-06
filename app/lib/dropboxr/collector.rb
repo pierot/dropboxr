@@ -52,9 +52,11 @@ module Dropboxr
 
     # Collect all photos of gallery
     # And save in DB
-    def build_gallery(gallery_path)
+    def build_gallery(gallery_path, &block)
       gallery = get_gallery gallery_path
+
       photos = collect_photos gallery_path
+      photos_size = photos.size
 
       album = Album.find_by_path(gallery_path)
 
@@ -64,9 +66,7 @@ module Dropboxr
         album.modified = gallery["modified"]
         album.save
 
-        gallery_puts = ""
-
-        photos.each do |item|
+        photos.each_with_index do |item, index|
           photo = album.photos.find_or_create_by_path(item["path"])
 
           if photo.name.nil? || photo.modified != item["modified"] # photo not in db or modification date is updated
@@ -74,21 +74,21 @@ module Dropboxr
               photo.name = item["name"]
               photo.path = item["path"]
 
-              gallery_puts << "Dropboxr::Collector::BuildGallery Photo :: Creating #{photo.path} ...\n"
+              puts "Dropboxr::Collector::BuildGallery Photo :: Creating #{photo.path} ...\n"
             else
               photo.updated = true
 
-              gallery_puts << "Dropboxr::Collector::BuildGallery Photo :: Updating #{photo.path} ...\n"
+              puts "Dropboxr::Collector::BuildGallery Photo :: Updating #{photo.path} ...\n"
             end
 
             photo.revision = item["revision"]
             photo.modified = item["modified"]
 
             photo.save
+
+            yield index, photos_size, album.name if block_given?
           end
         end
-
-        puts gallery_puts
 
         album.save
       end
