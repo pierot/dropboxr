@@ -14,7 +14,8 @@ gem 'aws-s3', :require => 'aws/s3'
 gem 'paperclip'
 
 gem 'resque'
-gem 'resque-status'
+# gem 'resque-status'
+gem 'resque-cleaner'
 
 gem 'airbrake'
 
