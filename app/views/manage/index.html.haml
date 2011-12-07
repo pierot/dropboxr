@@ -29,6 +29,14 @@
           out of 
           %strong #{@count_photos}
           photos are cached
+        %li 
+          There are currently 
+          %strong #{@resque_pending} 
+          jobs pending.
+        %li 
+          There are currently 
+          %strong #{@resque_working} 
+          jobs running.
 
     .alert-actions
       %a.btn.small{:href => build_manage_qeue_index_path} Build
