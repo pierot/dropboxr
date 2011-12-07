@@ -1,5 +1,7 @@
+require 'resque/server'
 require 'resque-cleaner'
 require 'resque/job_with_status'
+require 'resque/status_server'
 
 rails_root = ENV['RAILS_ROOT'] || File.dirname(__FILE__) + '/../..'
 rails_env = ENV['RAILS_ENV'] || 'development'
