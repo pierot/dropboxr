@@ -37,6 +37,7 @@ namespace :deploy do
   after "deploy:finalize_update", "config:s3"
   after "deploy:finalize_update", "config:database"
   after "deploy:finalize_update", "config:resque"
+  after "deploy:finalize_update", "config:auth_basic"
 
   after "deploy:finalize_update", "config:temp"
 
@@ -56,6 +57,10 @@ end
 namespace :config do
   task :symlinks do
     # run "mkdir -p #{shared_path}/db"
+  end
+
+  task :resque do
+    copy_file 'auth_basic.yml'
   end
 
   task :resque do
