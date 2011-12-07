@@ -1,6 +1,10 @@
-require 'dropbox'
+require 'dropbox_sdk'
 
 module Dropboxr
+
+  class << self
+    attr_accessor :connection
+  end
 
   class Connector
     
@@ -8,6 +12,18 @@ module Dropboxr
     include Collector
     
     attr_accessor :redirect_url, :directory_excludes, :cache, :session_serialized
+
+    def self.connection
+      if Dropboxr.connection.nil?
+        puts "Dropboxr::Connector Create Connection"
+
+        session_key = Installation.installed.first.session_key unless Installation.installed.empty?
+
+        Dropboxr.connection = Dropboxr::Connector.new :key => Dropboxr::Application.config.dbr_key, :secret => Dropboxr::Application.config.dbr_secret, :session_key => session_key
+      end
+
+      Dropboxr.connection
+    end
     
     def initialize(options = {})
       @secret ||= options[:secret]
@@ -27,8 +43,6 @@ module Dropboxr
         authorize!
     
         unless @session.nil?
-          setup_mode
-          
           @session.authorized?
         else
           false
@@ -37,38 +51,37 @@ module Dropboxr
     end
   
     def authorize_user_url
-      @session = Dropbox::Session.new(@key, @secret)
-    
-      @session.authorize_url(:oauth_callback => redirect_url)
+      @session = DropboxSession.new @key, @secret
+
+      @session.get_authorize_url(redirect_url)
     end
     
-    def authorize_user(params)
-      p @session
+    def authorize_user
       unless @session.nil?
-        @session.authorize(params)
+        @session.get_access_token
+  
+        create_client
         
         @session_serialized = @session.serialize
-        
-        setup_mode
       end
       
       authorized?
     end
   
     private
-    
-    def setup_mode
-      @session.mode = :dropbox if @session.authorized?
+
+    def create_client
+      @client = DropboxClient.new @session, :dropbox
     end
   
     def authorize!
-      puts "Dropboxr::Connector.Authorizing!"
+      puts "Dropboxr::Connector Authorizing!"
     
       unless @session_serialized.nil? || @session_serialized.empty?
-        @session = Dropbox::Session.deserialize(session_serialized)
+        @session = DropboxSession.deserialize(@session_serialized)
+
+        create_client
       end
-    
-      @session.enable_memoization if cache unless @session.nil?
     end
     
   end

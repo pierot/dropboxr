@@ -1,0 +1,12 @@
+%h1 Caching is what I do
+
+.alert-message.block-message.success
+  %a.close ×
+  %p
+    %strong Cache is being created.
+
+  .alert-actions
+    %a.btn.small{:href => manage_index_path} Manage your albums
+
+%script
+  = "setTimeout(function() { window.location.href = '#{manage_index_path}'; }, 3500);"

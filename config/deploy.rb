@@ -4,10 +4,12 @@ require 'rvm/capistrano'
 require 'bundler/capistrano'
 require 'capistrano_colors'
 
-set :application, 'dropboxr'
+set :application, 'dropboxr-resque'
 set :repository,  'git@github.com:pierot/dropboxr.git'
+set :branch,      'resque'
 set :domain,      'tortuga'
-set :deploy_to,   '/srv/www/fotos.noort.be/'
+set :deploy_to,   '/srv/www/fotos-resque.noort.be/'
+set :user,        'root'
 
 role :web, domain
 role :app, domain
@@ -26,23 +28,26 @@ set :normalize_asset_timestamps, false
 
 namespace :deploy do
   task :restart, :roles => :app, :except => { :no_release => true } do
-    run "#{sudo} touch #{File.join(current_path, 'tmp', 'restart.txt')}"
   end
 
   task :start, :roles => :app, :except => { :no_release => true } do
-    run "#{sudo} touch #{File.join(current_path, 'tmp', 'restart.txt')}"
   end
 
   after "deploy:finalize_update", "config:symlinks"
   after "deploy:finalize_update", "config:s3"
   after "deploy:finalize_update", "config:database"
+  after "deploy:finalize_update", "config:resque"
+  after "deploy:finalize_update", "config:auth_basic"
 
   after "deploy:finalize_update", "config:temp"
 
-  before "deploy:migrate", "db:setup"
+  before "deploy:migrate", "db:create"
 
   after "deploy", "config:temp"
   after "deploy:migrations", "config:temp"
+
+  after "deploy:update", "foreman:export"    # Export foreman scripts
+  after "deploy:update", "foreman:restart"   # Restart application scripts
 
   after 'deploy:update_code' do
     run "cd #{release_path}; RAILS_ENV=production bundle exec rake assets:precompile"
@@ -52,6 +57,14 @@ end
 namespace :config do
   task :symlinks do
     # run "mkdir -p #{shared_path}/db"
+  end
+
+  task :auth_basic do
+    copy_file 'auth_basic.yml'
+  end
+
+  task :resque do
+    copy_file 'resque.yml'
   end
 
   task :s3 do
@@ -75,8 +88,46 @@ namespace :config do
 end
 
 namespace :db do
-  task :setup do
+  task :create do
     run "cd #{current_path}; RALS_ENV=production bundle exec rake db:create"
+  end
+
+  task :drop do
+    run "cd #{current_path}; RALS_ENV=production bundle exec rake db:drop"
+  end
+end
+
+# Foreman tasks
+namespace :foreman do
+  desc 'Export the Procfile to Ubuntu upstart scripts'
+  task :export, :roles => :app do
+    run "cd #{release_path} && bundle exec foreman export upstart /etc/init -a #{application} -c web=1 -u #{user} -l #{release_path}/log/foreman"
+  end
+
+  desc "Start the application services"
+  task :start, :roles => :app do
+    sudo "start #{application}"
+  end
+
+  desc "Stop the application services"
+
+  task :stop, :roles => :app do
+    sudo "stop #{application}"
+  end
+
+  desc "Restart the application services"
+  task :restart, :roles => :app do
+    run "start #{application} || restart #{application}"
+  end
+end
+
+desc "tail production log files" 
+task :tail_logs, :roles => :app do
+  run "tail -f #{shared_path}/log/production.log" do |channel, stream, data|
+    trap("INT") { puts 'Interupted'; exit 0; } 
+    puts  # for an extra line break before the host name
+    puts "#{channel[:host]}: #{data}" 
+    break if stream == :err
   end
 end
 
