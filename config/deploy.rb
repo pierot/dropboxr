@@ -59,7 +59,7 @@ namespace :config do
     # run "mkdir -p #{shared_path}/db"
   end
 
-  task :resque do
+  task :auth_basic do
     copy_file 'auth_basic.yml'
   end
 
