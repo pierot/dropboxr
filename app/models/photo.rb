@@ -40,11 +40,13 @@ class Photo < ActiveRecord::Base
       f.write(image)
     end if image
 
-    self.photo = File.new(file_path)
+    if File.exists?(file_path)
+      self.photo = File.new(file_path) 
 
-    save!
+      save!
 
-    File.delete(file_path)
+      File.delete(file_path)
+    end
 
     true
   end
