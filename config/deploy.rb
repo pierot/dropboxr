@@ -4,11 +4,11 @@ require 'rvm/capistrano'
 require 'bundler/capistrano'
 require 'capistrano_colors'
 
-set :application, 'dropboxr-resque'
+set :application, 'dropboxr'
 set :repository,  'git@github.com:pierot/dropboxr.git'
-set :branch,      'resque'
+set :branch,      'master'
 set :domain,      'tortuga'
-set :deploy_to,   '/srv/www/fotos-resque.noort.be/'
+set :deploy_to,   '/srv/www/fotos.noort.be/'
 set :user,        'root'
 
 role :web, domain
