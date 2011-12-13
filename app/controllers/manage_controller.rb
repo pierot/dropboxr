@@ -11,7 +11,7 @@ class ManageController < ApplicationController
     end
 
     @resque_active = !Resque.inline
-    @resque_pending = @resque_active ? info[:pending] : 0 
+    @resque_pending = @resque_active ? info[:pending] : 0
     @resque_working = @resque_active ? info[:working] : 0
 
     # {:pending=>0, :processed=>904, :queues=>1, :workers=>2, :working=>0, :failed=>570, :servers=>["redis://localhost:6379/0"], :environment=>"development"}

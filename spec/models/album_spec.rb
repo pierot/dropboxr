@@ -43,7 +43,7 @@ describe Album do
     attr = {:name => 'foto', :path => '/foto_path', :revision => '-', :modified => '-' }
 
     a = Album.create(@attr)
-    
+
     1..5.times do
       a.photos << Photo.create(attr)
     end

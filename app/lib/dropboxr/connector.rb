@@ -7,10 +7,10 @@ module Dropboxr
   end
 
   class Connector
-    
+
     include Calls
     include Collector
-    
+
     attr_accessor :redirect_url, :directory_excludes, :cache, :session_serialized
 
     def self.connection
@@ -26,24 +26,24 @@ module Dropboxr
 
       Dropboxr.connection
     end
-    
+
     def initialize(options = {})
       @secret ||= options[:secret]
       @key ||= options[:key]
 
       @session_serialized ||= options[:session_key]
-      
+
       directory_excludes = []
       redirect_url = ''
       cache = false
     end
-   
+
     def authorized?
       if !@session.nil? && @session.authorized?
         true
       else
         authorize!
-    
+
         unless @session.nil?
           @session.authorized?
         else
@@ -51,7 +51,7 @@ module Dropboxr
         end
       end
     end
-  
+
     def authorize_user_url
       @session = DropboxSession.new @key, @secret
 
