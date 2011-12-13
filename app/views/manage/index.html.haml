@@ -14,7 +14,7 @@
       %a.btn.small{:href => building_manage_build_index_path} Build
       %a.btn.small{:href => root_path} Go to albums
 
-- unless Installation.installed.empty?
+- unless Installation.installed.empty? || !@resque_active
   .alert-message.block-message.info
     %p
       %strong Qeue-able jobs

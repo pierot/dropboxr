@@ -6,10 +6,13 @@ class ManageController < ApplicationController
     @count_cached_photos = Photo.cached.length
     @count_not_cached_photos = Photo.not_cached.length
 
-    info = Resque.info
+    unless Resque.inline
+      info = Resque.info
+    end
 
-    @resque_pending = info[:pending]
-    @resque_working = info[:working]
+    @resque_active = !Resque.inline
+    @resque_pending = @resque_active ? info[:pending] : 0 
+    @resque_working = @resque_active ? info[:working] : 0
 
     # {:pending=>0, :processed=>904, :queues=>1, :workers=>2, :working=>0, :failed=>570, :servers=>["redis://localhost:6379/0"], :environment=>"development"}
   end
