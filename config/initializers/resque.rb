@@ -14,8 +14,6 @@ rails_env = ENV['RAILS_ENV'] || 'development'
 resque_config = YAML.load_file(rails_root + '/config/resque.yml')
 
 begin
-  # redis = Redis.connect(:url => resque_config[rails_env], :thread_safe => true)
-  # redis.inspect
   Resque.redis = resque_config[rails_env]
   Resque.info
 rescue Errno::ECONNREFUSED => e
