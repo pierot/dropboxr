@@ -19,7 +19,9 @@ module Dropboxr
 
         session_key = Installation.installed.first.session_key unless Installation.installed.empty?
 
-        Dropboxr.connection = Dropboxr::Connector.new :key => Dropboxr::Application.config.dbr_key, :secret => Dropboxr::Application.config.dbr_secret, :session_key => session_key
+        Dropboxr.connection = Dropboxr::Connector.new :key => Dropboxr::Application.config.dbr_key, 
+                                                      :secret => Dropboxr::Application.config.dbr_secret, 
+                                                      :session_key => session_key
       end
 
       Dropboxr.connection
