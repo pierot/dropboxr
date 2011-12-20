@@ -60,11 +60,11 @@ module Dropboxr
         end
       rescue DropboxError => e
         p e
-        
+
         nil
       end
     end
-    
+
   end
-  
+
 end

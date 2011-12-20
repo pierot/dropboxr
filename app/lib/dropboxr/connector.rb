@@ -19,8 +19,8 @@ module Dropboxr
 
         session_key = Installation.installed.first.session_key unless Installation.installed.empty?
 
-        Dropboxr.connection = Dropboxr::Connector.new :key => Dropboxr::Application.config.dbr_key, 
-                                                      :secret => Dropboxr::Application.config.dbr_secret, 
+        Dropboxr.connection = Dropboxr::Connector.new :key => Dropboxr::Application.config.dbr_key,
+                                                      :secret => Dropboxr::Application.config.dbr_secret,
                                                       :session_key => session_key
       end
 
@@ -57,35 +57,35 @@ module Dropboxr
 
       @session.get_authorize_url(redirect_url)
     end
-    
+
     def authorize_user
       unless @session.nil?
         @session.get_access_token
-  
+
         create_client
-        
+
         @session_serialized = @session.serialize
       end
-      
+
       authorized?
     end
-  
+
     private
 
     def create_client
       @client = DropboxClient.new @session, :dropbox
     end
-  
+
     def authorize!
       puts "Dropboxr::Connector Authorizing!"
-    
+
       unless @session_serialized.nil? || @session_serialized.empty?
         @session = DropboxSession.deserialize(@session_serialized)
 
         create_client
       end
     end
-    
+
   end
-  
+
 end

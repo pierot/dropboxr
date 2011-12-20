@@ -11,7 +11,7 @@ module ImageHelper
     p = photo
 
     if p.photo.present?
-      if size == 'thumb'  
+      if size == 'thumb'
         p.photo.url(:thumb)
       else
         p.photo.url
