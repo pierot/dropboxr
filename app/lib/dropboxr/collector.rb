@@ -11,7 +11,7 @@ module Dropboxr
       items = get_galleries
       galleries = []
 
-      items.each do |item| 
+      items.each do |item|
         name = item["path"].split(/\//)[item["path"].split(/\//).length - 1].to_s
         album = Album.find_or_create_by_name(name) if item["is_dir"] && !(dir_excludes.include? item["path"])
 
