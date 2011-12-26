@@ -5,7 +5,8 @@ class Photo < ActiveRecord::Base
                             :storage => :s3,
                             :s3_credentials => "#{Rails.root}/config/s3.yml",
                             :s3_permissions => "public-read",
-                            :s3_protocol => 'http'
+                            :s3_protocol => 'http', 
+                            :s3_headers => { 'Expires' => 1.year.from_now.httpdate }
 
   validates :name, :presence => true
   validates :path, :presence => true
