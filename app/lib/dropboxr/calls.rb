@@ -49,13 +49,14 @@ module Dropboxr
 
       authorized?
 
-      path = CGI.escape path
-      path.gsub! '+', '%20'
-
       begin
         if size == 'original'
+          p path
           @client.get_file path
         else
+          path = CGI.escape path
+          path.gsub! '+', '%20'
+
           @client.thumbnail path, size
         end
       rescue DropboxError => e
