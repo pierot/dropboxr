@@ -18,7 +18,7 @@ class Album < ActiveRecord::Base
   end
 
   def cache_photos
-    CacherQeue.create(:album_id => self.id)
+    CacherQeue.create(:album_id => self.id) if self.photo.not_cached.count > 0
   end
 
   def build_photos
