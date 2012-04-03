@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.1.1'
+gem 'rails', '3.2.2'
 
 gem 'friendly_id', '~> 4.0.0.beta14', :require => "friendly_id"
 
@@ -10,6 +10,7 @@ gem 'haml'
 gem 'thin'
 gem 'sqlite3'
 
+gem 'aws-sdk'
 gem 'aws-s3', :require => 'aws/s3'
 gem 'paperclip'
 
@@ -24,14 +25,17 @@ gem 'capistrano_colors'
 
 gem 'foreman'
 
+gem 'mime-types', '>= 1.18'
+
 group :assets do
-  gem 'coffee-rails', "~> 3.1.1"
+  gem 'coffee-rails'
   gem 'uglifier'
+  gem 'yui-compressor'
   gem 'less'
 end
 
 group :production do
-  gem 'therubyracer'
+  gem 'therubyracer', '= 0.9.9'
   gem 'mysql'
 end
 
