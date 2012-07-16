@@ -1,6 +1,126 @@
-@import "vendor/assets/bootstrap/less/mixins";
+//= require_tree .
+
 @import "vendor/assets/bootstrap/less/bootstrap";
 
+.clearfix { // Clearfix for clearing floats like a boss h5bp.com/q
+  zoom: 1;
+
+  &:before, &:after {
+    display: table;
+    content: "";
+  }
+
+  &:after {
+    clear: both;
+  }
+}
+
+.reset {
+  margin: 0;
+  padding: 0;
+}
+
+.center-block {
+  display: block;
+  margin: 0 auto;
+}
+
+.gradient(@startColor: #555, @endColor: #333) {
+  background-color: @endColor;
+  background-repeat: repeat-x;
+  background-image: -khtml-gradient(linear, left top, left bottom, from(@startColor), to(@endColor)); // Konqueror
+  background-image: -moz-linear-gradient(top, @startColor, @endColor); // FF 3.6+
+  background-image: -ms-linear-gradient(top, @startColor, @endColor); // IE10
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, @startColor), color-stop(100%, @endColor)); // Safari 4+, Chrome 2+
+  background-image: -webkit-linear-gradient(top, @startColor, @endColor); // Safari 5.1+, Chrome 10+
+  background-image: -o-linear-gradient(top, @startColor, @endColor); // Opera 11.10
+  background-image: linear-gradient(top, @startColor, @endColor); // The standard
+  filter: e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=0)",@startColor,@endColor)); // IE9 and down
+}
+
+.bordered(@top-color: #EEE, @right-color: #EEE, @bottom-color: #EEE, @left-color: #EEE) {
+	border-top: solid 1px @top-color;
+	border-left: solid 1px @left-color;
+	border-right: solid 1px @right-color;
+	border-bottom: solid 1px @bottom-color;
+}
+
+.rounded(@radius: 5px) {
+	-webkit-border-radius: @radius;
+     -moz-border-radius: @radius;
+          border-radius: @radius;
+}
+
+.border-radius(@topright: 0, @bottomright: 0, @bottomleft: 0, @topleft: 0) {
+	-webkit-border-top-right-radius: @topright;
+	-webkit-border-bottom-right-radius: @bottomright;
+	-webkit-border-bottom-left-radius: @bottomleft;
+	-webkit-border-top-left-radius: @topleft;
+     -moz-border-radius-topright: @topright;
+     -moz-border-radius-bottomright: @bottomright;
+     -moz-border-radius-bottomleft: @bottomleft;
+     -moz-border-radius-topleft: @topleft;
+          border-top-right-radius: @topright;
+          border-bottom-right-radius: @bottomright;
+          border-bottom-left-radius: @bottomleft;
+          border-top-left-radius: @topleft;
+}
+
+.opacity(@opacity: 0.5) {
+	-webkit-opacity: @opacity;
+	 -khtml-opacity: @opacity;
+     -moz-opacity: @opacity;
+          opacity: @opacity;
+}
+
+.rotation(@deg:5deg){ 
+  -webkit-transform: rotate(@deg);
+     -moz-transform: rotate(@deg);
+          transform: rotate(@deg);
+}
+
+.scale(@ratio:1.5){
+	-webkit-transform: scale(@ratio);
+     -moz-transform: scale(@ratio);
+          transform: scale(@ratio);
+}
+
+/* Transition */
+.transition(@duration:0.2s, @ease:ease-out, @delay:0s) {
+  -webkit-transition: all @duration @ease @delay;
+     -moz-transition: all @duration @ease @delay;
+          transition: all @duration @ease @delay;
+}
+
+.transition-duration(@duration:0.2s) {
+	-webkit-transition-duration: @duration;
+     -moz-transition-duration: @duration;
+          transition-duration: @duration;
+}
+
+/* Shadows */
+.drop-shadow(@x-axis: 0, @y-axis: 1px, @blur: 2px, @alpha: 0.1) {
+	-webkit-box-shadow: @x-axis @y-axis @blur rgba(0, 0, 0, @alpha);
+     -moz-box-shadow: @x-axis @y-axis @blur rgba(0, 0, 0, @alpha);
+          box-shadow: @x-axis @y-axis @blur rgba(0, 0, 0, @alpha);
+}
+
+.inner-shadow(@horizontal:0, @vertical:1px, @blur:2px, @alpha: 0.4) {
+  -webkit-box-shadow: inset @horizontal @vertical @blur rgba(0, 0, 0, @alpha);
+     -moz-box-shadow: inset @horizontal @vertical @blur rgba(0, 0, 0, @alpha);
+          box-shadow: inset @horizontal @vertical @blur rgba(0, 0, 0, @alpha);
+}
+
+.box-shadow(@shadow) {
+	-webkit-box-shadow: @shadow;
+     -moz-box-shadow: @shadow;
+          box-shadow: @shadow;
+}
+
+.text-shadow(@horizontal: 1px, @vertical: 1px, @blur: 2px, @color: #000) {
+  text-shadow: @horizontal @vertical @blur @color;
+  filter: e(%("dropshadow(color=%d, offx=%d, offy=%d)", @color, @horizontal, @vertical)); // IE9 and down
+}
 
 body {
   padding: 20px 0;
