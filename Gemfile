@@ -37,7 +37,7 @@ end
 
 group :production do
   gem 'therubyracer', '= 0.9.9'
-  gem 'mysql'
+  gem 'mysql2'
 end
 
 group :test, :development do
