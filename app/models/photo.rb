@@ -4,6 +4,7 @@ class Photo < ActiveRecord::Base
   has_attached_file :photo, :styles => {:thumb => "128x85>"},
                             :storage => :s3,
                             :default_url => '/missing.png', 
+                            :path => '/photos/:id/:style/:basename.:extension',
                             :s3_credentials => "#{Rails.root}/config/s3.yml",
                             :s3_permissions => "public-read",
                             :s3_protocol => 'http', 
