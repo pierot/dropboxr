@@ -94,8 +94,8 @@ GEM
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
-    mime-types (1.18)
-    multi_json (1.2.0)
+    mime-types (1.19)
+    multi_json (1.3.6)
     multi_xml (0.4.2)
     mysql (2.8.1)
     net-scp (1.0.4)
@@ -107,7 +107,7 @@ GEM
       net-ssh (>= 1.99.1)
     nokogiri (1.5.2)
     open4 (1.3.0)
-    paperclip (3.0.0)
+    paperclip (3.1.3)
       activemodel (>= 3.0.0)
       activerecord (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -196,7 +196,7 @@ GEM
       polyglot (>= 0.3.1)
     turn (0.9.4)
       ansi
-    tzinfo (0.3.32)
+    tzinfo (0.3.33)
     uglifier (1.2.4)
       execjs (>= 0.3.0)
       multi_json (>= 1.0.2)
@@ -226,7 +226,7 @@ DEPENDENCIES
   less
   mime-types (>= 1.18)
   mysql
-  paperclip (= 3.0)
+  paperclip (~> 3.0)
   rails (= 3.2.2)
   resque
   resque-cleaner

@@ -12,7 +12,7 @@ gem 'sqlite3'
 
 gem 'aws-sdk'
 gem 'aws-s3', :require => 'aws/s3'
-gem 'paperclip', '3.0'
+gem 'paperclip', '~> 3.0'
 
 gem 'resque'
 gem 'resque-status'
