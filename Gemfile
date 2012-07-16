@@ -12,7 +12,7 @@ gem 'sqlite3'
 
 gem 'aws-sdk'
 gem 'aws-s3', :require => 'aws/s3'
-gem 'paperclip'
+gem 'paperclip', '3.0'
 
 gem 'resque'
 gem 'resque-status'
@@ -21,6 +21,7 @@ gem 'resque-cleaner'
 gem 'airbrake'
 
 gem 'capistrano'
+gem 'rvm-capistrano'
 gem 'capistrano_colors'
 
 gem 'foreman'
