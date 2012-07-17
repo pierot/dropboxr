@@ -87,6 +87,11 @@ GEM
     less (2.0.12)
       commonjs (~> 0.2.0)
       therubyracer (~> 0.9.9)
+    less-rails (2.1.8)
+      actionpack (>= 3.1)
+      less (~> 2.0.7)
+    less-rails-bootstrap (2.0.8)
+      less-rails (~> 2.1.0)
     libv8 (3.3.10.4)
     macaddr (1.5.0)
       systemu (>= 2.4.0)
@@ -224,6 +229,7 @@ DEPENDENCIES
   haml
   jquery-rails
   less
+  less-rails-bootstrap
   mime-types (>= 1.18)
   mysql2
   paperclip (~> 3.0)

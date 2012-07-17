@@ -1,0 +1,94 @@
+@import "twitter/bootstrap";
+
+body {
+  padding: 20px 0;
+}
+
+.alert-message {
+  p {
+    margin-bottom: 15px;
+  }
+}
+
+.container-fluid {
+  min-width: 280px;
+}
+
+.thumbs {
+  margin: 20px 0;
+
+  &.album {
+    li {
+      height: 125px;
+    }
+  }
+
+  li {
+    list-style-type: none;
+    width: 170px;
+    height: 170px;
+    float: left;
+    text-align: center;
+
+    img {
+      display: block;
+      padding: 4px;
+      margin: 0 auto;
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+
+      .border-radius(4px);
+      .box-shadow(0 1px 1px rgba(0,0,0,.075));
+
+      &:hover {
+        border-color: #08C;
+
+        .box-shadow(0 1px 4px rgba(0,105,214,.25));
+      }
+    }
+  }
+}
+
+.single-image {
+  img {
+    margin: 10px 0;
+    width: 100%;
+    max-width: 1024px;
+
+    &.portrait {
+      max-width: 508px;
+    }
+  }
+}
+
+@media screen and (max-width: 320px) {
+  body {
+    padding: 8px 0px;
+  }
+
+  .container-fluid {
+    padding: 0 8px;
+  }
+
+  h2.album {
+    font-size: 18px;
+  }
+
+  .thumbs {
+    margin: 10px 0px;
+
+    &.album {
+      li {
+        height: 110px;
+      }
+    }
+
+    li {
+      width: 150px;
+    }
+  }
+
+  .breadcrumb {
+    margin-bottom: 8px;
+  }
+}

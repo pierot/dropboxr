@@ -33,6 +33,7 @@ group :assets do
   gem 'uglifier'
   gem 'yui-compressor'
   gem 'less'
+  gem 'less-rails-bootstrap'
 end
 
 group :production do
