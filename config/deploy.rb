@@ -10,6 +10,7 @@ set :branch,      'master'
 set :domain,      'tortuga'
 set :deploy_to,   '/srv/www/fotos.noort.be/'
 set :user,        'root'
+set :site_url,    'fotos.noort.be'
 
 role :web, domain
 role :app, domain
@@ -101,7 +102,7 @@ end
 namespace :foreman do
   desc 'Export the Procfile to Ubuntu upstart scripts'
   task :export, :roles => :app do
-    run "cd #{current_path} && bundle exec foreman export upstart /etc/init -a #{application} -c web=1, worker=2 -u #{user} -l #{current_path}/log/foreman"
+    run "cd #{current_path} && bundle exec foreman export upstart /etc/init -a #{application} -c web=1,worker=1 -u #{user} -l #{current_path}/log/foreman"
   end
 
   desc "Start the application services"
@@ -128,6 +129,17 @@ task :tail_logs, :roles => :app do
     puts  # for an extra line break before the host name
     puts "#{channel[:host]}: #{data}"
     break if stream == :err
+  end
+end
+
+desc "Varnish tasks"
+namespace :varnish do
+  task :purge do
+    if exists?(:site_url)
+      run "curl -X PURGE http://#{site_url}"
+    else
+      puts "`site_url` is not set in Capistrano setup. Please do so like this:\n\tset :site_url, 'domain.com'"
+    end
   end
 end
 
