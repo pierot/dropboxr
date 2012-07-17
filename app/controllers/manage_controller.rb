@@ -6,9 +6,7 @@ class ManageController < ApplicationController
     @count_cached_photos = Photo.cached.length
     @count_not_cached_photos = Photo.not_cached.length
 
-    unless Resque.inline
-      info = Resque.info
-    end
+    info = Resque.info unless Resque.inline
 
     @resque_active = !Resque.inline
     @resque_pending = @resque_active ? info[:pending] : 0
@@ -24,5 +22,4 @@ class ManageController < ApplicationController
         username == Dropboxr::Application.config.auth_username && password == Dropboxr::Application.config.auth_password
       end
     end
-
 end
