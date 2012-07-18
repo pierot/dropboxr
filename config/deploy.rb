@@ -118,7 +118,7 @@ namespace :foreman do
 
   desc "Restart the application services"
   task :restart, :roles => :app do
-    run "start #{application} || restart #{application}"
+    run "stop #{application} && start #{application}"
   end
 end
 
