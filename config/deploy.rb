@@ -1,6 +1,3 @@
-$:.unshift(File.expand_path('./lib', ENV['rvm_path']))
-
-require 'rvm/capistrano'
 require 'bundler/capistrano'
 require 'capistrano_colors'
 
@@ -19,10 +16,9 @@ role :db, domain, :primary => true
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
 
-set :rvm_type,              :system
 set :use_sudo,              false
 set :group_writable,        true         # Shared environment
-set :keep_releases,         3             # Backup revisions
+set :keep_releases,         3            # Backup revisions
 set :scm,                   :git
 set :deploy_via,            :remote_cache
 set :normalize_asset_timestamps, false
@@ -126,8 +122,10 @@ desc "tail production log files"
 task :tail_logs, :roles => :app do
   run "tail -f #{shared_path}/log/production.log" do |channel, stream, data|
     trap("INT") { puts 'Interupted'; exit 0; }
+
     puts  # for an extra line break before the host name
     puts "#{channel[:host]}: #{data}"
+
     break if stream == :err
   end
 end
